@@ -49,7 +49,8 @@ export const menus = [
 					{ path: '/explorer/fantom', title: 'Fantom', chain_id: '250', network: 'mainnet', unit: 'FTM', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/fantom-ftm-logo.png', altExplorerUrl: 'https://ftmscan.com/address/{address}' },
 					{ path: '/explorer/rsk', title: 'RSK', chain_id: '30', network: 'mainnet', unit: 'RBTC', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/rsk-mainnet-logo.png', altExplorerUrl: 'https://explorer.rsk.co/address/{address}' },
 					{ path: '/explorer/arbitrum', title: 'Arbitrum', chain_id: '42161', network: 'mainnet', unit: 'Ether', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/arbitrum-mainnet-logo.png', altExplorerUrl: 'https://explorer.arbitrum.io/address/{address}' },
-					{ path: '/explorer/moonbeam', title: 'Moonbeam', chain_id: '1287', network: 'moonbase-alpha', unit: 'DEV', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonbase-blockscout.testnet.moonbeam.network/address/{address}' },
+					{ path: '/explorer/moonbeam-moonriver', title: 'Moonbeam', chain_id: '1285', network: 'moonriver', unit: 'MOVR', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonriver.subscan.io/account/{address}' },
+					{ path: '/explorer/moonbeam-moonbase', title: 'Moonbeam', chain_id: '1287', network: 'moonbase-alpha', unit: 'DEV', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonbase.subscan.io/account/{address}' },
 				],
 				isReload: true
 			},
