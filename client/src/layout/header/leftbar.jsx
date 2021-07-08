@@ -87,12 +87,12 @@ const Leftbar = props => {
 													<div key={sub_key} className="link-section dashed-links">
 														<div><h6>{subMenu.title}</h6></div>
 														<ul>
-															{subMenu.subMenu.map((subSubMenu, sub_sub_key) => (
+															{subMenu.subMenu.filter(subSubMenu => !subSubMenu.isHideFromMenu).map((subSubMenu, sub_sub_key) => (
 																<li key={`${key}_${sub_key}_${sub_sub_key}`}>
 																	{subMenu.isReload ?
-																		<a href={subSubMenu.path} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.title}</a>
+																		<a href={subSubMenu.path} target={subSubMenu.target} rel={subSubMenu.rel} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.altTitle || subSubMenu.title}</a>
 																		:
-																		<Link to={subSubMenu.path} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.title}</Link>
+																		<Link to={subSubMenu.path} target={subSubMenu.target} rel={subSubMenu.rel} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.altTitle || subSubMenu.title}</Link>
 																	}
 																</li>
 															))}

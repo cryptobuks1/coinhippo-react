@@ -196,7 +196,7 @@ const SubHeader = props => {
 												dropdownClassName="vs-currency-select-dropdown"
 												style={{ width: '14rem' }}
 											>
-												{menus[0].subMenu[2].subMenu.map((d, key) => (
+												{menus[0].subMenu[2][0].subMenu.map((d, key) => (
 													<Select.Option key={key} value={d.path.split('/').filter(x => x)[1]} className="small">
 														{d.logo_url && (
 															<img src={d.logo_url} alt={d.title} className="mr-2" style={{ width: '1rem' }} />

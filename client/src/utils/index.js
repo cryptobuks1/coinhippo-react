@@ -91,7 +91,7 @@ export const getLocationData = window => {
 	return locationData;
 };
 
-export const explorerChains = menus[0].subMenu[2].subMenu;
+export const explorerChains = menus[0].subMenu[2][0].subMenu;
 
 export const getPathHeaderMeta = (path, data) => {
 	path = !path ? '/' : path.toLowerCase();

@@ -22,7 +22,7 @@ const Address = props => {
 	const pageSize = 100;
 	const chain = props.match ? props.match.params.chain : null;
 	const address = props.match ? props.match.params.address : null;
-	const chains = menus[0].subMenu[2].subMenu;
+	const chains = menus[0].subMenu[2][0].subMenu;
 	const chainData = chains.findIndex(c => c.path === `/explorer/${chain}`) > -1 ? chains[chains.findIndex(c => c.path === `/explorer/${chain}`)] : null;
 	const chainId = chainData && chainData.chain_id;
 	const isMountedRef = useIsMountedRef();

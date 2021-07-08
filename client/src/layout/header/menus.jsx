@@ -39,7 +39,7 @@ export const menus = [
 					{ path: '/coins/meme-token', title: 'Meme Tokens' },
 				]
 			},
-			{
+			[{
 				title: 'Explorers',
 				subMenu: [
 					{ path: '/explorer/ethereum', title: 'Ethereum', chain_id: '1', network: 'mainnet', unit: 'Ether', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/ethereum-eth-logo.png', altExplorerUrl: 'https://etherscan.io/address/{address}' },
@@ -47,13 +47,20 @@ export const menus = [
 					{ path: '/explorer/matic', title: 'Polygon', chain_id: '137', network: 'mainnet', unit: 'MATIC', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/polygon-matic-logo.png', altExplorerUrl: 'https://polygonscan.com/address/{address}' },
 					{ path: '/explorer/avalanche', title: 'Avalanche', chain_id: '43114', network: 'mainnet', unit: 'AVAX', gas_unit: 'nAVAX', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/avalanche-avax-logo.png', altExplorerUrl: 'https://avascan.info/blockchain/c/address/{address}' },
 					{ path: '/explorer/fantom', title: 'Fantom', chain_id: '250', network: 'mainnet', unit: 'FTM', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/fantom-ftm-logo.png', altExplorerUrl: 'https://ftmscan.com/address/{address}' },
-					{ path: '/explorer/rsk', title: 'RSK', chain_id: '30', network: 'mainnet', unit: 'RBTC', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/rsk-mainnet-logo.png', altExplorerUrl: 'https://explorer.rsk.co/address/{address}' },
-					{ path: '/explorer/arbitrum', title: 'Arbitrum', chain_id: '42161', network: 'mainnet', unit: 'Ether', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/arbitrum-mainnet-logo.png', altExplorerUrl: 'https://explorer.arbitrum.io/address/{address}' },
-					{ path: '/explorer/moonbeam-moonriver', title: 'Moonbeam', chain_id: '1285', network: 'moonriver', unit: 'MOVR', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonriver.subscan.io/account/{address}' },
+					{ path: '/explorer/rsk', title: 'RSK', chain_id: '30', network: 'mainnet', unit: 'RBTC', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/rsk-mainnet-logo.png', altExplorerUrl: 'https://explorer.rsk.co/address/{address}', isHideFromMenu: true },
+					{ path: '/explorer/arbitrum', title: 'Arbitrum', chain_id: '42161', network: 'mainnet', unit: 'Ether', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/arbitrum-mainnet-logo.png', altExplorerUrl: 'https://explorer.arbitrum.io/address/{address}', isHideFromMenu: true },
+					{ path: '/explorer/moonbeam-moonriver', title: 'Moonbeam', altTitle: 'Moonriver', chain_id: '1285', network: 'moonriver', unit: 'MOVR', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonriver.subscan.io/account/{address}' },
 					{ path: '/explorer/moonbeam-moonbase', title: 'Moonbeam', chain_id: '1287', network: 'moonbase-alpha', unit: 'DEV', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonbase.subscan.io/account/{address}' },
 				],
 				isReload: true
 			},
+			{
+				title: 'DEX Analytics',
+				subMenu: [
+					{ path: 'https://sushiswap.coinhippo.io', title: 'Sushiwap', target: '_blank', rel: 'noopener noreferrer' },
+				],
+				isReload: true
+			}],
 		]
 	},
 	{
