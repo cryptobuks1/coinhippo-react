@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
+import { X } from 'react-feather';
 import { menus } from './menus';
 import logo from '../../assets/images/logo/logo_rectangle.png';
 import logo_dark from '../../assets/images/logo/logo_rectangle_white.png';
@@ -77,12 +78,17 @@ const Leftbar = props => {
 						>
 							{menus[menus.findIndex(menu => menu.id === 0)].title}
 						</span>
-						<div onMouseLeave={() => onCoinsSelected(false)} className="mega-menu-container nav-submenu menu-to-be-close" style={{ top: width > 991 ? '70px' : '', display: coinsSelected ? '' : 'none' }}>
+						<div onMouseLeave={() => onCoinsSelected(false)} className={`mega-menu-container nav-submenu menu-to-be-close${width <= 991 && coinsSelected ? ' h-100 d-block' : ''}`} style={{ top: width > 991 ? '70px' : '0', display: coinsSelected ? '' : 'none' }}>
 							<Container fluid={true}>
 								<Row>
 									{menus.filter(menu => menu.id === 0).map(menu => (
 										menu.subMenu.map((subMenu, key) => (
 											<Col key={key} className="mega-box">
+												{width <= 991 && key === 0 && (
+													<div className="mobile-title d-none px-3">
+		                        <h5>{menu.title}</h5><X onClick={() => onCoinsSelected(false)} />
+		                      </div>
+	                      )}
 												{(Array.isArray(subMenu) ? subMenu : [subMenu]).map((subMenu, sub_key) => (
 													<div key={sub_key} className="link-section dashed-links">
 														<div><h6>{subMenu.title}</h6></div>
