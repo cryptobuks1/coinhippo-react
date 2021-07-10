@@ -32,6 +32,7 @@ const Address = props => {
 	const currency = 'usd'; // useSelector(content => content.Preferences.vs_currency);
 	const theme = useSelector(content => content.Preferences.theme);
 	const allCryptoData = useSelector(content => content.Data.all_crypto_data);
+	const [loaded, setLoaded] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [viewMore, setViewMore] = useState(false);
 	const [transactions, setTransactions] = useState([]);
@@ -150,6 +151,7 @@ const Address = props => {
 						setData(newData.length > 0 ? newData : null);
 					}
 					setLoading(false);
+					setLoaded(true);
 				}
 			}
 		};
@@ -218,7 +220,7 @@ const Address = props => {
 											newData[size] = { ...transactionsData[j], address, chain_id: chainId };
 											size++;
 										}
-										if (transactionsData < pageSize / 10) {
+										if (transactionsData.length < pageSize / 10) {
 											if (isMountedRef.current) {
 												setTransactionsPageEnd(true);
 											}
@@ -249,7 +251,7 @@ const Address = props => {
 											newData[size] = { ...transactionsData[j], address, chain_id: chainId };
 											size++;
 										}
-										if (transactionsData < pageSize / 10) {
+										if (transactionsData.length < pageSize / 10) {
 											if (isMountedRef.current) {
 												setTransactionsPageEnd(true);
 											}
@@ -276,8 +278,10 @@ const Address = props => {
 				}
 			}
 		};
-		getTransactions(transactionsPage);
-	}, [isMountedRef, chainId, address, data, transactions, assetTypeSelected, transactionsPage]);
+		if (loaded) {
+			getTransactions(transactionsPage);
+		}
+	}, [isMountedRef, chainId, address, data, transactions, assetTypeSelected, transactionsPage, loaded]);
 
 	if (redirectPath) {
 		if (window.location && window.location.pathname === redirectPath) {
