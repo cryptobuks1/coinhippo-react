@@ -208,7 +208,7 @@ const Transaction = props => {
 												</Col>
 												{d.log_events && d.log_events.filter(e => e.decoded && e.decoded.name && e.decoded.name.toLowerCase() === 'transfer').length > 0 && (
 													<>
-														<Col xl="3" lg="4" md="4" xs="12" className="f-w-500 text-info d-inline-flex align-items-center mt-3" style={{ height: 'fit-content', ineHeight: '100%' }}>
+														<Col xl="3" lg="4" md="4" xs="12" className="f-w-500 text-info d-inline-flex align-items-center mt-3" style={{ height: 'fit-content', lineHeight: '100%' }}>
 															{"Tokens Transferred:"}
 															{d.log_events.filter(e => e.decoded && e.decoded.name && e.decoded.name.toLowerCase() === 'transfer').length > 1 && (<Badge color="light" pill className="f-12 f-w-100 ml-1">{d.log_events.filter(e => e.decoded && e.decoded.name && e.decoded.name.toLowerCase() === 'transfer').length}</Badge>)}
 														</Col>
