@@ -96,7 +96,7 @@ const Leftbar = props => {
 															{subMenu.subMenu.filter(subSubMenu => !subSubMenu.isHideFromMenu).map((subSubMenu, sub_sub_key) => (
 																<li key={`${key}_${sub_key}_${sub_sub_key}`}>
 																	{subMenu.isReload ?
-																		<a href={subSubMenu.path} target={subSubMenu.target} rel={subSubMenu.rel} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.altTitle || subSubMenu.title}</a>
+																		<a href={subSubMenu.altPath || subSubMenu.path} target={subSubMenu.target} rel={subSubMenu.rel} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.altTitle || subSubMenu.title}</a>
 																		:
 																		<Link to={subSubMenu.path} target={subSubMenu.target} rel={subSubMenu.rel} onClick={() => onCoinsSelected(false)} style={{ width: 'inherit' }}>{subSubMenu.altTitle || subSubMenu.title}</Link>
 																	}
