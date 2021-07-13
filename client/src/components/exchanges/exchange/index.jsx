@@ -610,7 +610,7 @@ const Exchange = props => {
 																			<th
 																				onClick={() => setMarketSort({ field: `converted_last.${currencyMarket}`, direction: marketSort.field === `converted_last.${currencyMarket}` && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
 																				className={`text-right ${marketSort.field === `converted_last.${currencyMarket}` ? 'bg-light' : ''}`}
-																				style={{ cursor: 'pointer' }}
+																				style={{ minWidth: '7.5rem', cursor: 'pointer' }}
 																			>
 																				{"Price"}
 																				{marketSort.field === `converted_last.${currencyMarket}` && (
@@ -766,7 +766,7 @@ const Exchange = props => {
 																			<th
 																				onClick={() => setMarketSort({ field: `converted_volume.${currencyMarket}`, direction: marketSort.field === `converted_volume.${currencyMarket}` && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
 																				className={`d-flex align-items-center justify-content-end ${marketSort.field === `converted_volume.${currencyMarket}` ? 'bg-light' : ''}`}
-																				style={{ minWidth: '7rem', cursor: 'pointer' }}
+																				style={{ minWidth: '7.5rem', cursor: 'pointer' }}
 																			>
 																				{"Volume"}
 																				<Badge color="light" pill className="f-10 text-secondary f-w-300 ml-1">24h</Badge>
@@ -850,7 +850,7 @@ const Exchange = props => {
 																						</div>
 																					</Link>
 																				</td>
-																				<td className={`f-w-500 ${marketSort.field === 'pair' ? 'bg-light' : ''}`}>
+																				<td className={`f-w-500 ${marketSort.field === 'pair' ? 'bg-light' : ''}`} style={{ wordBreak: 'break-all' }}>
 																					{ticker.trade_url || data.url ? <a href={ticker.trade_url || data.url} target="_blank" rel="noopener noreferrer">{ticker.pair}</a> : ticker.pair}
 																					{ticker.token_info_url && (<a href={ticker.token_info_url} target="_blank" rel="noopener noreferrer" className="ml-1"><Info className="w-auto font-info" style={{ height: '1rem', verticalAlign: 'middle', marginBottom: '4px' }} /></a>)}
 																					{ticker.base && ticker.base.startsWith('0X') && (<div className="f-10 text-info">{ticker.base}</div>)}
@@ -868,7 +868,7 @@ const Exchange = props => {
 																						:
 																						'N/A'
 																					}
-																					{ticker.target && currencyMarket && ticker.target.toLowerCase() !== currencyMarket.toLowerCase() && typeof ticker.last === 'number' && (<div className="f-10 text-info">{numberOptimizeDecimal(numeral(ticker.last).format(ticker.last > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(ticker.last).format(ticker.last > 1 ? '0,0.00' : '0,0.0000000000') : ticker.last.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{ticker.target && (<>&nbsp;{ticker.target.startsWith('0X') && ticker.target_coin_id && allCryptoData && allCryptoData.coins && allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id) > -1 ? allCryptoData.coins[allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id)].name : ticker.target.toUpperCase()}</>)}</div>)}
+																					{ticker.target && currencyMarket && ticker.target.toLowerCase() !== currencyMarket.toLowerCase() && typeof ticker.last === 'number' && (<div className="f-10 text-info" style={{ wordBreak: 'break-all' }}>{numberOptimizeDecimal(numeral(ticker.last).format(ticker.last > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(ticker.last).format(ticker.last > 1 ? '0,0.00' : '0,0.0000000000') : ticker.last.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{ticker.target && (<>&nbsp;{ticker.target.startsWith('0X') && ticker.target_coin_id && allCryptoData && allCryptoData.coins && allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id) > -1 ? allCryptoData.coins[allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id)].name : ticker.target.toUpperCase()}</>)}</div>)}
 																				</td>
 																				{isDerivative && (
 																					<td className={`text-right ${marketSort.field === 'h24_percentage_change' ? 'bg-light' : ''} ${ticker.h24_percentage_change > 0 ? 'font-success' : ticker.h24_percentage_change < 0 ? 'font-danger' : ''}`}>{typeof ticker.h24_percentage_change === 'number' ? numberOptimizeDecimal(numeral(ticker.h24_percentage_change / 100).format('+0,0.00%')).startsWith('NaN') ? '0.00%' : numberOptimizeDecimal(numeral(ticker.h24_percentage_change / 100).format('+0,0.00%')) : '-'}</td>
@@ -916,7 +916,7 @@ const Exchange = props => {
 																						:
 																						'N/A'
 																					}
-																					{ticker.target && currencyMarket && ticker.target.toLowerCase() !== currencyMarket.toLowerCase() && (typeof ticker.volume === 'number' || typeof ticker.h24_volume === 'number') && (<div className="f-10 text-info">{numberOptimizeDecimal(numeral((ticker.volume || ticker.h24_volume) * ticker.last).format('0,0') !== 'NaN' ? numeral((ticker.volume || ticker.h24_volume) * ticker.last).format('0,0') : ((ticker.volume || ticker.h24_volume) * ticker.last).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{ticker.target && (<>&nbsp;{ticker.target.startsWith('0X') && ticker.target_coin_id && allCryptoData && allCryptoData.coins && allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id) > -1 ? allCryptoData.coins[allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id)].name : ticker.target.toUpperCase()}</>)}</div>)}
+																					{ticker.target && currencyMarket && ticker.target.toLowerCase() !== currencyMarket.toLowerCase() && (typeof ticker.volume === 'number' || typeof ticker.h24_volume === 'number') && (<div className="f-10 text-info" style={{ wordBreak: 'break-all' }}>{numberOptimizeDecimal(numeral((ticker.volume || ticker.h24_volume) * ticker.last).format('0,0') !== 'NaN' ? numeral((ticker.volume || ticker.h24_volume) * ticker.last).format('0,0') : ((ticker.volume || ticker.h24_volume) * ticker.last).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{ticker.target && (<>&nbsp;{ticker.target.startsWith('0X') && ticker.target_coin_id && allCryptoData && allCryptoData.coins && allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id) > -1 ? allCryptoData.coins[allCryptoData.coins.findIndex(c => c.id === ticker.target_coin_id)].name : ticker.target.toUpperCase()}</>)}</div>)}
 																				</td>
 																				{!isDerivative && (<td className={`text-right ${marketSort.field === 'volume_percentage' ? 'bg-light' : ''}`}>{typeof ticker.volume_percentage === 'number' ? numberOptimizeDecimal(numeral(ticker.volume_percentage).format('0,0.00%')).startsWith('NaN') ? '0.00%' : numberOptimizeDecimal(numeral(ticker.volume_percentage).format('0,0.00%')) : '-'}</td>)}
 																				{!isDerivative && (<td className={`text-right ${marketSort.field === 'trust_score' ? 'bg-light' : ''} font-${ticker.trust_score === 1 ? 'success' : ticker.trust_score === 0.5 ? 'warning' : 'danger'}`}>{ticker.trust_score ? <CheckCircle /> : <XCircle />}</td>)}
