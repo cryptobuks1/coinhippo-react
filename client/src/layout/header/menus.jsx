@@ -58,6 +58,7 @@ export const menus = [
 				title: 'DEX Analytics',
 				subMenu: [
 					{ path: 'https://sushiswap.coinhippo.io', title: 'SushiSwap', target: '_blank', rel: 'noopener noreferrer' },
+					{ path: 'https://quickswap.coinhippo.io', title: 'QuickSwap', target: '_blank', rel: 'noopener noreferrer' },
 				],
 				isReload: true
 			}],
