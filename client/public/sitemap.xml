@@ -13,62 +13,27 @@
   <url>
     <loc>https://coinhippo.io/coins</loc>
     <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coins/high-volume</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.1</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/coins/defi</loc>
     <changefreq>daily</changefreq>
-    <priority>0.5</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/coins/nfts</loc>
     <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coins/bsc</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coins/polkadot</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/derivatives</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.1</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/derivatives/futures</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.1</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/exchanges</loc>
     <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/exchanges/dex</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/exchanges/derivatives</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.1</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/blog</loc>
     <changefreq>daily</changefreq>
-    <priority>0.5</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/widgets</loc>
@@ -82,11 +47,6 @@
   </url>
   <url>
     <loc>https://coinhippo.io/updates</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/events</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -106,37 +66,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/cardano</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://coinhippo.io/coin/polkadot</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/tether</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/ripple</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/chainlink</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/litecoin</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/stellar</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -146,42 +76,17 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/bitcoin-cash</loc>
+    <loc>https://coinhippo.io/coin/uniswap</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/huobi-token</loc>
+    <loc>https://coinhippo.io/coin/chainlink</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/binance-usd</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/usd-coin</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/nem</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/cosmos</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/okb</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/monero</loc>
+    <loc>https://coinhippo.io/coin/matic-network</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -191,22 +96,12 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/uniswap</loc>
+    <loc>https://coinhippo.io/coin/cosmos</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/coin/aave</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/havven</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/cdai</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -231,82 +126,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/venus</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/dodo</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/alpha-finance</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/btc-standard-hashrate-token</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/safepal</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/math</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/injective-protocol</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/trust-wallet-token</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://coinhippo.io/coin/kusama</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/republic-protocol</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/energy-web-token</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/ocean-protocol</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/polkastarter</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/polymath-network</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/ankr</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/origintrail</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -326,37 +146,17 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/gala</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/redfox-labs-2</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://coinhippo.io/coin/the-sandbox</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/ultra</loc>
+    <loc>https://coinhippo.io/coin/axie-infinity</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/coin/nftx</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/whale</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/coin/superfarm</loc>
+    <loc>https://coinhippo.io/coin/chiliz</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -436,27 +236,12 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://coinhippo.io/exchange/zero_ex</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/exchange/curve</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://coinhippo.io/exchange/compound_finance</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://coinhippo.io/exchange/aave</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/exchange/one_inch_liquidity_protocol</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -497,16 +282,6 @@
   </url>
   <url>
     <loc>https://coinhippo.io/exchange/bitfinex_futures</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/exchange/btse_futures</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://coinhippo.io/exchange/bitget_futures</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

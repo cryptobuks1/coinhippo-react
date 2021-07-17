@@ -4,11 +4,11 @@ import reducers from '../redux/index';
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
-	reducers,
-	compose(
-		applyMiddleware(sagaMiddleware),
-		window.devToolsExtension ? window.devToolsExtension() : function (f) { return f; }
-	)
+  reducers,
+  compose(
+    applyMiddleware(sagaMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : function (f) { return f; }
+  )
 );
 
 export default store;

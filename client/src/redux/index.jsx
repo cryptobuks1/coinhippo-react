@@ -4,9 +4,9 @@ import Preferences from './preferences/reducer';
 import Data from './data/reducer';
 
 const reducers = combineReducers({
-	Customizer,
-	Preferences,
-	Data
+  Customizer,
+  Preferences,
+  Data
 });
 
 export default reducers;
