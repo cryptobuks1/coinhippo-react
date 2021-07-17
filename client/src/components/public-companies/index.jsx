@@ -130,7 +130,7 @@ const PublicCompanies = props => {
           {statsData.total_value_usd > 0 ?
             <>
               {currencyData && currencyData.symbol}
-              {numberOptimizeDecimal(numeral(Number(statsData.total_value_usd)).format(Number(statsData.total_value_usd) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(statsData.total_value_usd)).format(Number(statsData.total_value_usd) > 1 ? '0,0' : '0,0.00') : Number(statsData.total_value_usd).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+              {numberOptimizeDecimal(numeral(Number(statsData.total_value_usd)).format(Number(statsData.total_value_usd) > 1 ? '0,0' : '0,0.00'))}
               {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
             </>
             :
@@ -242,7 +242,7 @@ const PublicCompanies = props => {
                                         {typeof d.total_entry_value_usd === 'number' && d.total_entry_value_usd > 0 ?
                                           <>
                                             {currencyData && currencyData.symbol}
-                                            {numberOptimizeDecimal(numeral(Number(d.total_entry_value_usd)).format(Number(d.total_entry_value_usd) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_entry_value_usd)).format(Number(d.total_entry_value_usd) > 1 ? '0,0' : '0,0.00') : Number(d.total_entry_value_usd).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                            {numberOptimizeDecimal(numeral(Number(d.total_entry_value_usd)).format(Number(d.total_entry_value_usd) > 1 ? '0,0' : '0,0.00'))}
                                             {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                           </>
                                           :
@@ -256,7 +256,7 @@ const PublicCompanies = props => {
                                         {typeof d.total_current_value_usd === 'number' && d.total_current_value_usd > 0 ?
                                           <>
                                             {currencyData && currencyData.symbol}
-                                            {numberOptimizeDecimal(numeral(Number(d.total_current_value_usd)).format(Number(d.total_current_value_usd) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_current_value_usd)).format(Number(d.total_current_value_usd) > 1 ? '0,0' : '0,0.00') : Number(d.total_current_value_usd).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                            {numberOptimizeDecimal(numeral(Number(d.total_current_value_usd)).format(Number(d.total_current_value_usd) > 1 ? '0,0' : '0,0.00'))}
                                             {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                           </>
                                           :
@@ -414,7 +414,7 @@ const PublicCompanies = props => {
                                     <td className={`text-right ${marketSort.field === 'total_holdings' ? 'bg-light' : ''}`}>
                                       {typeof d.total_holdings === 'number' && d.total_holdings > 0 ?
                                         <>
-                                          {numberOptimizeDecimal(numeral(Number(d.total_holdings)).format(Number(d.total_holdings) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_holdings)).format(Number(d.total_holdings) > 1 ? '0,0' : '0,0.00') : Number(d.total_holdings).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(Number(d.total_holdings)).format(Number(d.total_holdings) > 1 ? '0,0' : '0,0.00'))}
                                           {coinData && coinData.symbol && (<> {coinData.symbol.toUpperCase()}</>)}
                                         </>
                                         :
@@ -425,7 +425,7 @@ const PublicCompanies = props => {
                                       {typeof d.total_entry_value_usd === 'number' && d.total_entry_value_usd > 0 ?
                                         <>
                                           {currencyData && currencyData.symbol}
-                                          {numberOptimizeDecimal(numeral(Number(d.total_entry_value_usd)).format(Number(d.total_entry_value_usd) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_entry_value_usd)).format(Number(d.total_entry_value_usd) > 1 ? '0,0' : '0,0.00') : Number(d.total_entry_value_usd).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(Number(d.total_entry_value_usd)).format(Number(d.total_entry_value_usd) > 1 ? '0,0' : '0,0.00'))}
                                           {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                         </>
                                         :
@@ -436,7 +436,7 @@ const PublicCompanies = props => {
                                       {typeof d.total_current_value_usd === 'number' && d.total_current_value_usd > 0 ?
                                         <>
                                           {currencyData && currencyData.symbol}
-                                          {numberOptimizeDecimal(numeral(Number(d.total_current_value_usd)).format(Number(d.total_current_value_usd) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_current_value_usd)).format(Number(d.total_current_value_usd) > 1 ? '0,0' : '0,0.00') : Number(d.total_current_value_usd).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(Number(d.total_current_value_usd)).format(Number(d.total_current_value_usd) > 1 ? '0,0' : '0,0.00'))}
                                           {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                         </>
                                         :

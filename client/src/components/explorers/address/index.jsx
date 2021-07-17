@@ -369,7 +369,7 @@ const Address = props => {
                                   {contractData[0].prices.findIndex(p => typeof p.price === 'number') > -1 && [contractData[0].prices[contractData[0].prices.findIndex(p => typeof p.price === 'number')]].map((p, i) => (
                                     <Badge key={i} color="primary" pill className="f-10 f-w-100 ml-2">
                                       {currencyData && currencyData.symbol}
-                                      {numberOptimizeDecimal(numeral(p.price).format(p.price > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(p.price).format(p.price > 1.01 ? '0,0.00' : '0,0.0000000000') : p.price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                      {numberOptimizeDecimal(numeral(p.price).format(p.price > 1.01 ? '0,0.00' : '0,0.0000000000'))}
                                     </Badge>
                                   ))}
                                 </div>
@@ -403,7 +403,7 @@ const Address = props => {
                                 :
                                 <>
                                   {currencyData && currencyData.symbol}
-                                  {numberOptimizeDecimal(numeral(_.sumBy(filteredData, 'quote')).format(_.sumBy(filteredData, 'quote') > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(_.sumBy(filteredData, 'quote')).format(_.sumBy(filteredData, 'quote') > 1.01 ? '0,0.00' : '0,0.0000000000') : _.sumBy(filteredData, 'quote').toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                  {numberOptimizeDecimal(numeral(_.sumBy(filteredData, 'quote')).format(_.sumBy(filteredData, 'quote') > 1.01 ? '0,0.00' : '0,0.0000000000'))}
                                 </>
                               }
                             </div>
@@ -475,7 +475,7 @@ const Address = props => {
                                       </h1>
                                       <div className="f-12 text-info">
                                         {typeof d.quote_rate === 'number' ?
-                                          <>{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.quote_rate).format(d.quote_rate > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.quote_rate).format(d.quote_rate > 1.01 ? '0,0.00' : '0,0.0000000000') : d.quote_rate.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}</>
+                                          <>{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.quote_rate).format(d.quote_rate > 1.01 ? '0,0.00' : '0,0.0000000000'))}</>
                                           :
                                           '-'
                                         }
@@ -485,8 +485,8 @@ const Address = props => {
                                   {assetTypeSelected !== 'nft' && (
                                     <div className="text-center pb-3">
                                       <div className="h2 f-16 mb-0 position-relative" style={{ zIndex: 2 }}>
-                                        {numberOptimizeDecimal(numeral(d.balance * Math.pow(10, -1 * d.contract_decimals)).format(d.balance * Math.pow(10, -1 * d.contract_decimals) > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.balance * Math.pow(10, -1 * d.contract_decimals)).format(d.balance * Math.pow(10, -1 * d.contract_decimals) > 1.01 ? '0,0.00' : '0,0.0000000000') : (d.balance * Math.pow(10, -1 * d.contract_decimals)).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
-                                        {typeof d.quote === 'number' && (<div className="f-12 text-primary mt-1">{typeof d.quote_rate === 'number' ? <>({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.quote).format(d.quote > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.quote).format(d.quote > 1.01 ? '0,0.00' : '0,0.0000000000') : d.quote.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))})</> : '-'}</div>)}
+                                        {numberOptimizeDecimal(numeral(d.balance * Math.pow(10, -1 * d.contract_decimals)).format(d.balance * Math.pow(10, -1 * d.contract_decimals) > 1.01 ? '0,0.00' : '0,0.0000000000'))}
+                                        {typeof d.quote === 'number' && (<div className="f-12 text-primary mt-1">{typeof d.quote_rate === 'number' ? <>({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.quote).format(d.quote > 1.01 ? '0,0.00' : '0,0.0000000000'))})</> : '-'}</div>)}
                                       </div>
                                       <div className="d-flex align-items-top mt-3 px-4 position-relative" style={{ zIndex: 2 }}>
                                         <div className="h3 f-16 mt-1 mb-0">
@@ -737,11 +737,11 @@ const Address = props => {
                                       </td>
                                       <td className={`text-right f-12 f-w-300 ${transactionsSort.field === 'value' ? 'bg-light' : ''}`}>
                                         <Badge color="light" pill className="f-12">{numberOptimizeDecimal(numeral(convert(Number(d.value), 'wei', 'ether')).format('0,0.0000000000'))}&nbsp;{chainData && chainData.unit}</Badge>
-                                        {typeof d.value_quote === 'number' && (<div className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.value_quote).format(d.value_quote > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.value_quote).format(d.value_quote > 1.01 ? '0,0.00' : '0,0.0000000000') : d.value_quote.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))})</div>)}
+                                        {typeof d.value_quote === 'number' && (<div className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.value_quote).format(d.value_quote > 1.01 ? '0,0.00' : '0,0.0000000000'))})</div>)}
                                       </td>
                                       <td className={`text-right f-12 f-w-300 ${transactionsSort.field === 'transaction_fee' ? 'bg-light' : ''}`}>
-                                        {typeof d.transaction_fee === 'number' ? <>{numberOptimizeDecimal(numeral(d.transaction_fee).format(d.transaction_fee > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.transaction_fee).format(d.transaction_fee > 1.01 ? '0,0.00' : '0,0.0000000000') : (d.transaction_fee).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}&nbsp;{chainData && chainData.unit}</> : 'N/A'}
-                                        {typeof d.gas_quote === 'number' && (<div className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.gas_quote).format(d.gas_quote > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.gas_quote).format(d.gas_quote > 1.01 ? '0,0.00' : '0,0.0000000000') : d.gas_quote.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))})</div>)}
+                                        {typeof d.transaction_fee === 'number' ? <>{numberOptimizeDecimal(numeral(d.transaction_fee).format(d.transaction_fee > 1.01 ? '0,0.00' : '0,0.0000000000'))}&nbsp;{chainData && chainData.unit}</> : 'N/A'}
+                                        {typeof d.gas_quote === 'number' && (<div className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.gas_quote).format(d.gas_quote > 1.01 ? '0,0.00' : '0,0.0000000000'))})</div>)}
                                         <div className="f-10 text-info">
                                           {"Gas Price:"} {convert(d.gas_price, 'wei', 'gwei')}&nbsp;{(chainData && chainData.gas_unit) || 'Gwei'}
                                         </div>

@@ -29,7 +29,7 @@ const Coin = props => {
     if (theData && theData.market_data && theData.market_data.current_price && typeof theData.market_data.current_price[currency] === 'number') {
       const v = value === '' ? '' : Number(typeof value === 'string' ? value.replaceAll(',', '') : value) * theData.market_data.current_price[currency];
       if (isMountedRef.current) {
-        setToCurrencyValue(numberOptimizeDecimal(v === '' ? v : numeral(v).format('0,0.0000000000') !== 'NaN' ? numeral(v).format('0,0.0000000000') : v.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 })));
+        setToCurrencyValue(numberOptimizeDecimal(v === '' ? v : numeral(v).format('0,0.0000000000')));
       }
     }
   }, [isMountedRef, data, currency]);
@@ -41,7 +41,7 @@ const Coin = props => {
     if (data && data.market_data && data.market_data.current_price && typeof data.market_data.current_price[currency] === 'number') {
       const v = value === '' ? '' : Number(typeof value === 'string' ? value.replaceAll(',', '') : value) / data.market_data.current_price[currency];
       if (isMountedRef.current) {
-        setFromCurrencyValue(numberOptimizeDecimal(v === '' ? v : numeral(v).format('0,0.0000000000') !== 'NaN' ? numeral(v).format('0,0.0000000000') : v.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 })));
+        setFromCurrencyValue(numberOptimizeDecimal(v === '' ? v : numeral(v).format('0,0.0000000000')));
       }
     }
   };
@@ -122,7 +122,7 @@ const Coin = props => {
                                   {data.market_data && data.market_data.current_price && typeof data.market_data.current_price[currency] === 'number' ?
                                     <>
                                       {currencyData && currencyData.symbol}
-                                      {numberOptimizeDecimal(numeral(data.market_data.current_price[currency]).format('0,0.0000000000') !== 'NaN' ? numeral(data.market_data.current_price[currency]).format('0,0.0000000000') : data.market_data.current_price[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                      {numberOptimizeDecimal(numeral(data.market_data.current_price[currency]).format('0,0.0000000000'))}
                                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                     </>
                                     :
@@ -132,15 +132,15 @@ const Coin = props => {
                                 </div>
                                 <div>
                                   {['btc', 'eth'].filter(c => (!data.symbol || c !== data.symbol) && data.market_data && data.market_data.current_price && typeof data.market_data.current_price[c] === 'number').map((c, i) => (
-                                    <span key={i} className={`text-info f-w-300 small${i > 0 ? ' ml-2' : ''}`}>{numberOptimizeDecimal(numeral(data.market_data.current_price[c]).format('0,0.0000000000') !== 'NaN' ? numeral(data.market_data.current_price[c]).format('0,0.0000000000') : data.market_data.current_price[c].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))} {c.toUpperCase()}</span>
+                                    <span key={i} className={`text-info f-w-300 small${i > 0 ? ' ml-2' : ''}`}>{numberOptimizeDecimal(numeral(data.market_data.current_price[c]).format('0,0.0000000000'))} {c.toUpperCase()}</span>
                                   ))}
                                 </div>
                               </div>
                               {data.market_data && data.market_data.low_24h && typeof data.market_data.low_24h[currency] === 'number' && data.market_data.high_24h && typeof data.market_data.high_24h[currency] === 'number' && (
                                 <div className="d-flex align-items-center mt-0">
-                                  <span className="f-10"><span className="text-info">Low:</span> {currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.low_24h[currency]).format('0,0.0000000000') !== 'NaN' ? numeral(data.market_data.low_24h[currency]).format('0,0.0000000000') : data.market_data.low_24h[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</span>
+                                  <span className="f-10"><span className="text-info">Low:</span> {currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.low_24h[currency]).format('0,0.0000000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</span>
                                   <Progress value={100 * ((data.market_data.high_24h[currency] - data.market_data.low_24h[currency]) ? data.market_data.current_price[currency] - data.market_data.low_24h[currency] : 0.5) / ((data.market_data.high_24h[currency] - data.market_data.low_24h[currency]) ? data.market_data.high_24h[currency] - data.market_data.low_24h[currency] : 1)} className="progress-coin progress-8 w-50 mx-2" style={{ maxWidth: '10rem' }} />
-                                  <span className="f-10 text-right"><span className="text-info">High:</span> {currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.high_24h[currency]).format('0,0.0000000000') !== 'NaN' ? numeral(data.market_data.high_24h[currency]).format('0,0.0000000000') : data.market_data.high_24h[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</span>
+                                  <span className="f-10 text-right"><span className="text-info">High:</span> {currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.high_24h[currency]).format('0,0.0000000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</span>
                                   <Badge color="light" pill className="f-10 text-secondary f-w-300 ml-2">24h</Badge>
                                 </div>
                               )}
@@ -148,25 +148,25 @@ const Coin = props => {
                             <Col lg="5" sm="5" xs="12" className="mt-3 mt-sm-0">
                               <h2 style={{ display: 'contents', fontWeight: 'unset' }}><span className="f-12 text-secondary">{"Market Cap"}</span></h2>
                               {data.market_data && data.market_data.market_cap && typeof data.market_data.market_cap[currency] === 'number' && data.market_data.market_cap[currency] > 0 ?
-                                <div className="h3 f-16 mt-2">{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.market_cap[currency]).format('0,0') !== 'NaN' ? numeral(data.market_data.market_cap[currency]).format('0,0') : data.market_data.market_cap[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
+                                <div className="h3 f-16 mt-2">{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.market_cap[currency]).format('0,0'))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
                                 :
                                 <div className="h3 f-16 mt-2">{"N/A"}</div>
                               }
                               <h2 style={{ display: 'contents', fontWeight: 'unset' }}><span className="f-12 text-secondary d-flex align-items-center" style={{ margin: '1.72px 0' }}>{"Volume"}<Badge color="light" pill className="f-10 text-secondary f-w-300 ml-2">24h</Badge></span></h2>
                               {data.market_data && data.market_data.total_volume && typeof data.market_data.total_volume[currency] === 'number' ?
-                                <div className="h3 f-16 mt-2" style={{ marginTop: '9.2px' }}>{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.total_volume[currency]).format('0,0') !== 'NaN' ? numeral(data.market_data.total_volume[currency]).format('0,0') : data.market_data.total_volume[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
+                                <div className="h3 f-16 mt-2" style={{ marginTop: '9.2px' }}>{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.total_volume[currency]).format('0,0'))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
                                 :
                                 <div className="h3 f-16 mt-2">{"-"}</div>
                               }
                               {data.market_data && data.market_data.total_value_locked && typeof data.market_data.total_value_locked.usd === 'number' && data.market_data.total_value_locked.usd > 0 && (
                                 <>
                                   <h2 style={{ display: 'contents', fontWeight: 'unset' }}><span className="f-12 text-secondary">{"Total Value Locked"}</span></h2>
-                                  <div className="h3 f-16 mt-2">{"$"}{numberOptimizeDecimal(numeral(data.market_data.total_value_locked.usd).format('0,0') !== 'NaN' ? numeral(data.market_data.total_value_locked.usd).format('0,0') : data.market_data.total_value_locked.usd.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}</div>
+                                  <div className="h3 f-16 mt-2">{"$"}{numberOptimizeDecimal(numeral(data.market_data.total_value_locked.usd).format('0,0'))}</div>
                                 </>
                               )}
                               <h2 style={{ display: 'contents', fontWeight: 'unset' }}><span className="f-12 text-secondary">{"Circulating Supply"}</span></h2>
                               {data.market_data && data.market_data && typeof data.market_data.circulating_supply === 'number' && data.market_data.circulating_supply > 0 ?
-                                <div className="h3 f-16 mt-2">{numberOptimizeDecimal(numeral(data.market_data.circulating_supply).format('0,0') !== 'N/A' ? numeral(data.market_data.circulating_supply).format('0,0') : data.market_data.circulating_supply.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{data.symbol && (<> {data.symbol.toUpperCase()}</>)}</div>
+                                <div className="h3 f-16 mt-2">{numberOptimizeDecimal(numeral(data.market_data.circulating_supply).format('0,0'))}{data.symbol && (<> {data.symbol.toUpperCase()}</>)}</div>
                                 :
                                 <div className="h3 f-16 mt-2">{"N/A"}</div>
                               }
@@ -177,7 +177,7 @@ const Coin = props => {
                                 </div>
                               )}
                               {data.market_data && (typeof data.market_data.total_supply === 'number' || typeof data.market_data.max_supply === 'number') && (
-                                <div className="f-12 f-w-300"><span className="text-secondary">{typeof data.market_data.max_supply === 'number' ? 'Max' : 'Total'} Supply:</span> {numberOptimizeDecimal(numeral(typeof data.market_data.total_supply === 'number' ? data.market_data.total_supply : data.market_data.max_supply).format('0,0') !== 'NaN' ? numeral(typeof data.market_data.total_supply === 'number' ? data.market_data.total_supply : data.market_data.max_supply).format('0,0') : (typeof data.market_data.total_supply === 'number' ? data.market_data.total_supply : data.market_data.max_supply).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}</div>
+                                <div className="f-12 f-w-300"><span className="text-secondary">{typeof data.market_data.max_supply === 'number' ? 'Max' : 'Total'} Supply:</span> {numberOptimizeDecimal(numeral(typeof data.market_data.total_supply === 'number' ? data.market_data.total_supply : data.market_data.max_supply).format('0,0'))}</div>
                               )}
                             </Col>
                             <Col lg="7" sm="7" xs="12" className="mt-4">
@@ -236,7 +236,7 @@ const Coin = props => {
                                 {data.market_data && data.market_data.current_price && typeof data.market_data.current_price[currency] === 'number' ?
                                   <>
                                     {currencyData && currencyData.symbol}
-                                    {numberOptimizeDecimal(numeral(data.market_data.current_price[currency]).format('0,0.0000000000') !== 'NaN' ? numeral(data.market_data.current_price[currency]).format('0,0.0000000000') : data.market_data.current_price[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                    {numberOptimizeDecimal(numeral(data.market_data.current_price[currency]).format('0,0.0000000000'))}
                                     {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                   </>
                                   :
@@ -247,7 +247,7 @@ const Coin = props => {
                                 <div className="f-12 text-info text-center">
                                   {"ATH: "}
                                   {currencyData && currencyData.symbol}
-                                  {numberOptimizeDecimal(numeral(highPrice).format('0,0.0000000000') !== 'NaN' ? numeral(highPrice).format('0,0.0000000000') : highPrice.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                  {numberOptimizeDecimal(numeral(highPrice).format('0,0.0000000000'))}
                                   {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                 </div>
                                 :
@@ -255,7 +255,7 @@ const Coin = props => {
                                   <div className="f-12 text-info text-center">
                                     {"ATL: "}
                                     {currencyData && currencyData.symbol}
-                                    {numberOptimizeDecimal(numeral(lowPrice).format('0,0.0000000000') !== 'NaN' ? numeral(lowPrice).format('0,0.0000000000') : lowPrice.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                    {numberOptimizeDecimal(numeral(lowPrice).format('0,0.0000000000'))}
                                     {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                   </div>
                                   :
@@ -266,7 +266,7 @@ const Coin = props => {
                               <div className="d-flex align-items-center">
                                 <h2 className="my-auto ml-2" style={{ fontWeight: 'unset' }}><span className="f-14 text-secondary d-flex align-items-center">{"Market Cap"}</span></h2>
                                 {data.market_data && data.market_data.market_cap && typeof data.market_data.market_cap[currency] === 'number' && data.market_data.market_cap[currency] > 0 ?
-                                  <div className="h3 f-14 f-w-400 ml-auto mb-0">{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.market_cap[currency]).format('0,0') !== 'NaN' ? numeral(data.market_data.market_cap[currency]).format('0,0') : data.market_data.market_cap[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
+                                  <div className="h3 f-14 f-w-400 ml-auto mb-0">{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.market_cap[currency]).format('0,0'))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
                                   :
                                   <div className="h3 f-14 f-w-400 ml-auto mb-0">{"N/A"}</div>
                                 }
@@ -274,7 +274,7 @@ const Coin = props => {
                               <div className="d-flex align-items-center mt-2">
                                 <h2 className="my-auto ml-2" style={{ fontWeight: 'unset' }}><span className="f-14 text-secondary d-flex align-items-center">{"Volume"}<Badge color="light" pill className="f-10 text-secondary f-w-300 ml-1">24h</Badge></span></h2>
                                 {data.market_data && data.market_data.total_volume && typeof data.market_data.total_volume[currency] === 'number' ?
-                                  <div className="h3 f-14 f-w-400 ml-auto mb-0">{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.total_volume[currency]).format('0,0') !== 'NaN' ? numeral(data.market_data.total_volume[currency]).format('0,0') : data.market_data.total_volume[currency].toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
+                                  <div className="h3 f-14 f-w-400 ml-auto mb-0">{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(data.market_data.total_volume[currency]).format('0,0'))}{!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}</div>
                                   :
                                   <div className="h3 f-14 f-w-400 ml-auto mb-0">{"-"}</div>
                                 }
@@ -282,7 +282,7 @@ const Coin = props => {
                               {data.market_data && data.market_data.total_value_locked && typeof data.market_data.total_value_locked.usd === 'number' && data.market_data.total_value_locked.usd > 0 && (
                                 <div className="d-flex align-items-center mt-2">
                                   <h2 className="my-auto ml-2" style={{ fontWeight: 'unset' }}><span className="f-14 text-secondary d-flex align-items-center">{"Total Value Locked"}</span></h2>
-                                  <div className="h3 f-14 f-w-400 ml-auto mb-0">{"$"}{numberOptimizeDecimal(numeral(data.market_data.total_value_locked.usd).format('0,0') !== 'NaN' ? numeral(data.market_data.total_value_locked.usd).format('0,0') : data.market_data.total_value_locked.usd.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}</div>
+                                  <div className="h3 f-14 f-w-400 ml-auto mb-0">{"$"}{numberOptimizeDecimal(numeral(data.market_data.total_value_locked.usd).format('0,0'))}</div>
                                 </div>
                               )}
                             </Col>

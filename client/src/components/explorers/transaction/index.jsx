@@ -170,7 +170,7 @@ const Transaction = props => {
                         <Col xl="9" lg="8" md="8" xs="12" className="d-inline-flex align-items-center mt-2 mt-md-3" style={{ overflowWrap: 'anywhere' }}>
                           <div className="f-12 f-w-300 d-flex align-items-center">
                             <Badge color="light" pill className="f-12 mr-2">{convert(Number(d.value), 'wei', 'ether')}&nbsp;{chainData && chainData.unit}</Badge>
-                            {typeof d.value_quote === 'number' && (<span className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.value_quote).format(d.value_quote > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.value_quote).format(d.value_quote > 1.01 ? '0,0.00' : '0,0.0000000000') : d.value_quote.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))})</span>)}
+                            {typeof d.value_quote === 'number' && (<span className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.value_quote).format(d.value_quote > 1.01 ? '0,0.00' : '0,0.0000000000'))})</span>)}
                           </div>
                         </Col>
                         <Col xl="3" lg="4" md="4" xs="12" className="f-w-500 text-info d-inline-flex align-items-center mt-3" style={{ lineHeight: '100%' }}>
@@ -178,8 +178,8 @@ const Transaction = props => {
                         </Col>
                         <Col xl="9" lg="8" md="8" xs="12" className="d-inline-flex align-items-center mt-2 mt-md-3" style={{ overflowWrap: 'anywhere' }}>
                           <div className="f-12 f-w-300 d-flex align-items-center">
-                            {typeof d.gas_quote === 'number' && typeof d.gas_quote_rate === 'number' ? <>{numberOptimizeDecimal(numeral(d.gas_quote / d.gas_quote_rate).format(d.gas_quote / d.gas_quote_rate > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.gas_quote / d.gas_quote_rate).format(d.gas_quote / d.gas_quote_rate > 1.01 ? '0,0.00' : '0,0.0000000000') : (d.gas_quote / d.gas_quote_rate).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}&nbsp;{chainData && chainData.unit}&nbsp;&nbsp;</> : 'N/A'}
-                            {typeof d.gas_quote === 'number' && (<span className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.gas_quote).format(d.gas_quote > 1.01 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.gas_quote).format(d.gas_quote > 1.01 ? '0,0.00' : '0,0.0000000000') : d.gas_quote.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))})</span>)}
+                            {typeof d.gas_quote === 'number' && typeof d.gas_quote_rate === 'number' ? <>{numberOptimizeDecimal(numeral(d.gas_quote / d.gas_quote_rate).format(d.gas_quote / d.gas_quote_rate > 1.01 ? '0,0.00' : '0,0.0000000000'))}&nbsp;{chainData && chainData.unit}&nbsp;&nbsp;</> : 'N/A'}
+                            {typeof d.gas_quote === 'number' && (<span className="text-info">({currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.gas_quote).format(d.gas_quote > 1.01 ? '0,0.00' : '0,0.0000000000'))})</span>)}
                           </div>
                         </Col>
                         <Col xl="3" lg="4" md="4" xs="12" className="f-w-500 text-info d-inline-flex align-items-center mt-3" style={{ lineHeight: '100%' }}>

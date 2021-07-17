@@ -548,7 +548,7 @@ const Landing = props => {
                   {typeof d.current_price === 'number' && d.current_price >= 0 ?
                     <>
                       {currencyData && currencyData.symbol}
-                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000'))}
                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                     </>
                     :
@@ -570,7 +570,7 @@ const Landing = props => {
                     {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                       <>
                         {currencyData && currencyData.symbol}
-                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                         {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                       </>
                       :
@@ -659,7 +659,7 @@ const Landing = props => {
                   {typeof d.current_price === 'number' && d.current_price >= 0 ?
                     <>
                       {currencyData && currencyData.symbol}
-                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000'))}
                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                     </>
                     :
@@ -681,7 +681,7 @@ const Landing = props => {
                     {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                       <>
                         {currencyData && currencyData.symbol}
-                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                         {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                       </>
                       :
@@ -775,7 +775,7 @@ const Landing = props => {
                   {typeof d.current_price === 'number' && d.current_price >= 0 ?
                     <>
                       {currencyData && currencyData.symbol}
-                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000'))}
                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                     </>
                     :
@@ -797,7 +797,7 @@ const Landing = props => {
                     {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                       <>
                         {currencyData && currencyData.symbol}
-                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                         {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                       </>
                       :
@@ -967,7 +967,7 @@ const Landing = props => {
                   {typeof d.current_price === 'number' && d.current_price >= 0 ?
                     <>
                       {currencyData && currencyData.symbol}
-                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000'))}
                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                     </>
                     :
@@ -989,7 +989,7 @@ const Landing = props => {
                     {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                       <>
                         {currencyData && currencyData.symbol}
-                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                         {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                       </>
                       :
@@ -1078,7 +1078,7 @@ const Landing = props => {
                   {typeof d.current_price === 'number' && d.current_price >= 0 ?
                     <>
                       {currencyData && currencyData.symbol}
-                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000'))}
                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                     </>
                     :
@@ -1100,7 +1100,7 @@ const Landing = props => {
                     {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                       <>
                         {currencyData && currencyData.symbol}
-                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                         {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                       </>
                       :
@@ -1189,7 +1189,7 @@ const Landing = props => {
                   {typeof d.current_price === 'number' && d.current_price >= 0 ?
                     <>
                       {currencyData && currencyData.symbol}
-                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                      {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.00000000'))}
                       {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                     </>
                     :
@@ -1211,7 +1211,7 @@ const Landing = props => {
                     {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                       <>
                         {currencyData && currencyData.symbol}
-                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                        {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                         {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                       </>
                       :
@@ -1425,7 +1425,7 @@ const Landing = props => {
                                               {typeof d.total_volume === 'number' && d.total_volume >= 0 ?
                                                 <>
                                                   {currencyData && currencyData.symbol}
-                                                  {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                                  {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                                   {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                                 </>
                                                 :
@@ -1435,7 +1435,7 @@ const Landing = props => {
                                                 <div className="f-10 text-info">
                                                   {"Market Cap: "}
                                                   {currencyData && currencyData.symbol}
-                                                  {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                                  {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                                   {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                                 </div>
                                               )}
@@ -1445,7 +1445,7 @@ const Landing = props => {
                                               {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                                 <>
                                                   {currencyData && currencyData.symbol}
-                                                  {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                                  {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                                   {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                                 </>
                                                 :
@@ -1455,7 +1455,7 @@ const Landing = props => {
                                                 <div className="f-10 text-info">
                                                   {"Volume:"}&nbsp;
                                                   {currencyData && currencyData.symbol}
-                                                  {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                                  {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                                   {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                                 </div>
                                               )}
@@ -1466,7 +1466,7 @@ const Landing = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1646,7 +1646,7 @@ const Landing = props => {
                                             <>
                                               <div className="f-w-500">{"Rank #"}{numeral(d.market_cap_rank).format('0,0')}</div>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1656,7 +1656,7 @@ const Landing = props => {
                                             <div className="f-10 text-info">
                                               {"Volume:"}&nbsp;
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </div>
                                           )}
@@ -1665,7 +1665,7 @@ const Landing = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1736,7 +1736,7 @@ const Landing = props => {
                                           {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1746,7 +1746,7 @@ const Landing = props => {
                                             <div className="f-10 text-info">
                                               {"Volume:"}&nbsp;
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </div>
                                           )}
@@ -1755,7 +1755,7 @@ const Landing = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1826,7 +1826,7 @@ const Landing = props => {
                                           {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1836,7 +1836,7 @@ const Landing = props => {
                                             <div className="f-10 text-info">
                                               {"Volume:"}&nbsp;
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </div>
                                           )}
@@ -1845,7 +1845,7 @@ const Landing = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1916,7 +1916,7 @@ const Landing = props => {
                                           {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -1926,7 +1926,7 @@ const Landing = props => {
                                             <div className="f-10 text-info">
                                               {"Volume:"}&nbsp;
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </div>
                                           )}
@@ -1935,7 +1935,7 @@ const Landing = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -2006,7 +2006,7 @@ const Landing = props => {
                                           {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -2016,7 +2016,7 @@ const Landing = props => {
                                             <div className="f-10 text-info">
                                               {"Volume:"}&nbsp;
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </div>
                                           )}
@@ -2025,7 +2025,7 @@ const Landing = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                             </>
                                             :

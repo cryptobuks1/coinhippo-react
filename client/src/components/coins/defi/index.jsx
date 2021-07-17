@@ -310,7 +310,7 @@ const Defi = props => {
                                           {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                               {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -318,9 +318,9 @@ const Defi = props => {
                                           }
                                           {typeof d.low_24h === 'number' && typeof d.high_24h === 'number' && (
                                             <div className="f-10 text-info">
-                                              {"Low:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.low_24h).format(d.low_24h > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.low_24h).format(d.low_24h > 1 ? '0,0.00' : '0,0.0000000000') : d.low_24h.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
+                                              {"Low:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.low_24h).format(d.low_24h > 1 ? '0,0.00' : '0,0.0000000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                               <br />
-                                              {"High:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.high_24h).format(d.high_24h > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.high_24h).format(d.high_24h > 1 ? '0,0.00' : '0,0.0000000000') : d.high_24h.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
+                                              {"High:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.high_24h).format(d.high_24h > 1 ? '0,0.00' : '0,0.0000000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                             </div>
                                           )}
                                         </Col>
@@ -335,7 +335,7 @@ const Defi = props => {
                                           {typeof d.atl === 'number' && d.atl >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.atl).format(d.atl > 1 ? '0,0.00' : '0,0.000000') !== 'NaN' ? numeral(d.atl).format(d.atl > 1 ? '0,0.00' : '0,0.000000') : d.atl.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.atl).format(d.atl > 1 ? '0,0.00' : '0,0.000000'))}
                                               {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -347,7 +347,7 @@ const Defi = props => {
                                           {typeof d.ath === 'number' && d.ath >= 0 ?
                                             <>
                                               {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.ath).format(d.ath > 1 ? '0,0.00' : '0,0.000000') !== 'NaN' ? numeral(d.ath).format(d.ath > 1 ? '0,0.00' : '0,0.000000') : d.ath.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                              {numberOptimizeDecimal(numeral(d.ath).format(d.ath > 1 ? '0,0.00' : '0,0.000000'))}
                                               {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                             </>
                                             :
@@ -363,7 +363,7 @@ const Defi = props => {
                                         {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                           <>
                                             {currencyData && currencyData.symbol}
-                                            {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                            {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                             {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                           </>
                                           :
@@ -377,7 +377,7 @@ const Defi = props => {
                                         {typeof d.total_volume === 'number' && d.total_volume >= 0 ?
                                           <>
                                             {currencyData && currencyData.symbol}
-                                            {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                            {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                             {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                           </>
                                           :
@@ -624,7 +624,7 @@ const Defi = props => {
                                       {typeof d.current_price === 'number' && d.current_price >= 0 ?
                                         <>
                                           {currencyData && currencyData.symbol}
-                                          {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000') : d.current_price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(d.current_price).format(d.current_price > 1 ? '0,0.00' : '0,0.0000000000'))}
                                           {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                         </>
                                         :
@@ -632,9 +632,9 @@ const Defi = props => {
                                       }
                                       {typeof d.low_24h === 'number' && typeof d.high_24h === 'number' && (
                                         <div className="f-10 text-info">
-                                          {"Low:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.low_24h).format(d.low_24h > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.low_24h).format(d.low_24h > 1 ? '0,0.00' : '0,0.0000000000') : d.low_24h.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
+                                          {"Low:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.low_24h).format(d.low_24h > 1 ? '0,0.00' : '0,0.0000000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                           <br />
-                                          {"High:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.high_24h).format(d.high_24h > 1 ? '0,0.00' : '0,0.0000000000') !== 'NaN' ? numeral(d.high_24h).format(d.high_24h > 1 ? '0,0.00' : '0,0.0000000000') : d.high_24h.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
+                                          {"High:"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(d.high_24h).format(d.high_24h > 1 ? '0,0.00' : '0,0.0000000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
                                         </div>
                                       )}
                                     </td>
@@ -643,15 +643,15 @@ const Defi = props => {
                                     <td className={`text-right ${marketSort.field === 'price_change_percentage_7d_in_currency' ? 'bg-light' : ''} ${d.price_change_percentage_7d_in_currency > 0 ? 'font-success' : d.price_change_percentage_7d_in_currency < 0 ? 'font-danger' : ''}`}>{typeof d.price_change_percentage_7d_in_currency === 'number' && d.price_change_percentage_7d_in_currency !== 0 ? numberOptimizeDecimal(numeral(d.price_change_percentage_7d_in_currency / 100).format('+0,0.00%')).startsWith('NaN') ? '0.00%' : numberOptimizeDecimal(numeral(d.price_change_percentage_7d_in_currency / 100).format('+0,0.00%')) : '-'}</td>
                                     <td className={`text-right ${marketSort.field === 'price_change_percentage_30d_in_currency' ? 'bg-light' : ''} ${d.price_change_percentage_30d_in_currency > 0 ? 'font-success' : d.price_change_percentage_30d_in_currency < 0 ? 'font-danger' : ''}`}>{typeof d.price_change_percentage_30d_in_currency === 'number' && d.price_change_percentage_30d_in_currency !== 0 ? numberOptimizeDecimal(numeral(d.price_change_percentage_30d_in_currency / 100).format('+0,0.00%')).startsWith('NaN') ? '0.00%' : numberOptimizeDecimal(numeral(d.price_change_percentage_30d_in_currency / 100).format('+0,0.00%')) : '-'}</td>
                                     <td className="text-right">
-                                      <div className="f-10"><span className="text-info">{"ATL: "}</span>{currencyData && currencyData.symbol}{typeof d.atl === 'number' && d.atl >= 0 ? numberOptimizeDecimal(numeral(d.atl).format(d.atl > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.atl).format(d.atl > 1 ? '0,0.00' : '0,0.00000000') : d.atl.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 })) : 'N/A'}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</div>
-                                      <div className="f-10"><span className="text-info">{"ATH: "}</span>{currencyData && currencyData.symbol}{typeof d.ath === 'number' && d.ath >= 0 ? numberOptimizeDecimal(numeral(d.ath).format(d.ath > 1 ? '0,0.00' : '0,0.00000000') !== 'NaN' ? numeral(d.ath).format(d.ath > 1 ? '0,0.00' : '0,0.00000000') : d.ath.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 })) : 'N/A'}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</div>
+                                      <div className="f-10"><span className="text-info">{"ATL: "}</span>{currencyData && currencyData.symbol}{typeof d.atl === 'number' && d.atl >= 0 ? numberOptimizeDecimal(numeral(d.atl).format(d.atl > 1 ? '0,0.00' : '0,0.00000000')) : 'N/A'}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</div>
+                                      <div className="f-10"><span className="text-info">{"ATH: "}</span>{currencyData && currencyData.symbol}{typeof d.ath === 'number' && d.ath >= 0 ? numberOptimizeDecimal(numeral(d.ath).format(d.ath > 1 ? '0,0.00' : '0,0.00000000')) : 'N/A'}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</div>
                                       {d.roi && typeof d.roi.percentage === 'number' && (<div className="f-10 text-info">{"ROI"}{d.roi.currency && (<>&nbsp;({d.roi.currency.toUpperCase()})</>)}{": "}<span className={`${d.roi.percentage > 0 ? 'font-success' : d.roi.percentage < 0 ? 'font-danger' : ''}`}>{numberOptimizeDecimal(numeral(d.roi.percentage / 100).format('+0,0.00%')).startsWith('NaN') ? '0.00%' : numberOptimizeDecimal(numeral(d.roi.percentage / 100).format('+0,0.00%'))}</span></div>)}
                                     </td>
                                     <td className={`text-right ${marketSort.field === 'total_volume' ? 'bg-light' : ''}`}>
                                       {typeof d.total_volume === 'number' && d.total_volume >= 0 ?
                                         <>
                                           {currencyData && currencyData.symbol}
-                                          {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00') : Number(d.total_volume).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
                                           {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                         </>
                                         :
@@ -662,7 +662,7 @@ const Defi = props => {
                                       {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                         <>
                                           {currencyData && currencyData.symbol}
-                                          {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00') : Number(d.market_cap).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
                                           {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                         </>
                                         :
@@ -674,7 +674,7 @@ const Defi = props => {
                                       {typeof d.fully_diluted_valuation === 'number' && d.fully_diluted_valuation >= 0 ?
                                         <>
                                           {currencyData && currencyData.symbol}
-                                          {numberOptimizeDecimal(numeral(Number(d.fully_diluted_valuation)).format(Number(d.fully_diluted_valuation) > 1 ? '0,0' : '0,0.00') !== 'NaN' ? numeral(Number(d.fully_diluted_valuation)).format(Number(d.fully_diluted_valuation) > 1 ? '0,0' : '0,0.00') : Number(d.fully_diluted_valuation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}
+                                          {numberOptimizeDecimal(numeral(Number(d.fully_diluted_valuation)).format(Number(d.fully_diluted_valuation) > 1 ? '0,0' : '0,0.00'))}
                                           {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                         </>
                                         :
@@ -682,7 +682,7 @@ const Defi = props => {
                                       }
                                     </td>
                                     <td className={`text-right ${marketSort.field === 'circulating_supply' ? 'bg-light' : ''}`}>
-                                      {typeof d.circulating_supply === 'number' && d.circulating_supply > 0 ? numberOptimizeDecimal(numeral(Number(d.circulating_supply)).format('0,0') !== 'NaN' ? numeral(Number(d.circulating_supply)).format('0,0') : Number(d.circulating_supply).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 })) : 'N/A'}
+                                      {typeof d.circulating_supply === 'number' && d.circulating_supply > 0 ? numberOptimizeDecimal(numeral(Number(d.circulating_supply)).format('0,0')) : 'N/A'}
                                       {d.symbol && (<>&nbsp;{d.symbol.toUpperCase()}</>)}
                                       {typeof d.fully_diluted_valuation === 'number' && d.fully_diluted_valuation >= 0 && typeof d.max_supply === 'number' && (<div className="f-10 text-info">{"Max: "}{numberOptimizeDecimal(numeral(Number(d.max_supply)).format('0,0'))}</div>)}
                                       {!(typeof d.fully_diluted_valuation === 'number' && d.fully_diluted_valuation >= 0) && typeof d.total_supply === 'number' && (<div className="f-10 text-info">{"Total: "}{numberOptimizeDecimal(numeral(Number(d.total_supply)).format('0,0'))}</div>)}

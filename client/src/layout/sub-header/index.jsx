@@ -212,19 +212,19 @@ const SubHeader = props => {
                       <span className="f-20" style={{ marginTop: '-.4rem' }}>
                         <Tooltip placement="bottom" title={<>{"Data from "}<a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer" className="f-w-500 text-white">{"etherscan.io"}</a></>}>{"⛽"}</Tooltip></span>
                       <span className="ml-1">{"ETH Gas:"}</span>
-                      <Tooltip placement="bottom" title={typeof gweiRate === 'number' ? <>{"≅"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(gasData.SafeGasPrice * gweiRate).format('0,0.00000000') !== 'NaN' ? numeral(gasData.SafeGasPrice * gweiRate).format('0,0.00000000') : (gasData.SafeGasPrice * gweiRate).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</> : null}>
+                      <Tooltip placement="bottom" title={typeof gweiRate === 'number' ? <>{"≅"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(gasData.SafeGasPrice * gweiRate).format('0,0.00000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</> : null}>
                         <div className="text-info text-center ml-2 pl-1">
                           {numeral(gasData.SafeGasPrice).format('0,0')}
                           <div className="f-10 f-w-300">{"Safe"}</div>
                         </div>
                       </Tooltip>
-                      <Tooltip placement="bottom" title={typeof gweiRate === 'number' ? <>{"≅"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(gasData.ProposeGasPrice * gweiRate).format('0,0.00000000') !== 'NaN' ? numeral(gasData.ProposeGasPrice * gweiRate).format('0,0.00000000') : (gasData.ProposeGasPrice * gweiRate).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</> : null}>
+                      <Tooltip placement="bottom" title={typeof gweiRate === 'number' ? <>{"≅"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(gasData.ProposeGasPrice * gweiRate).format('0,0.00000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</> : null}>
                         <div className="text-info text-center ml-2 pl-1">
                           {numeral(gasData.ProposeGasPrice).format('0,0')}
                           <div className="f-10 f-w-300">{"Average"}</div>
                         </div>
                       </Tooltip>
-                      <Tooltip placement="bottom" title={typeof gweiRate === 'number' ? <>{"≅"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(gasData.FastGasPrice * gweiRate).format('0,0.00000000') !== 'NaN' ? numeral(gasData.FastGasPrice * gweiRate).format('0,0.00000000') : (gasData.FastGasPrice * gweiRate).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</> : null}>
+                      <Tooltip placement="bottom" title={typeof gweiRate === 'number' ? <>{"≅"}&nbsp;{currencyData && currencyData.symbol}{numberOptimizeDecimal(numeral(gasData.FastGasPrice * gweiRate).format('0,0.00000000'))}{!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}</> : null}>
                         <div className="text-info text-center ml-2 pl-1">
                           {numeral(gasData.FastGasPrice).format('0,0')}
                           <div className="f-10 f-w-300">{"Fast"}</div>
