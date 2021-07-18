@@ -53,12 +53,15 @@ export const menus = [
           { path: '/explorer/moonbeam-moonbase', altPath: 'https://explorers.coinhippo.io/moonbeam-moonbase-alpha', target: '_blank', rel: 'noopener noreferrer', title: 'Moonbeam', chain_id: '1287', network: 'moonbase-alpha', unit: 'DEV', logo_url: 'https://www.covalenthq.com/static/images/icons/display-icons/moonbeam-logo.png', altExplorerUrl: 'https://moonbase.subscan.io/account/{address}' },
         ],
         isReload: true
-      },
-      {
+      }],
+      [{
         title: 'DEX Analytics',
         subMenu: [
-          { path: 'https://sushiswap.coinhippo.io', title: 'SushiSwap', target: '_blank', rel: 'noopener noreferrer' },
-          { path: 'https://quickswap.coinhippo.io', title: 'QuickSwap', target: '_blank', rel: 'noopener noreferrer' },
+          { path: 'https://dex.coinhippo.io/sushiswap', title: 'SushiSwap', target: '_blank', rel: 'noopener noreferrer' },
+          { path: 'https://dex.coinhippo.io/quickswap', title: 'QuickSwap', target: '_blank', rel: 'noopener noreferrer' },
+          { path: 'https://dex.coinhippo.io/pangolin', title: 'Pangolin', target: '_blank', rel: 'noopener noreferrer' },
+          { path: 'https://dex.coinhippo.io/spiritswap', title: 'SpiritSwap', target: '_blank', rel: 'noopener noreferrer' },
+          { path: 'https://dex.coinhippo.io/spookyswap', title: 'SpookySwap', target: '_blank', rel: 'noopener noreferrer' },
         ],
         isReload: true
       }],
