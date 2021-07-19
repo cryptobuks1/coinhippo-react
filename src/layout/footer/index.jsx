@@ -11,7 +11,9 @@ import coingecko from '../../assets/images/logo/api/CoinGecko Logo.png';
 
 const Footer = props => {
   const locationData = getLocationData(window);
+
   const theme = useSelector(content => content.Preferences.theme);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

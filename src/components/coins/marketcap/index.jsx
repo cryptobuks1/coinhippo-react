@@ -17,15 +17,18 @@ const MarketCap = props => {
   const pageSize = 50;
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
-  const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
   const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const globalData = useSelector(content => content.Data[GLOBAL_DATA]);
+
+  const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(0);
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
+
   const tableRef = useRef(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -83,6 +86,7 @@ const MarketCap = props => {
   }, [isMountedRef, currency, data, marketPage]);
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const filteredData = data && data.map((d, i) => {
     d.rank = i;
     d.price_change_percentage_1h_in_currency = typeof d.price_change_percentage_1h_in_currency === 'number' ? d.price_change_percentage_1h_in_currency : 0;
@@ -93,6 +97,7 @@ const MarketCap = props => {
     return d;
   }).filter((d, i) => (i < (marketPage + (marketPage < 0 ? 2 : 1)) * (marketPage < 0 ? 10 : pageSize)) && (!marketSearch || (d.name && d.name.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1) || (d.symbol && d.symbol.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1)));
   const sortedData = _.orderBy(filteredData, [marketSort.field || 'rank'], [marketSort.direction]);
+
   return (
     <Fragment>
       <Container fluid={true}>

@@ -8,17 +8,13 @@ import ConfigDB from '../../data/customizer/config';
 import { useIsMountedRef } from '../../utils';
 
 const Themecustomizer = props => {
+  const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
-  const [rightSidebar, setRightSidebar] = useState(true);
-  const [showHorizontal, setShowHorizontal] = useState(true);
-  const [showBoxLayout, setshowBoxLayout] = useState(true);
-  const [activeTab1] = useState('1');
+
   const default_color = localStorage.getItem('default_color') || ConfigDB.data.color.primary_color;
   const secondary_color = localStorage.getItem('secondary_color') || ConfigDB.data.color.secondary_color;
   const layout_animation = localStorage.getItem('animation') || ConfigDB.data.router_animation || 'fade';
-  const [modal, setModal] = useState();
   const configDB = useSelector(content => content.Customizer.customizer);
-  const dispatch = useDispatch();
   const [layout_type, setLayout_type] = useState(configDB.settings.layout_type);
   const [sidebar_type, setSidebar_type] = useState(configDB.settings.sidebar.type);
   const body_sidebar_type = configDB.settings.sidebar.body_type;
@@ -28,6 +24,12 @@ const Themecustomizer = props => {
   const config_secondary = configDB.color.secondary_color;
   const [colorBackground1, setColorBackground1] = useState(default_color || config_primary);
   const [colorBackground2, setColorBackground2] = useState(secondary_color || config_secondary);
+  const [rightSidebar, setRightSidebar] = useState(true);
+  const [showHorizontal, setShowHorizontal] = useState(true);
+  const [showBoxLayout, setshowBoxLayout] = useState(true);
+  const [activeTab1] = useState('1');
+  const [modal, setModal] = useState();
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

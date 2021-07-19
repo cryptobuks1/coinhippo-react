@@ -21,9 +21,14 @@ import { getExchange, getExchangeTickers, getExchangeVolumeChart, getDerivatives
 import { useIsMountedRef, sleep, affiliateData, timeRanges, getName, numberOptimizeDecimal } from '../../../utils';
 
 const Exchange = props => {
-  const exchangeId = props.match ? props.match.params.exchange_id : null;
   const pageSize = 100;
+  const exchangeId = props.match ? props.match.params.exchange_id : null;
   const isMountedRef = useIsMountedRef();
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+  const allPaprikaExchangesData = useSelector(content => content.Data[ALL_PAPRIKA_EXCHANGES_DATA]);
+
   const [data, setData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -32,10 +37,6 @@ const Exchange = props => {
   const [chartTimeSelected, setChartTimeSelected] = useState(30);
   const [volumeChartDataMap, setVolumeChartDataMap] = useState({});
   const [volumeChartLoading, setVolumeChartLoading] = useState(false);
-  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
-  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
-  const allPaprikaExchangesData = useSelector(content => content.Data[ALL_PAPRIKA_EXCHANGES_DATA]);
   const [communitySelected, setCommunitySelected] = useState(false);
   const [tickers, setTickers] = useState([]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
@@ -43,8 +44,10 @@ const Exchange = props => {
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
-  const tableRef = useRef(null);
   const [tablePage, setTablePage] = useState(0);
+
+  const tableRef = useRef(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -204,11 +207,15 @@ const Exchange = props => {
   }, [isMountedRef, exchangeId, data, volumeChartDataMap, chartTimeSelected]);
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const currencyMarket = tickers && tickers.findIndex(ticker => ticker.converted_last && (typeof ticker.converted_last[currency] === 'number' || typeof ticker.converted_last[currency] === 'string')) > -1 ? currency : 'usd';
   const currencyMarketData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyMarket), 'id'));
+
   const currencyVolume = 'btc';
   const currencyVolumeData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyVolume), 'id'));
+
   const isDerivative = data && ['open_interest_btc', 'number_of_perpetual_pairs', 'number_of_futures_pairs'].findIndex(f => f in data) > -1;
+
   const sortedTickers = _.orderBy(tickers.map((ticker, i) => {
     ticker.rank = i;
     const coinIndex = allCryptoData && allCryptoData.coins ? allCryptoData.coins.findIndex(c => isDerivative ? ticker.base && ((c.symbol && c.symbol.toLowerCase() === ticker.base.toLowerCase()) || (c.id && c.id.toLowerCase() === ticker.base.toLowerCase()) || (c.name && c.name.toLowerCase() === ticker.base.toLowerCase())) : c.id === ticker.coin_id) : -1;
@@ -230,6 +237,7 @@ const Exchange = props => {
     ticker.trust_score = typeof ticker.trust_score === 'number' ? ticker.trust_score : ticker.trust_score === 'green' ? 1 : ticker.trust_score === 'yellow' ? 0.5 : 0;
     return ticker;
   }).filter((ticker, i) => (i < (marketPage + 1) * pageSize) && (!marketSearch || ticker.pair.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1 || ticker.coin_name.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1 || ((marketSearch.toLowerCase().indexOf('perpetual') > -1 || marketSearch.toLowerCase().indexOf('future') > -1) && ticker.contract_type.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1))), [marketSort.field || 'rank'], [marketSort.direction]);
+
   return (
     <Fragment>
       <Container fluid={true}>

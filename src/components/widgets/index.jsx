@@ -9,6 +9,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 const Widgets = props => {
   const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const theme = useSelector(content => content.Preferences[THEME]);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

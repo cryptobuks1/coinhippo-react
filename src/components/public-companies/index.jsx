@@ -15,21 +15,24 @@ import { useIsMountedRef, sleep, getName, numberOptimizeDecimal } from '../../ut
 
 const PublicCompanies = props => {
   const pageSize = 100;
+  const currency = 'usd';
   const coinId = props.match ? props.match.params.coin_id.toLowerCase() : null;
   const isMountedRef = useIsMountedRef();
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+
   const [data, setData] = useState([]);
   const [statsData, setStatsData] = useState(null);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
-  const currency = 'usd';
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(19);
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
   const [redirectPath, setRedirectPath] = useState(null);
-  const tableRef = useRef(null);
   const [tablePage, setTablePage] = useState(0);
+
+  const tableRef = useRef(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -92,13 +95,17 @@ const PublicCompanies = props => {
     }
     return (<Redirect to={redirectPath} />);
   }
+
   const coinData = allCryptoData && allCryptoData.coins && _.head(allCryptoData.coins.filter(c => c.id === coinId));
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const filteredData = data && _.orderBy(data.filter(d => d), ['total_holdings'], ['desc']).map((d, i) => {
     d.rank = i;
     return d;
   }).filter((d, i) => /*(i < (marketPage + (marketPage < 0 ? 2 : 1)) * (marketPage < 0 ? 10 : pageSize)) && */(!marketSearch || (d.name && d.name.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1) || (d.symbol && d.symbol.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1)));
   const sortedData = _.orderBy(filteredData, [marketSort.field || 'rank'], [marketSort.direction]);
+
   const statsComponent = statsData && (
     <Row className="w-100 f-w-500">
       <Col lg="4" md="4" xs="12" className="mt-3 mt-lg-0">
@@ -153,6 +160,7 @@ const PublicCompanies = props => {
       </Col>
     </Row>
   );
+
   return (
     <Fragment>
       <Container fluid={true}>

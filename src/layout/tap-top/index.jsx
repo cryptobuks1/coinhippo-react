@@ -3,7 +3,9 @@ import { ChevronsUp } from 'react-feather';
 
 const Taptop = props => {
   const [taptopStyle, setTapTopStyle] = useState('none');
+
   const executeScroll = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
   const handleScroll = () => {
     if (window.scrollY > 600) setTapTopStyle('block');
     else setTapTopStyle('none');

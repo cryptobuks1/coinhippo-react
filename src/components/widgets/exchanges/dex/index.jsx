@@ -19,12 +19,13 @@ const DexExchanges = props => {
   const locationData = getLocationData(window);
   const pageSize = 10;
   const isMountedRef = useIsMountedRef();
-  const [dexData, setDexData] = useState([]);
-  const [dexLoading, setDexLoading] = useState(null);
-  const [dataLoaded, setDataLoaded] = useState(false);
   const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
   const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
   const n = locationData.params && !isNaN(locationData.params.n) ? Number(locationData.params.n) > 20 ? 20 : Number(locationData.params.n) < 1 ? 1 : Math.floor(Number(locationData.params.n)) : 10;
+
+  const [dexData, setDexData] = useState([]);
+  const [dexLoading, setDexLoading] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -71,9 +72,12 @@ const DexExchanges = props => {
   }, [isMountedRef, currency, dexData, n]);
 
   document.body.className = locationData.params && locationData.params.theme && locationData.params.theme.toLowerCase() === 'dark' ? 'dark-only' : 'light';
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const currencyVolume = 'btc';
   const currencyVolumeData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyVolume), 'id'));
+
   return (
     <Fragment>
       <Container fluid={true} style={{ maxWidth: '30rem' }}>

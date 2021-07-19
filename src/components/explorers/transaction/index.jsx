@@ -16,15 +16,17 @@ import { getTransaction } from '../../../api';
 import { useIsMountedRef, numberOptimizeDecimal } from '../../../utils';
 
 const Transaction = props => {
+  const currency = 'usd';
   const chain = props.match ? props.match.params.chain : null;
   const txHash = props.match ? props.match.params.tx_hash : null;
   const chains = menus[0].subMenu[2][0].subMenu;
   const chainData = chains.findIndex(c => c.path === `/explorer/${chain}`) > -1 ? chains[chains.findIndex(c => c.path === `/explorer/${chain}`)] : null;
   const chainId = chainData && chainData.chain_id;
   const isMountedRef = useIsMountedRef();
+
   const [data, setData] = useState([]);
-  const currency = 'usd';
   const [loading, setLoading] = useState(false);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -70,6 +72,7 @@ const Transaction = props => {
   }, [isMountedRef, chainId, txHash, data]);
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   return (
     <Fragment>
       <Container fluid={true}>

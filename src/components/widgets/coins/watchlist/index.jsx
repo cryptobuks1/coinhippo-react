@@ -14,13 +14,14 @@ const Watchlist = props => {
   const locationData = getLocationData(window);
   const pageSize = 20;
   const isMountedRef = useIsMountedRef();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(null);
-  const [dataLoaded, setDataLoaded] = useState(false);
   const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
   const coins = locationData.params && locationData.params.coins ? locationData.params.coins.toLowerCase() : '';
   const ids = _.slice(coins.split(',').filter(id => id), 0, pageSize);
   const n = ids ? ids.length : 0;
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -62,7 +63,9 @@ const Watchlist = props => {
   }, [isMountedRef, currency, data, coins]);
 
   document.body.className = locationData.params && locationData.params.theme && locationData.params.theme.toLowerCase() === 'dark' ? 'dark-only' : 'light';
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   return (
     <Fragment>
       <Container fluid={true} style={{ maxWidth: '30rem' }}>

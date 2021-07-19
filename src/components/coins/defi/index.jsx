@@ -20,20 +20,23 @@ const Defi = props => {
   const pageSize = 100;
   const categoryId = 'decentralized-finance-defi';
   const isMountedRef = useIsMountedRef();
-  const [defiStatsData, setDefiStatsData] = useState(false);
-  const [data, setData] = useState([]);
-  const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
   const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+
+  const [defiStatsData, setDefiStatsData] = useState(false);
+  const [data, setData] = useState([]);
+  const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(19);
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
   const [redirectPath, setRedirectPath] = useState(null);
-  const tableRef = useRef(null);
   const [tablePage, setTablePage] = useState(0);
+
+  const tableRef = useRef(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -108,13 +111,18 @@ const Defi = props => {
     }
     return (<Redirect to={redirectPath} />);
   }
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const currencyVolume = 'usd';
   const currencyVolumeData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyVolume), 'id'));
+
   const ethIndex = allCryptoData && allCryptoData.coins ? allCryptoData.coins.findIndex(c => c.id === 'ethereum') : -1;
   const ethData = ethIndex > - 1 ? allCryptoData.coins[ethIndex] : null;
+
   const dominanceCoinIndex = defiStatsData && defiStatsData.top_coin_name && allCryptoData && allCryptoData.coins ? allCryptoData.coins.findIndex(c => c.name === defiStatsData.top_coin_name) : -1;
   const dominanceCoinData = dominanceCoinIndex > - 1 ? allCryptoData.coins[dominanceCoinIndex] : null;
+
   const filteredData = data && data.map((d, i) => {
     d.rank = i;
     d.price_change_percentage_1h_in_currency = typeof d.price_change_percentage_1h_in_currency === 'number' ? d.price_change_percentage_1h_in_currency : 0;
@@ -125,6 +133,7 @@ const Defi = props => {
     return d;
   }).filter((d, i) => (i < (marketPage + (marketPage < 0 ? 2 : 1)) * (marketPage < 0 ? 10 : pageSize)) && (!marketSearch || (d.name && d.name.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1) || (d.symbol && d.symbol.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1)));
   const sortedData = _.orderBy(filteredData, [marketSort.field || 'rank'], [marketSort.direction]);
+
   const statsComponent = defiStatsData && (
     <Row className="w-100 f-w-500">
       <Col lg="3" md="6" xs="12" className="mt-3 mt-lg-0">
@@ -196,6 +205,7 @@ const Defi = props => {
       </Col>
     </Row>
   );
+
   return (
     <Fragment>
       <Container fluid={true}>

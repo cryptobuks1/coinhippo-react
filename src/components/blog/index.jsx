@@ -13,10 +13,12 @@ const Blog = props => {
   const categoryId = props.match ? props.match.params.category_id : null;
   const postId = props.match ? props.match.params.post_id : null;
   const isMountedRef = useIsMountedRef();
+
   const [allBlogs, setAllBlogs] = useState([]);
   const [data, setData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -69,6 +71,7 @@ const Blog = props => {
   if (window.location.pathname.startsWith('/blog') && !categoryId && _.orderBy(allBlogs.filter(b => !b.post_id), ['order'], ['asc'])[0]) {
     return <Redirect to={`/blog/${_.orderBy(allBlogs.filter(b => !b.post_id), ['order'], ['asc'])[0].category_id}`} />;
   }
+
   return (
     <Fragment>
       <Container fluid={true}>

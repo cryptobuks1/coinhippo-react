@@ -1,21 +1,21 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { VS_CURRENCY, ALL_CRYPTO_DATA } from '../../../redux/types';
+import { VS_CURRENCY, ALL_CRYPTO_DATA } from '../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Select, Tooltip } from 'antd';
 import { Grid, List, ChevronDown, ChevronUp, Search } from 'react-feather';
 import _ from 'lodash';
 import numeral from 'numeral';
-import Spinner from '../../spinner';
-import Error404 from '../../../pages/errors/error404';
-import { menus, currenciesGroups } from '../../../layout/header/menus';
-import { getCoinsMarkets } from '../../../api';
-import { useIsMountedRef, sleep, numberOptimizeDecimal, capitalize } from '../../../utils';
+import Spinner from '../spinner';
+import Error404 from '../../pages/errors/error404';
+import { menus, currenciesGroups } from '../../layout/header/menus';
+import { getCoinsMarkets } from '../../api';
+import { useIsMountedRef, sleep, numberOptimizeDecimal } from '../../utils';
 
-const Category = props => {
+const CustomCategory = props => {
   const pageSize = 100;
-  const categoryId = props.match ? props.match.params.category_id.toLowerCase() : null;
+  const categoryId = props.categoryId;
   const isMountedRef = useIsMountedRef();
   const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
@@ -23,7 +23,7 @@ const Category = props => {
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
-  const [marketPage, setMarketPage] = useState(19);
+  const [marketPage, setMarketPage] = useState(/*0*/19);
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
@@ -46,38 +46,37 @@ const Category = props => {
 
   useEffect(() => {
     const getData = async () => {
-      if (categoryId) {
-        if (isMountedRef.current) {
-          setMarketLoading(true);
-        }
-        const newData = data ? data : [];
-        let size = 0;
-        for (let i = 0; i <= marketPage; i++) {
-          try {
-            await sleep(500);
-            let coinData = await getCoinsMarkets({ vs_currency: currency, category: categoryId, order: 'market_cap_desc', per_page: pageSize / 2, page: i + 1, price_change_percentage: '1h,24h,7d,30d' });
-            coinData = coinData && !coinData.error ? coinData : null;
-            if (coinData) {
-              for (let j = 0; j < coinData.length; j++) {
-                newData[size] = coinData[j];
-                size++;
-              }
-              if (coinData.length < (pageSize / 2)) {
-                if (isMountedRef.current) {
-                  setMarketPageEnd(true);
-                }
-                break;
-              }
+      if (isMountedRef.current) {
+        setMarketLoading(true);
+      }
+      const newData = data ? data : [];
+      let size = 0;
+      for (let i = 0; i <= marketPage; i++) {
+        try {
+          await sleep(500);
+          let coinData = await getCoinsMarkets({ vs_currency: currency, category: categoryId, order: 'market_cap_desc', per_page: pageSize / 2, page: i + 1, price_change_percentage: '1h,24h,7d,30d' });
+          coinData = coinData && !coinData.error ? coinData : null;
+          if (coinData) {
+            for (let j = 0; j < coinData.length; j++) {
+              newData[size] = coinData[j];
+              size++;
             }
-          } catch (err) {}
-        }
-        newData.length = size;
-        if (isMountedRef.current) {
-          if (size !== 0) {
-            setData(newData.length > 0 ? newData : null);
+            if (coinData.length < (pageSize / 2)) {
+              if (isMountedRef.current) {
+                setMarketPageEnd(true);
+              }
+              break;
+            }
           }
-          setMarketLoading(false);
+        } catch (err) {}
+      }
+      newData.length = size;
+      if (isMountedRef.current) {
+        if (size !== 0) {
+          setData(newData.length > 0 ? newData : null);
         }
+        // setMarketPageEnd(true);
+        setMarketLoading(false);
       }
     };
     getData();
@@ -94,7 +93,7 @@ const Category = props => {
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
 
-  const filteredData = data && _.orderBy(data.filter(d => d).map(d => { return { ...d, market_cap: typeof d.market_cap === 'number' ? d.market_cap : 0 } }), ['market_cap'], ['desc']).map((d, i) => {
+  const filteredData = data && _.orderBy(data.map(d => { return { ...d, market_cap: typeof d.market_cap === 'number' ? d.market_cap : 0 } }), ['market_cap'], ['desc']).map((d, i) => {
     d.rank = i;
     d.price_change_percentage_1h_in_currency = typeof d.price_change_percentage_1h_in_currency === 'number' ? d.price_change_percentage_1h_in_currency : 0;
     d.price_change_percentage_24h_in_currency = typeof d.price_change_percentage_24h_in_currency === 'number' ? d.price_change_percentage_24h_in_currency : 0;
@@ -115,16 +114,16 @@ const Category = props => {
                 <Row className="px-0 px-lg-3 mx-0 mx-lg-1">
                   <Col xl="4" lg="4" md="5" xs="12">
                     <Nav className="nav-pills nav-primary d-flex align-items-center">
-                      {menus[0].subMenu[1].subMenu.filter(m => m.fixed).map((m, key) => (
+                      {menus[0].subMenu[1].subMenu.filter(m => m.preset).map((m, key) => (
                         <NavItem key={key} style={{ maxWidth: width <= 575 ? 'fit-content' : '' }}>
-                          <div className={`nav-link${width <= 1200 ? ' f-12 p-2' : ''}`}>
+                          <div className={`nav-link${m.path === props.path ? ' active' : ''}${width <= 1200 ? ' f-12 p-2' : ''}`}>
                             <Link to={m.path} style={{ color: 'unset' }}>
                               {m.title}
                             </Link>
                           </div>
                         </NavItem>
                       ))}
-                      <div style={{ marginTop: width <= 1200 ? 'unset' : '-.6rem' }}>
+                      <div style={{ marginTop: width <= 1856 ? '1rem' : '-.6rem' }}>
                         <div className="f-10 text-secondary text-left ml-2 pl-1">{"Categories"}</div>
                         <Select
                           showSearch
@@ -132,17 +131,12 @@ const Category = props => {
                           placeholder="Search Category"
                           optionFilterProp="children"
                           filterOption={(input, option) => option.data ? option.data.id.toLowerCase().indexOf(input.toLowerCase()) > -1 || option.data.name.toLowerCase().indexOf(input.toLowerCase()) > -1 : false}
-                          value={categoryId}
-                          onSelect={value => {
-                            setMarketLoading(true);
-                            setMarketPageEnd(false);
-                            setRedirectPath(`/coins/${value}`);
-                          }}
+                          onSelect={value => setRedirectPath(value)}
                           dropdownClassName="vs-currency-select-dropdown"
                           style={{ width: '12.5rem', marginTop: '-.5rem' }}
                         >
                           {allCryptoData && allCryptoData.categories && allCryptoData.categories.length > 0 && allCryptoData.categories.map((d, key) => (
-                            <Select.Option key={key} disabled={d.category_id === categoryId} value={d.category_id} data={{ ...d, dataType: 'categories' }} className="small">
+                            <Select.Option key={key} disabled={d.category_id === categoryId} value={`/coins/${d.category_id}`} data={{ ...d, dataType: 'categories' }} className="small">
                               {d.name}
                             </Select.Option>
                           ))}
@@ -152,7 +146,7 @@ const Category = props => {
                   </Col>
                   <Col xl="6" lg="6" md="5" xs="8" className={`mt-3 mt-md-0 d-flex align-items-top ${width <= 575 ? '' : 'justify-content-center'}`}>
                     <h1 className="mb-0">
-                      <div className={`${width <= 575 ? 'f-14' : width <= 991 ? 'f-18' : width <= 1200 ? 'f-16' : 'f-24'} mb-2`} style={{ lineHeight: '1.25' }}>{`Top ${capitalize(categoryId)} Coins`}</div>
+                      <div className={`${width <= 575 ? 'f-14' : width <= 991 ? 'f-16' : width <= 1200 ? 'f-18' : 'f-24'} mb-2`} style={{ lineHeight: '1.25' }}>{"Top "}{props.title}{" Coins"}</div>
                       <div className={`f-w-300 text-info f-${width <= 575 ? 10 : 14} text-${width <= 575 ? 'left mt-2' : 'center'}`} style={{ lineHeight: 1.5 }}>{"by Market Capitalization"}</div>
                     </h1>
                   </Col>
@@ -173,7 +167,7 @@ const Category = props => {
                 {!data ?
                   <Error404 />
                   :
-                  (!marketLoading && data.length > 0) || marketPageEnd ?
+                  data.length > 0 || marketPageEnd ?
                     <>
                       <div ref={tableRef} className="p-absolute" style={{ marginTop: width <= 345 ? '-138px' : width <= 575 ? '-116px' : width <= 907 ? '-121px' : width <= 991 ? '-99px' : width <= 1200 ? '-119px' : '-81px' }} />
                       <div className="d-flex align-items-center pt-3 px-2">
@@ -615,4 +609,4 @@ const Category = props => {
   );
 }
 
-export default Category;
+export default CustomCategory;

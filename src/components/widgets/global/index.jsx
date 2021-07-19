@@ -12,11 +12,12 @@ import { useIsMountedRef, getLocationData } from '../../../utils';
 const Global = props => {
   const locationData = getLocationData(window);
   const isMountedRef = useIsMountedRef();
+  const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
+
   const [data, setData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [allCryptoData, setAllCryptoData] = useState(null);
-  const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
 
   useEffect(() => {
     const getData = async () => {
@@ -60,7 +61,9 @@ const Global = props => {
   }, [isMountedRef, currency]);
 
   document.body.className = locationData.params && locationData.params.theme && locationData.params.theme.toLowerCase() === 'dark' ? 'dark-only' : 'light';
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   return (
     <Fragment>
       <Container fluid={true} style={{ maxWidth: '60rem' }}>

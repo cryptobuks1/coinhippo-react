@@ -25,9 +25,16 @@ import { getCoin, getCoinTickers, getCoinMarketChart, getCoinOHLC } from '../../
 import { useIsMountedRef, sleep, timeRanges, getName, numberOptimizeDecimal, getTradeData } from '../../../utils';
 
 const Coin = props => {
-  const coinId = props.match ? props.match.params.coin_id : null;
   const pageSize = 100;
+  const coinId = props.match ? props.match.params.coin_id : null;
   const isMountedRef = useIsMountedRef();
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const theme = useSelector(content => content.Preferences[THEME]);
+  const globalData = useSelector(content => content.Data[GLOBAL_DATA]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+  const allPaprikaCoinsData = useSelector(content => content.Data[ALL_PAPRIKA_COINS_DATA]);
+
   const [data, setData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -38,12 +45,6 @@ const Coin = props => {
   const [marketChartLoading, setMarketChartLoading] = useState(false);
   const [ohlcDataMap, setOhlcDataMap] = useState({});
   const [ohlcChartLoading, setOhlcChartLoading] = useState(false);
-  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
-  const theme = useSelector(content => content.Preferences[THEME]);
-  const globalData = useSelector(content => content.Data[GLOBAL_DATA]);
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
-  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
-  const allPaprikaCoinsData = useSelector(content => content.Data[ALL_PAPRIKA_COINS_DATA]);
   const [exchangesSelected, setExchangesSelected] = useState(false);
   const [explorersSelected, setExplorersSelected] = useState(false);
   const [communitySelected, setCommunitySelected] = useState(false);
@@ -59,9 +60,11 @@ const Coin = props => {
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
+
   const statsRef = useRef(null);
   const analysisRef = useRef(null);
   const tableRef = useRef(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -187,14 +190,6 @@ const Coin = props => {
     return () => clearInterval(interval);
   }, [isMountedRef, coinId, currency, allPaprikaCoinsData]);
 
-  /*useEffect(() => {
-    if (data && data.id) {
-      if (isMountedRef.current) {
-        handleFromCurrencyValueChange(fromCurrencyValue, data);
-      }
-    }
-  }, [isMountedRef, data, fromCurrencyValue, handleFromCurrencyValueChange]);*/
-
   useEffect(() => {
     const runMarketChart = async () => {
       const ranges = _.orderBy(timeRanges.map(r => { r.sort_flag = r.day === chartTimeSelected; return r; }), ['sort_flag', 'day'], ['desc', 'asc']);
@@ -222,12 +217,12 @@ const Coin = props => {
         }
       }
     };
-    if (coinId/* && data && data.id*/) {
+    if (coinId) {
       runMarketChart();
     }
     const interval = setInterval(() => runMarketChart(), Number(process.env.REACT_APP_INTERVAL_MS));
     return () => clearInterval(interval);
-  }, [isMountedRef, coinId/*, data*/, currency, marketChartDataMap, chartTimeSelected]);
+  }, [isMountedRef, coinId, currency, marketChartDataMap, chartTimeSelected]);
 
   useEffect(() => {
     const runOhlc = async () => {
@@ -256,12 +251,12 @@ const Coin = props => {
         }
       }
     };
-    if (coinId/* && data && data.id*/) {
+    if (coinId) {
       runOhlc();
     }
     const interval = setInterval(() => runOhlc(), Number(process.env.REACT_APP_INTERVAL_MS));
     return () => clearInterval(interval);
-  }, [isMountedRef, coinId/*, data*/, currency, ohlcDataMap, chartTimeSelected]);
+  }, [isMountedRef, coinId, currency, ohlcDataMap, chartTimeSelected]);
 
   useEffect(() => {
     const getTickers = async page => {
@@ -306,9 +301,12 @@ const Coin = props => {
   }
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const explorers = _.uniq(_.concat(data && data.links && data.links.blockchain_site ? data.links.blockchain_site : [], data && data.paprika && data.paprika.links && data.paprika.links.explorer ? data.paprika.links.explorer.filter(l => l && l.startsWith('http')) : []).filter(l => l).map(l => l.endsWith('/') ? l.substring(0, l.length - 1) : l));
   const contracts = data && data.platforms ? Object.keys(data.platforms).map(k => { return { chain: getName(k.split('-')[0], true), address: data.platforms[k] }; }).filter(c => c.address && c.address.length > 5) : [];
+
   const facebookUrl = data && data.links.facebook_username ? `https://facebook.com/${data.links.facebook_username}` : data && data.paprika && data.paprika.links && data.paprika.links.facebook && data.paprika.links.facebook.length > 0 ? data.paprika.links.facebook[0] : '';
+
   const twitterUrl = data && data.links.twitter_screen_name ? `https://twitter.com/${data.links.twitter_screen_name}` : data && data.paprika && data.paprika.links_extended && data.paprika.links_extended.findIndex(l => l.type === 'twitter' && l.url) > -1 ? data.paprika.links_extended[data.paprika.links_extended.findIndex(l => l.type === 'twitter' && l.url)].url : '';
   if (twitterUrl && data.community_data && data.paprika && data.paprika.links_extended) {
     const linkIndex = data.paprika.links_extended.findIndex(l => l.type === 'twitter' && l.url);
@@ -316,6 +314,7 @@ const Coin = props => {
       data.community_data.twitter_followers = data.paprika.links_extended[linkIndex].stats.followers;
     }
   }
+
   const redditUrl = data && data.links.subreddit_url ? data.links.subreddit_url : data && data.paprika && data.paprika.links && data.paprika.links.reddit && data.paprika.links.reddit.length > 0 ? data.paprika.links.reddit[0] : '';
   if (redditUrl && data.community_data && data.paprika && data.paprika.links_extended) {
     const linkIndex = data.paprika.links_extended.findIndex(l => l.type === 'reddit' && l.url);
@@ -323,12 +322,17 @@ const Coin = props => {
       data.community_data.reddit_subscribers = data.paprika.links_extended[linkIndex].stats.subscribers;
     }
   }
+
   const youtubeUrl = data && data.paprika && data.paprika.links && data.paprika.links.youtube && data.paprika.links.youtube.length > 0 ? data.paprika.links.youtube[0] : '';
   const youtubeId = youtubeUrl.indexOf('?v=') > -1 ? youtubeUrl.substring(youtubeUrl.indexOf('?v=') + 3, youtubeUrl.length - (youtubeUrl.endsWith('&') ? 1 : 0)) : youtubeUrl.indexOf('youtu.be') > -1 ? youtubeUrl.split('/')[youtubeUrl.split('/').length - 1] : youtubeUrl.indexOf('/embed/') > -1 ? youtubeUrl.substring(youtubeUrl.indexOf('/embed/') + 7, youtubeUrl.indexOf('?') > -1 ? youtubeUrl.indexOf('?') : youtubeUrl.length) : '';
+
   const hasDeveloper = data && typeof data.developer_score === 'number' && data.developer_score && data.developer_data ? true : false;
+
   const currencyMarket = tickers && tickers.findIndex(ticker => ticker.converted_last && (typeof ticker.converted_last[currency] === 'number' || typeof ticker.converted_last[currency] === 'string')) > -1 ? currency : 'usd';
   const currencyMarketData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyMarket), 'id'));
+
   const hasAnalysis = data && typeof data.market_cap_rank === 'number' && data.market_cap_rank <= 20;
+
   return (
     <Fragment>
       <Container fluid={true}>

@@ -12,6 +12,7 @@ const Leftbar = props => {
   const [coinsSelected, setCoinsSelected] = useState(false);
   const [exchangesSelected, setExchangesSelected] = useState(false);
   const [resourcesSelected, setResourcesSelected] = useState(false);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

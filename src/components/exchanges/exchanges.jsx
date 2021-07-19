@@ -1,29 +1,30 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { VS_CURRENCY, EXCHANGE_RATES_DATA } from '../../../redux/types';
-import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button } from 'reactstrap';
+import { VS_CURRENCY, EXCHANGE_RATES_DATA } from '../../redux/types';
+import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button, Progress } from 'reactstrap';
 import { Tooltip } from 'antd';
 import SweetAlert from 'sweetalert2';
 import { Grid, List, ChevronDown, ChevronUp, Search, Info, Briefcase } from 'react-feather';
 import _ from 'lodash';
 import numeral from 'numeral';
-import Spinner from '../../spinner';
-import Error404 from '../../../pages/errors/error404';
-import { menus, currenciesGroups } from '../../../layout/header/menus';
-import { getDerivativesExchanges } from '../../../api';
-import { useIsMountedRef, sleep, affiliateData, cex, dex, numberOptimizeDecimal } from '../../../utils';
+import Spinner from '../spinner';
+import Error404 from '../../pages/errors/error404';
+import { menus, currenciesGroups } from '../../layout/header/menus';
+import { getExchanges } from '../../api';
+import { useIsMountedRef, sleep, affiliateData, cex, dex, numberOptimizeDecimal } from '../../utils';
 
-const DerivativesExchanges = props => {
+const Exchanges = props => {
   const pageSize = 100;
   const isMountedRef = useIsMountedRef();
   const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
 
   const [data, setData] = useState([]);
-  const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
+  const [typeVisibleSelected, settypeVisibleSelected] = useState('table');
+
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
-  const [marketPage, setMarketPage] = useState(0);
+  const [marketPage, setMarketPage] = useState(19);
   const [marketPageEnd, setMarketPageEnd] = useState(false);
   const [marketLoading, setMarketLoading] = useState(false);
   const [marketSearch, setMarketSearch] = useState('');
@@ -50,14 +51,15 @@ const DerivativesExchanges = props => {
       for (let i = 0; i <= marketPage; i++) {
         try {
           await sleep(i === 0 ? 0 : 500);
-          let derivativesExchangesData = await getDerivativesExchanges({ per_page: pageSize, page: i + 1 });
-          derivativesExchangesData = derivativesExchangesData && !derivativesExchangesData.error ? derivativesExchangesData : null;
-          if (derivativesExchangesData) {
-            for (let j = 0; j < derivativesExchangesData.length; j++) {
-              newData[size] = derivativesExchangesData[j];
+          let exchangesData = await getExchanges({ per_page: pageSize, page: i + 1 });
+          exchangesData = exchangesData && !exchangesData.error ? exchangesData : null;
+          if (exchangesData) {
+            const filteredData = exchangesData.filter(d => props.exchangesType === 'dex' ? dex.indexOf(d.id) > -1 : true);
+            for (let j = 0; j < filteredData.length; j++) {
+              newData[size] = filteredData[j];
               size++;
             }
-            if (derivativesExchangesData.length < pageSize) {
+            if (exchangesData.length < pageSize) {
               if (isMountedRef.current) {
                 setMarketPageEnd(true);
               }
@@ -77,17 +79,18 @@ const DerivativesExchanges = props => {
     getData();
     const interval = setInterval(() => getData(), Number(process.env.REACT_APP_INTERVAL_MS));
     return () => clearInterval(interval);
-  }, [isMountedRef, currency, data, marketPage]);
+  }, [isMountedRef, props, currency, data, marketPage]);
+
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
 
   const currencyVolume = 'btc';
   const currencyVolumeData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyVolume), 'id'));
 
-  const filteredData = data && data.map((d, i) => {
+  const filteredData = data && (props.exchangesType === 'dex' ? _.orderBy(data, ['trade_volume_24h_btc'], ['desc']) : data).map((d, i) => {
     d.rank = i;
-    d.open_interest_btc = typeof d.open_interest_btc === 'number' ? d.open_interest_btc : -1;
     d.trade_volume_24h_btc = !isNaN(d.trade_volume_24h_btc) && typeof d.trade_volume_24h_btc === 'string' ? Number(d.trade_volume_24h_btc) : d.trade_volume_24h_btc;
+    d.market_share_percentage = typeof d.trade_volume_24h_btc === 'number' ? d.trade_volume_24h_btc / _.sum(data.map(d => Number(d.trade_volume_24h_btc))) : null;
     return d;
   }).filter((d, i) => (i < (marketPage + (marketPage < 0 ? 2 : 1)) * (marketPage < 0 ? 10 : pageSize)) && (!marketSearch || (d.name && d.name.toLowerCase().indexOf(marketSearch.toLowerCase()) > -1)));
   const sortedData = _.orderBy(filteredData, [marketSort.field || 'rank'], [marketSort.direction]);
@@ -104,7 +107,7 @@ const DerivativesExchanges = props => {
                     <Nav className="nav-pills nav-primary d-flex align-items-center">
                       {menus[1].subMenu.map((m, key) => (
                         <NavItem key={key} style={{ maxWidth: width <= 575 ? 'fit-content' : '' }}>
-                          <div className={`nav-link${m.path === '/exchanges/derivatives' ? ' active' : ''}${width <= 991 ? ' f-12 p-2' : ''}`}>
+                          <div className={`nav-link${m.path === props.path ? ' active' : ''}${width <= 991 ? ' f-12 p-2' : ''}`}>
                             <Link to={m.path} style={{ color: 'unset' }}>
                               {m.title}
                             </Link>
@@ -115,15 +118,15 @@ const DerivativesExchanges = props => {
                   </Col>
                   <Col xl="5" lg="6" md="6" xs="8" className={`mt-3 mt-md-0 d-flex align-items-center ${width <= 575 ? '' : 'justify-content-center'}`}>
                     <h1 className="mb-0">
-                      <div className={`${width <= 575 ? 'f-16' : width <= 991 ? 'f-14' : width <= 1200 ? 'f-18' : 'f-24'} mb-2`} style={{ lineHeight: '1.25' }}>{"Top Cryptocurrency Derivatives Exchanges"}</div>
-                      <div className={`f-w-300 text-info f-${width <= 575 ? 10 : 14} text-${width <= 575 ? 'left mt-2' : 'center'}`} style={{ lineHeight: 1.5 }}>{"by Open Interest"}</div>
+                      <div className={`${width <= 575 ? 'f-16' : width <= 991 ? 'f-16' : width <= 1200 ? 'f-22' : 'f-24'} mb-2`} style={{ lineHeight: '1.25' }}>{"Top "}{props.title}{" Exchanges"}</div>
+                      <div className={`f-w-300 text-info f-${width <= 575 ? 10 : 14} text-${width <= 575 ? 'left mt-2' : 'center'}`} style={{ lineHeight: 1.5 }}>{"by "}{props.sortTitle}</div>
                     </h1>
                   </Col>
                   <Col xl="3" lg="2" md="2" xs="4" className="mt-3 mt-md-0">
                     <Nav className="nav-pills nav-primary d-flex align-items-center justify-content-end">
                       {['table', 'card'].map(t => (
                         <NavItem key={t} style={{ maxWidth: width <= 575 ? 'fit-content' : '' }}>
-                          <NavLink onClick={() => setDisplayTypeSelected(t)} className={`${displayTypeSelected === t ? 'active' : ''}${width <= 991 ? ' f-12' : ''} py-1 px-2`}>
+                          <NavLink onClick={() => settypeVisibleSelected(t)} className={`${typeVisibleSelected === t ? 'active' : ''}${width <= 991 ? ' f-12' : ''} py-1 px-2`}>
                             {t === 'card' ? <Grid className="mt-1" style={{ width: '1.25rem', height: '1rem' }} /> : <List className="mt-1" style={{ width: '1.25rem', height: '1rem' }} />}
                           </NavLink>
                         </NavItem>
@@ -141,43 +144,25 @@ const DerivativesExchanges = props => {
                       <div className="d-flex align-items-center px-2">
                         {data && (
                           <span className="f-w-500">
-                            <div>
-                              <h2 className="f-14 d-inline-flex mb-0">{"Total Open Interest"}</h2>{": "}
-                              <span className="font-secondary f-w-400">
-                                {exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
-                                  currencyData && currencyData.symbol
-                                  :
-                                  currencyVolumeData && currencyVolumeData.symbol
-                                }
-                                {numberOptimizeDecimal(numeral(_.sum(data.filter(d => d.open_interest_btc >= 0).map(d => Number(d.open_interest_btc))) * (exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ? exchangeRatesData[currency].value : 1)).format('0,0'))}
-                                {exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
-                                  !(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)
-                                  :
-                                  !(currencyVolumeData && currencyVolumeData.symbol) && (<>&nbsp;{currencyVolume.toUpperCase()}</>)
-                                }
-                              </span>
-                            </div>
-                            <div>
-                              <h2 className="f-14 d-inline-flex mb-0">{"Total Volume"}</h2>{": "}
-                              <span className="font-secondary f-w-400">
-                                {exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
-                                  currencyData && currencyData.symbol
-                                  :
-                                  currencyVolumeData && currencyVolumeData.symbol
-                                }
-                                {numberOptimizeDecimal(numeral(_.sum(data.map(d => Number(d.trade_volume_24h_btc))) * (exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ? exchangeRatesData[currency].value : 1)).format('0,0'))}
-                                {exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
-                                  !(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)
-                                  :
-                                  !(currencyVolumeData && currencyVolumeData.symbol) && (<>&nbsp;{currencyVolume.toUpperCase()}</>)
-                                }
-                              </span>
-                            </div>
+                            <h2 className="f-14 d-inline-flex mb-0">{"Total Volume"}</h2>{": "}
+                            <span className="font-secondary f-w-400">
+                              {exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
+                                currencyData && currencyData.symbol
+                                :
+                                currencyVolumeData && currencyVolumeData.symbol
+                              }
+                              {numberOptimizeDecimal(numeral(_.sum(data.map(d => Number(d.trade_volume_24h_btc))) * (exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ? exchangeRatesData[currency].value : 1)).format('0,0'))}
+                              {exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
+                                !(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)
+                                :
+                                !(currencyVolumeData && currencyVolumeData.symbol) && (<>&nbsp;{currencyVolume.toUpperCase()}</>)
+                              }
+                            </span>
                           </span>
                         )}
                         <span className="d-flex align-items-center ml-auto"><Search /><Input type="text" value={marketSearch} onChange={e => setMarketSearch(e.target.value)} placeholder="Search" className="b-r-6 f-14 ml-2" style={{ maxWidth: 'max-content' }} /></span>
                       </div>
-                      {displayTypeSelected === 'card' ?
+                      {typeVisibleSelected === 'card' ?
                         <Row className="mt-3 px-2">
                           {filteredData.map((d, i) => (
                             <Col key={i} xl="3" lg="4" md="6" xs="12" className={`mt-${i < 4 ? width <= 767 ? i < 1 ? 2 : 4 : width <= 991 ? i < 2 ? 2 : 4 : width <= 1200 ? i < 3 ? 2 : 4 : i < 4 ? 2 : 4 : 4}`}>
@@ -188,15 +173,18 @@ const DerivativesExchanges = props => {
                                   </Link>
                                   <div className="media-body">
                                     <h2 className="f-16 d-flex align-items-center">
-                                      <Link to={`/exchange${d.id ? `/${d.id}` : 's/derivatives'}`} style={{ color: 'unset' }}>
+                                      <Link to={`/exchange${d.id ? `/${d.id}` : 's'}`} style={{ color: 'unset' }}>
                                         {d.name}
-                                        {dex.indexOf(d.id) > -1 ?
-                                          <div className="f-10 text-info mt-1">{"Decentralized"}</div>
-                                          :
-                                          cex.indexOf(d.id) > -1 ?
-                                            <div className="f-10 text-info mt-1">{"Centralized"}</div>
+                                        {props.typeVisible ?
+                                          dex.indexOf(d.id) > -1 ?
+                                            <div className="f-10 text-info mt-1">{"Decentralized"}</div>
                                             :
-                                            null
+                                            cex.indexOf(d.id) > -1 ?
+                                              <div className="f-10 text-info mt-1">{"Centralized"}</div>
+                                              :
+                                              null
+                                          :
+                                          null
                                         }
                                       </Link>
                                       {d.url && (
@@ -208,48 +196,21 @@ const DerivativesExchanges = props => {
                                       {d.year_established && (<div className="f-10 text-info">{"Launched: "}{d.year_established}</div>)}
                                     </div>
                                     <div className="mt-2 pt-1">
-                                      <div className="f-w-500 font-primary">{"Pairs"}</div>
-                                      <Row className="mt-1">
-                                        <Col xs="6" className="f-18" style={{ borderRight: '1px solid #dedede' }}>
-                                          {typeof d.number_of_perpetual_pairs === 'number' ? numeral(d.number_of_perpetual_pairs).format('0,0') : 'N/A'}
-                                          <div className="f-12 text-info">{"Perpetual"}</div>
+                                      <Row>
+                                        <Col xs="6">
+                                          <div className="f-w-500 font-primary">{"Market Share"}</div>
+                                          <div>
+                                            {typeof d.market_share_percentage === 'number' ? numeral(d.market_share_percentage).format('0,0.00%').startsWith('NaN') ? '0.00%' : numeral(d.market_share_percentage).format('0,0.00%') : '-'}
+                                          </div>
                                         </Col>
-                                        <Col xs="6" className="f-18">
-                                          {typeof d.number_of_futures_pairs === 'number' ? numeral(d.number_of_futures_pairs).format('0,0') : 'N/A'}
-                                          <div className="f-12 text-info">{"Futures"}</div>
+                                        <Col xs="6">
+                                          <div className="f-w-500 font-primary">{"Confidence"}</div>
+                                          <div className="d-flex align-items-center">
+                                            <Progress color={d.trust_score >=5 ? 'success' : 'danger'} value={typeof d.trust_score === 'number' ? 100 * d.trust_score / 10 : 0} className="progress-confidence progress-6 w-75 mr-2" />
+                                            {typeof d.trust_score === 'number' ? numeral(d.trust_score).format('0,0') : 'N/A'}
+                                          </div>
                                         </Col>
                                       </Row>
-                                    </div>
-                                    <div className="mt-2 pt-1">
-                                      <div className="f-w-500 font-primary d-flex align-items-center">{"Open Interest"}<Badge color="light" pill className="f-10 text-secondary f-w-300 ml-2">24h</Badge></div>
-                                      <h3 className="mt-1 mb-0">
-                                        {currencyVolume !== currency && exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
-                                          <div className={`${currencyData && currencyData.symbol ? 'f-14' : 'f-12'} d-flex align-items-center`}>
-                                            {typeof d.open_interest_btc === 'number' && d.open_interest_btc >= 0 ?
-                                              <>
-                                                {currencyData && currencyData.symbol}
-                                                {numberOptimizeDecimal(numeral(d.open_interest_btc * exchangeRatesData[currency].value).format(d.open_interest_btc * exchangeRatesData[currency].value > 1 ? '0,0' : '0,0.00'))}
-                                                {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
-                                              </>
-                                              :
-                                              'N/A'
-                                            }
-                                            {typeof d.open_interest_btc === 'number' && d.open_interest_btc >= 0 && (<div className="f-10 text-info ml-auto">{numberOptimizeDecimal(numeral(d.open_interest_btc).format(d.open_interest_btc > 1 ? '0,0' : '0,0.00'))}{currencyVolume && (<>&nbsp;{currencyVolume.toUpperCase()}</>)}</div>)}
-                                          </div>
-                                          :
-                                          <>
-                                            {typeof d.open_interest_btc === 'number' && d.open_interest_btc >= 0 ?
-                                              <>
-                                                {currencyVolumeData && currencyVolumeData.symbol}
-                                                {numberOptimizeDecimal(numeral(d.open_interest_btc).format(d.open_interest_btc > 1 ? '0,0' : '0,0.00'))}
-                                                {!(currencyVolumeData && currencyVolumeData.symbol) && (<>&nbsp;{currencyVolume.toUpperCase()}</>)}
-                                              </>
-                                              :
-                                              'N/A'
-                                            }
-                                          </>
-                                        }
-                                      </h3>
                                     </div>
                                     <div className="mt-2 pt-1">
                                       <div className="f-w-500 font-primary d-flex align-items-center">{"Volume"}<Badge color="light" pill className="f-10 text-secondary f-w-300 ml-2">24h</Badge></div>
@@ -342,25 +303,6 @@ const DerivativesExchanges = props => {
                                     )}
                                   </th>
                                   <th
-                                    onClick={() => setMarketSort({ field: 'open_interest_btc', direction: marketSort.field === 'open_interest_btc' && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
-                                    className={`${marketSort.field === 'open_interest_btc' ? 'bg-light' : ''}`}
-                                    style={{ minWidth: '10rem', cursor: 'pointer' }}
-                                  >
-                                    <div className="d-flex align-items-center justify-content-end">
-                                      {"Open Interest"}
-                                      <Badge color="light" pill className="f-10 text-secondary f-w-300 ml-1">24h</Badge>
-                                      {marketSort.field === 'open_interest_btc' && (
-                                        <>
-                                          {marketSort.direction === 'desc' ?
-                                            <ChevronDown className="table-sort-direction w-auto text-secondary ml-1" style={{ height: '1rem', verticalAlign: 'middle', marginBottom: '2px' }} />
-                                            :
-                                            <ChevronUp className="table-sort-direction w-auto text-secondary ml-1" style={{ height: '1rem', verticalAlign: 'middle', marginBottom: '2px' }} />
-                                          }
-                                        </>
-                                      )}
-                                    </div>
-                                  </th>
-                                  <th
                                     onClick={() => setMarketSort({ field: 'trade_volume_24h_btc', direction: marketSort.field === 'trade_volume_24h_btc' && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
                                     className={`${marketSort.field === 'trade_volume_24h_btc' ? 'bg-light' : ''}`}
                                     style={{ cursor: 'pointer' }}
@@ -380,12 +322,12 @@ const DerivativesExchanges = props => {
                                     </div>
                                   </th>
                                   <th
-                                    onClick={() => setMarketSort({ field: 'number_of_perpetual_pairs', direction: marketSort.field === 'number_of_perpetual_pairs' && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
-                                    className={`text-right ${marketSort.field === 'number_of_perpetual_pairs' ? 'bg-light' : ''}`}
-                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => setMarketSort({ field: 'market_share_percentage', direction: marketSort.field === 'market_share_percentage' && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
+                                    className={`text-right ${marketSort.field === 'market_share_percentage' ? 'bg-light' : ''}`}
+                                    style={{ minWidth: '10rem', cursor: 'pointer' }}
                                   >
-                                    {"Perpetual"}{width > 1200 && (<>{" Pairs"}</>)}
-                                    {marketSort.field === 'number_of_perpetual_pairs' && (
+                                    {"Market Share %"}
+                                    {marketSort.field === 'market_share_percentage' && (
                                       <>
                                         {marketSort.direction === 'desc' ?
                                           <ChevronDown className="table-sort-direction w-auto text-secondary ml-1" style={{ height: '1rem', verticalAlign: 'middle', marginBottom: '2px' }} />
@@ -396,12 +338,12 @@ const DerivativesExchanges = props => {
                                     )}
                                   </th>
                                   <th
-                                    onClick={() => setMarketSort({ field: 'number_of_futures_pairs', direction: marketSort.field === 'number_of_futures_pairs' && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
-                                    className={`text-right ${marketSort.field === 'number_of_futures_pairs' ? 'bg-light' : ''}`}
+                                    onClick={() => setMarketSort({ field: 'trust_score_rank', direction: marketSort.field === 'trust_score_rank' && marketSort.direction === 'desc' ? 'asc' : 'desc' })}
+                                    className={`text-right ${marketSort.field === 'trust_score_rank' ? 'bg-light' : ''}`}
                                     style={{ cursor: 'pointer' }}
                                   >
-                                    {"Futures"}{width > 1200 && (<>{" Pairs"}</>)}
-                                    {marketSort.field === 'number_of_futures_pairs' && (
+                                    {"Confidence"}
+                                    {marketSort.field === 'trust_score_rank' && (
                                       <>
                                         {marketSort.direction === 'desc' ?
                                           <ChevronDown className="table-sort-direction w-auto text-secondary ml-1" style={{ height: '1rem', verticalAlign: 'middle', marginBottom: '2px' }} />
@@ -433,47 +375,22 @@ const DerivativesExchanges = props => {
                                           )}
                                           <span>{d.name}</span>
                                         </div>
-                                        {dex.indexOf(d.id) > -1 ?
-                                          <div className={`f-10 text-info${d.image ? ' ml-4 pl-1' : ''}`}>{"Decentralized"}</div>
-                                          :
-                                          cex.indexOf(d.id) > -1 ?
-                                            <div className={`f-10 text-info${d.image ? ' ml-4 pl-1' : ''}`}>{"Centralized"}</div>
+                                        {props.typeVisible ?
+                                          dex.indexOf(d.id) > -1 ?
+                                            <div className={`f-10 text-info${d.image ? ' ml-4 pl-1' : ''}`}>{"Decentralized"}</div>
                                             :
-                                            null
+                                            cex.indexOf(d.id) > -1 ?
+                                              <div className={`f-10 text-info${d.image ? ' ml-4 pl-1' : ''}`}>{"Centralized"}</div>
+                                              :
+                                              null
+                                          :
+                                          null
                                         }
                                       </Link>
                                     </td>
                                     <td className={`${marketSort.field === 'country' ? 'bg-light' : ''}`} style={{ maxWidth: '7rem' }}>
                                       {d.country ? d.country : <div className="text-secondary">{"N/A"}</div>}
                                       {d.year_established && (<div className="f-10 text-info">{"Launched: "}{d.year_established}</div>)}
-                                    </td>
-                                    <td className={`text-right ${marketSort.field === 'open_interest_btc' ? 'bg-light' : ''}`}>
-                                      {currencyVolume !== currency && exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
-                                        <>
-                                          {typeof d.open_interest_btc === 'number' && d.open_interest_btc >= 0 ?
-                                            <>
-                                              {currencyData && currencyData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.open_interest_btc * exchangeRatesData[currency].value).format(d.open_interest_btc * exchangeRatesData[currency].value > 1 ? '0,0' : '0,0.00'))}
-                                              {!(currencyData && currencyData.symbol) && (<>&nbsp;{currency.toUpperCase()}</>)}
-                                            </>
-                                            :
-                                            'N/A'
-                                          }
-                                          {typeof d.open_interest_btc === 'number' && d.open_interest_btc >= 0 && (<div className="f-10 text-info">{numberOptimizeDecimal(numeral(d.open_interest_btc).format(d.open_interest_btc > 1 ? '0,0' : '0,0.00'))}{currencyVolume && (<>&nbsp;{currencyVolume.toUpperCase()}</>)}</div>)}
-                                        </>
-                                        :
-                                        <>
-                                          {typeof d.open_interest_btc === 'number' && d.open_interest_btc >= 0 ?
-                                            <>
-                                              {currencyVolumeData && currencyVolumeData.symbol}
-                                              {numberOptimizeDecimal(numeral(d.open_interest_btc).format(d.open_interest_btc > 1 ? '0,0' : '0,0.00'))}
-                                              {!(currencyVolumeData && currencyVolumeData.symbol) && (<>&nbsp;{currencyVolume.toUpperCase()}</>)}
-                                            </>
-                                            :
-                                            'N/A'
-                                          }
-                                        </>
-                                      }
                                     </td>
                                     <td className={`text-right ${marketSort.field === 'trade_volume_24h_btc' ? 'bg-light' : ''}`}>
                                       {currencyVolume !== currency && exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ?
@@ -503,11 +420,14 @@ const DerivativesExchanges = props => {
                                         </>
                                       }
                                     </td>
-                                    <td className={`text-right ${marketSort.field === 'number_of_perpetual_pairs' ? 'bg-light' : ''}`}>
-                                      {typeof d.number_of_perpetual_pairs === 'number' ? numeral(d.number_of_perpetual_pairs).format('0,0') : 'N/A'}
+                                    <td className={`text-right ${marketSort.field === 'market_share_percentage' ? 'bg-light' : ''}`}>
+                                      {typeof d.market_share_percentage === 'number' ? numeral(d.market_share_percentage).format('0,0.00%').startsWith('NaN') ? '0.00%' : numeral(d.market_share_percentage).format('0,0.00%') : '-'}
                                     </td>
-                                    <td className={`text-right ${marketSort.field === 'number_of_futures_pairs' ? 'bg-light' : ''}`}>
-                                      {typeof d.number_of_futures_pairs === 'number' ? numeral(d.number_of_futures_pairs).format('0,0') : 'N/A'}
+                                    <td className={`${marketSort.field === 'trust_score_rank' ? 'bg-light' : ''}`} style={{ minWidth: '10rem' }}>
+                                      <div className="d-flex align-items-center justify-content-end">
+                                        <Progress color={d.trust_score >=5 ? 'success' : 'danger'} value={typeof d.trust_score === 'number' ? 100 * d.trust_score / 10 : 0} className="progress-confidence w-50 mr-2" />
+                                        {typeof d.trust_score === 'number' ? numeral(d.trust_score).format('0,0') : 'N/A'}
+                                      </div>
                                     </td>
                                     <td className="text-right">
                                       {d.url ?
@@ -542,4 +462,4 @@ const DerivativesExchanges = props => {
   );
 }
 
-export default DerivativesExchanges;
+export default Exchanges;

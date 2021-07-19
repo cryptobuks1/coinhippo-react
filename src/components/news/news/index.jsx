@@ -16,12 +16,14 @@ import { useIsMountedRef, sleep, getName } from '../../../utils';
 const News = props => {
   const pageSize = 20;
   const isMountedRef = useIsMountedRef();
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('list');
   const [dataPage, setDataPage] = useState(0);
   const [dataPageEnd, setDataPageEnd] = useState(false);
   const [loading, setLoading] = useState(false);
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -86,6 +88,7 @@ const News = props => {
     return d;
   }).filter((d, i) => (i < (dataPage + (dataPage < 0 ? 2 : 1)) * (dataPage < 0 ? 10 : pageSize)));
   const sortedData = _.orderBy(filteredData, ['created_at_time'], ['desc']);
+
   return (
     <Fragment>
       <Container fluid={true}>

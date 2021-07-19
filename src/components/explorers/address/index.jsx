@@ -20,6 +20,7 @@ import { useIsMountedRef, getLocationData, getName, numberOptimizeDecimal } from
 
 const Address = props => {
   const locationData = getLocationData(window);
+  const currency = 'usd';
   const pageSize = 100;
   const chain = props.match ? props.match.params.chain : null;
   const address = props.match ? props.match.params.address : null;
@@ -27,12 +28,12 @@ const Address = props => {
   const chainData = chains.findIndex(c => c.path === `/explorer/${chain}`) > -1 ? chains[chains.findIndex(c => c.path === `/explorer/${chain}`)] : null;
   const chainId = chainData && chainData.chain_id;
   const isMountedRef = useIsMountedRef();
+  const theme = useSelector(content => content.Preferences[THEME]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+
   const [contractData, setContractData] = useState([]);
   const [data, setData] = useState([]);
   const [assetTypeSelected, setAssetTypeSelected] = useState(locationData.params && locationData.params.type && locationData.params.type.toLowerCase() === 'nft' ? 'nft' : 'asset');
-  const currency = 'usd';
-  const theme = useSelector(content => content.Preferences[THEME]);
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [viewMore, setViewMore] = useState(false);
@@ -43,7 +44,9 @@ const Address = props => {
   const [transactionsLoading, setTransactionsLoading] = useState(false);
   const [transactionsSearch, setTransactionsSearch] = useState('');
   const [redirectPath, setRedirectPath] = useState(null);
+
   const tableRef = useRef(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -293,13 +296,16 @@ const Address = props => {
     }
     return (<Redirect to={redirectPath} />);
   }
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   let filteredData = data && data.map(d => {
     const coinIndex = allCryptoData && allCryptoData.coins ? allCryptoData.coins.findIndex((c, i) => (i < 200 && c.symbol && d.contract_ticker_symbol && c.symbol.toLowerCase() === d.contract_ticker_symbol.toLowerCase()) || (c.name && d.contract_name && c.name.toLowerCase() === d.contract_name.toLowerCase()) || (c.id && d.contract_name && c.id.toLowerCase() === d.contract_name.toLowerCase())) : -1;
     const coinData = coinIndex > -1 ? { ...allCryptoData.coins[coinIndex], rank: coinIndex + 1 } : null;
     return { ...d, balance: Number(d.balance), coin: coinData };
   }).filter(d => d.address === address && d.chain_id === chainId && (assetTypeSelected === 'nft' ? d.type === assetTypeSelected : d.type !== 'nft'));
   filteredData = filteredData && filteredData.filter((d, i) => d.balance > 0 || (filteredData.findIndex(dd => dd.balance > 0) < 0 && i < 3));
+
   const filteredTransactionsData = transactions && transactions.map((d, i) => {
     d.index = i;
     d.value = typeof d.value === 'number' ? d.value : Number(d.value);
@@ -309,6 +315,7 @@ const Address = props => {
     return d;
   }).filter((d, i) => (assetTypeSelected === 'nft' ? d.type === 'nft' : d.type !== 'nft') && d.address === address && d.chain_id === chainId && (!transactionsSearch || (d.from_address && d.from_address.toLowerCase().indexOf(transactionsSearch.toLowerCase()) > -1) || (d.from_address_label && d.from_address_label.toLowerCase().indexOf(transactionsSearch.toLowerCase()) > -1) || (d.to_address && d.to_address.toLowerCase().indexOf(transactionsSearch.toLowerCase()) > -1) || (d.to_address_label && d.to_address_label.toLowerCase().indexOf(transactionsSearch.toLowerCase()) > -1)));
   const sortedTransactionsData = _.orderBy(filteredTransactionsData, [transactionsSort.field || 'index'], [transactionsSort.direction]);
+
   const settings = {
     className: `center mt-0 mb-${width <= 575 ? 5 : 4}`,
     centerMode: true,
@@ -322,7 +329,9 @@ const Address = props => {
     autoplay: true,
     autoplaySpeed: 8500,
   };
+
   const viewMoreSize = width <= 575 ? 4 : width <= 991 ? 6 : 8;
+
   return (
     <Fragment>
       <Container fluid={true}>

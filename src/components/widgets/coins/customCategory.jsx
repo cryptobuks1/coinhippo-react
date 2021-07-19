@@ -1,77 +1,42 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Table, ButtonGroup, Button } from 'reactstrap';
+import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Table } from 'reactstrap';
 import { Tooltip } from 'antd';
 import { MoreHorizontal } from 'react-feather';
 import _ from 'lodash';
 import numeral from 'numeral';
-import Spinner from '../../../spinner';
-import Error404 from '../../../../pages/errors/error404';
-import { currenciesGroups } from '../../../../layout/header/menus';
-import { getCoinsMarkets } from '../../../../api';
-import { useIsMountedRef, sleep, getLocationData, getName, numberOptimizeDecimal } from '../../../../utils';
-import logo_min from '../../../../assets/images/logo/logo_square.png';
-import logo_dark_min from '../../../../assets/images/logo/logo_square_white.png';
+import Spinner from '../../spinner';
+import Error404 from '../../../pages/errors/error404';
+import { currenciesGroups } from '../../../layout/header/menus';
+import { getCoinsMarkets } from '../../../api';
+import { useIsMountedRef, getLocationData, numberOptimizeDecimal } from '../../../utils';
+import logo_min from '../../../assets/images/logo/logo_square.png';
+import logo_dark_min from '../../../assets/images/logo/logo_square_white.png';
 
-const MarketCap = props => {
+const CustomCategory = props => {
   const locationData = getLocationData(window);
   const pageSize = 10;
+  const categoryId = props.categoryId;
   const isMountedRef = useIsMountedRef();
   const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
   const n = locationData.params && !isNaN(locationData.params.n) ? Number(locationData.params.n) > 20 ? 20 : Number(locationData.params.n) < 1 ? 1 : Math.floor(Number(locationData.params.n)) : 10;
 
-  const [marketCapData, setMarketCapData] = useState([]);
-  const [marketCapLoading, setMarketCapLoading] = useState(null);
-  const [marketCapBy, setMarketCapBy] = useState('market_cap');
-  const [highVolumeData, setHighVolumeData] = useState([]);
-  const [highVolumeLoading, setHighVolumeLoading] = useState(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       if (isMountedRef.current) {
-        setMarketCapLoading(true);
+        setLoading(true);
       }
-      const newData = marketCapData ? marketCapData : [];
+      const newData = data ? data : [];
       let size = 0;
       try {
-        let data = await getCoinsMarkets({ vs_currency: currency, order: 'market_cap_desc', per_page: n || pageSize, page: 1, price_change_percentage: '24h' });
+        let data = await getCoinsMarkets({ vs_currency: currency, category: categoryId, order: 'market_cap_desc', per_page: n || pageSize, page: 1, price_change_percentage: '24h' });
         data = data && !data.error ? data : null;
         if (data) {
           for (let j = 0; j < data.length; j++) {
             newData[size] = data[j];
-            size++;
-          }
-        }
-      } catch (err) {}
-      newData.length = size;
-      if (isMountedRef.current) {
-        if (size !== 0) {
-          setMarketCapData(newData.length > 0 ? newData : null);
-        }
-        setMarketCapLoading(false);
-        setDataLoaded(true);
-      }
-    };
-    getData();
-    const interval = setInterval(() => getData(), Number(process.env.REACT_APP_INTERVAL_MS));
-    return () => clearInterval(interval);
-  }, [isMountedRef, currency, marketCapData, n]);
-
-  useEffect(() => {
-    const getData = async () => {
-      if (isMountedRef.current) {
-        setHighVolumeLoading(true);
-      }
-      const newData = highVolumeData ? highVolumeData : [];
-      let size = 0;
-      try {
-        await sleep(1000);
-        let data = await getCoinsMarkets({ vs_currency: currency, order: 'volume_desc', per_page: pageSize * 3, page: 1, price_change_percentage: '24h' });
-        data = data && !data.error ? data : null;
-        if (data) {
-          const filteredData = data.filter(c => typeof c.market_cap_rank === 'number');
-          for (let j = 0; j < filteredData.length; j++) {
-            newData[size] = filteredData[j];
             size++;
             if (size === n) {
               break;
@@ -82,15 +47,16 @@ const MarketCap = props => {
       newData.length = size;
       if (isMountedRef.current) {
         if (size !== 0) {
-          setHighVolumeData(newData.length > 0 ? newData : null);
+          setData(newData.length > 0 ? newData : null);
         }
-        setHighVolumeLoading(false);
+        setLoading(false);
+        setDataLoaded(true);
       }
     };
     getData();
     const interval = setInterval(() => getData(), Number(process.env.REACT_APP_INTERVAL_MS));
     return () => clearInterval(interval);
-  }, [isMountedRef, currency, highVolumeData, n]);
+  }, [isMountedRef, categoryId, currency, data, n]);
 
   document.body.className = locationData.params && locationData.params.theme && locationData.params.theme.toLowerCase() === 'dark' ? 'dark-only' : 'light';
 
@@ -101,34 +67,28 @@ const MarketCap = props => {
       <Container fluid={true} style={{ maxWidth: '30rem' }}>
         <Row>
           <Col xs="12">
-            {!marketCapData && dataLoaded ?
+            {!data && dataLoaded ?
               <Error404 />
               :
-              !marketCapData && (marketCapLoading || highVolumeLoading) ?
+              !data && loading ?
                 <div className="loader-box">
                   <Spinner />
                 </div>
                 :
-                marketCapData ?
+                data ?
                   <Card className="bg-transparent border-0 mb-3" style={{ boxShadow: 'none' }}>
                     <CardHeader className="widget-card-header bg-transparent p-0" style={{ borderBottom: 'none' }}>
                       <Row>
                         <Col lg="12" sm="12" xs="12">
                           <Card className="h-100 border-0 mb-0" style={{ boxShadow: 'none' }}>
                             <CardHeader className="top-10-card-header d-flex align-items-center pt-3 pb-2 px-3">
-                              <h2 className="f-16">
-                                <a href={`/coins${marketCapBy === 'volume' ? '/high-volume' : ''}`} target="_blank" rel="noopener noreferrer" style={{ color: 'unset', letterSpacing: 0 }}>{"Top "}{n}{" Coins by"}</a>
-                                <ButtonGroup className="ml-2">
-                                  <Button size="xs" outline={marketCapBy !== 'market_cap'} color="primary" onClick={() => setMarketCapBy('market_cap')}>{"Market Cap"}</Button>
-                                  <Button size="xs" outline={marketCapBy !== 'volume'} color="primary" onClick={() => setMarketCapBy('volume')}>{"Volume"}</Button>
-                                </ButtonGroup>
-                              </h2>
-                              <a href={`/coins${marketCapBy === 'volume' ? '/high-volume' : ''}`} target="_blank" rel="noopener noreferrer" className="ml-auto"><Tooltip title="See more"><MoreHorizontal /></Tooltip></a>
+                              <h2 className="f-16"><a href={props.path} target="_blank" rel="noopener noreferrer" className="d-flex align-items-center" style={{ color: 'unset', letterSpacing: 0 }}>{"Top "}{n}{props.logoUrl && (<img src={props.logoUrl} alt="" className="mx-2" style={{ width: '1.5rem' }} />)}{" "}{props.title}{" by Market Cap"}</a></h2>
+                              <a href={props.path} target="_blank" rel="noopener noreferrer" className="ml-auto"><Tooltip title="See more"><MoreHorizontal /></Tooltip></a>
                             </CardHeader>
                             <CardBody className="p-0">
                               <div className="top-10-table table-align-top responsive-tbl">
                                 <div className="table-responsive">
-                                  {marketCapLoading && (marketCapBy === 'volume' ? !(highVolumeData && highVolumeData.length > 0) : !(marketCapData && marketCapData.length > 0)) ?
+                                  {loading && !(data && data.length > 0) ?
                                     <div className="loader-box" style={{ height: '40rem' }}>
                                       <div className="loader-10" />
                                     </div>
@@ -138,7 +98,7 @@ const MarketCap = props => {
                                         <tr>
                                           <th className="pl-3" style={{ top: 0 }}>{"#"}</th>
                                           <th style={{ top: 0 }}>{"Coin"}</th>
-                                          <th className="text-right" style={{ minWidth: '10rem', top: 0 }}>{getName(marketCapBy, true)}</th>
+                                          <th className="text-right" style={{ top: 0 }}>{"Market Cap"}</th>
                                           <th className="pr-3" style={{ top: 0 }}>
                                             <div className="d-flex align-items-center justify-content-end">
                                               {"Price"}
@@ -148,7 +108,7 @@ const MarketCap = props => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(marketCapBy === 'volume' ? (highVolumeData || []) : (marketCapData || [])).map((d, i) => {
+                                        {data && _.slice(_.orderBy(data.map(d => { return { ...d, market_cap: typeof d.market_cap === 'number' ? d.market_cap : 0 } }), ['market_cap'], ['desc']), 0, n).map((d, i) => {
                                           d.rank = i;
                                           d.price_change_percentage_24h_in_currency = typeof d.price_change_percentage_24h_in_currency === 'number' ? d.price_change_percentage_24h_in_currency : 0;
                                           return d;
@@ -169,47 +129,23 @@ const MarketCap = props => {
                                               </a>
                                             </td>
                                             <td className="text-right">
-                                              {marketCapBy === 'volume' ?
+                                              {typeof d.market_cap === 'number' && d.market_cap > 0 ?
                                                 <>
-                                                  {typeof d.total_volume === 'number' && d.total_volume >= 0 ?
-                                                    <>
-                                                      {currencyData && currencyData.symbol}
-                                                      {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
-                                                      {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
-                                                    </>
-                                                    :
-                                                    'N/A'
-                                                  }
-                                                  {typeof d.market_cap === 'number' && d.market_cap >= 0 && (
-                                                    <div className="f-10 text-info">
-                                                      {"Market Cap: "}
-                                                      {currencyData && currencyData.symbol}
-                                                      {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
-                                                      {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
-                                                    </div>
-                                                  )}
+                                                  {currencyData && currencyData.symbol}
+                                                  {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
+                                                  {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
                                                 </>
                                                 :
-                                                <>
-                                                  {typeof d.market_cap === 'number' && d.market_cap > 0 ?
-                                                    <>
-                                                      {currencyData && currencyData.symbol}
-                                                      {numberOptimizeDecimal(numeral(Number(d.market_cap)).format(Number(d.market_cap) > 1 ? '0,0' : '0,0.00'))}
-                                                      {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
-                                                    </>
-                                                    :
-                                                    'N/A'
-                                                  }
-                                                  {typeof d.total_volume === 'number' && d.total_volume >= 0 && (
-                                                    <div className="f-10 text-info">
-                                                      {"Volume:"}&nbsp;
-                                                      {currencyData && currencyData.symbol}
-                                                      {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
-                                                      {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
-                                                    </div>
-                                                  )}
-                                                </>
+                                                'N/A'
                                               }
+                                              {typeof d.total_volume === 'number' && d.total_volume >= 0 && (
+                                                <div className="f-10 text-info">
+                                                  {"Volume:"}&nbsp;
+                                                  {currencyData && currencyData.symbol}
+                                                  {numberOptimizeDecimal(numeral(Number(d.total_volume)).format(Number(d.total_volume) > 1 ? '0,0' : '0,0.00'))}
+                                                  {!(currencyData && currencyData.symbol) && (<> {currency.toUpperCase()}</>)}
+                                                </div>
+                                              )}
                                             </td>
                                             <td className="text-right pr-3">
                                               {typeof d.current_price === 'number' && d.current_price >= 0 ?
@@ -257,4 +193,4 @@ const MarketCap = props => {
   );
 }
 
-export default MarketCap;
+export default CustomCategory;

@@ -29,6 +29,10 @@ const timesSelection = [
 const Landing = props => {
   const pageSize = 10;
   const isMountedRef = useIsMountedRef();
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+
   const [fearAndGreed, setFearAndGreed] = useState([]);
   const [fearAndGreedLoading, setFearAndGreedLoading] = useState(null);
   const [fearAndGreedTime, setFearAndGreedTime] = useState(0);
@@ -58,9 +62,7 @@ const Landing = props => {
   const [dexLoading, setDexLoading] = useState(null);
   const [derivativesData, setDerivativesData] = useState([]);
   const [derivativesLoading, setDerivativesLoading] = useState(null);
-  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
-  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -508,10 +510,13 @@ const Landing = props => {
   }, [isMountedRef, currency, derivativesData]);
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const currencyVolume = 'btc';
   const currencyVolumeData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyVolume), 'id'));
+
   const currencyDerivativesVolume = 'usd';
   const currencyDerivativesVolumeData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currencyDerivativesVolume), 'id'));
+
   const coinCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -623,6 +628,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const defiCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -734,6 +740,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const trendingCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -850,6 +857,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const fearAndGreedCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -931,6 +939,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const nftsCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -1042,6 +1051,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const bscCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -1153,6 +1163,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const polkadotCard = (
     <Card className="border-0 mb-0" style={{ boxShadow: 'none' }}>
       <CardBody className="text-center p-0">
@@ -1264,6 +1275,7 @@ const Landing = props => {
       </CardBody>
     </Card>
   );
+
   const settings = {
     className: `center mt-0 mb-${width <= 575 ? 5 : 4}`,
     centerMode: true,
@@ -1277,6 +1289,7 @@ const Landing = props => {
     autoplay: true,
     autoplaySpeed: 8500,
   };
+
   return (
     <Fragment>
       <Container fluid={true}>
@@ -1777,7 +1790,7 @@ const Landing = props => {
                     <Col xl="4" lg="6" md="12" xs="12" className="mt-3 mt-md-4 order-6 order-lg-4 order-xl-5">
                       <Card className="h-100 border-0 mb-0" style={{ boxShadow: 'none' }}>
                         <CardHeader className="top-10-card-header d-flex align-items-center pt-4 pb-3 px-3">
-                          <h2 className="f-16"><Link to="/coins/bsc" className="d-flex align-items-center" style={{ color: 'unset', letterSpacing: 0 }}>{"Top 10 "}<img src="https://assets.coingecko.com/markets/images/52/small/binance.jpg" alt="BSC" className="mx-2" style={{ width: '1.5rem' }} />{" BSC by Market Cap"}</Link></h2>
+                          <h2 className="f-16"><Link to="/coins/bsc" className="d-flex align-items-center" style={{ color: 'unset', letterSpacing: 0 }}>{"Top 10 "}<img src="https://bin.bnbstatic.com/static/images/common/favicon.ico" alt="BSC" className="mx-2" style={{ width: '1.5rem' }} />{" BSC by Market Cap"}</Link></h2>
                           <Link to="/coins/bsc" className="ml-auto"><Tooltip title="See more"><MoreHorizontal /></Tooltip></Link>
                         </CardHeader>
                         <CardBody className="pt-0 pb-2 px-0">
@@ -1867,7 +1880,7 @@ const Landing = props => {
                     <Col xl="4" lg="6" md="12" xs="12" className="mt-3 mt-md-4 order-7 order-lg-6">
                       <Card className="h-100 border-0 mb-0" style={{ boxShadow: 'none' }}>
                         <CardHeader className="top-10-card-header d-flex align-items-center pt-4 pb-3 px-3">
-                          <h2 className="f-16"><Link to="/coins/polkadot" className="d-flex align-items-center" style={{ color: 'unset', letterSpacing: 0 }}>{"Top 10 "}<img src="https://assets.coingecko.com/coins/images/12171/large/aJGBjJFU_400x400.jpg" alt="Polkadot" className="mx-1" style={{ width: '1.5rem' }} />{" Polkadot by Market Cap"}</Link></h2>
+                          <h2 className="f-16"><Link to="/coins/polkadot" className="d-flex align-items-center" style={{ color: 'unset', letterSpacing: 0 }}>{"Top 10 "}<img src="https://polkadot.network/content/images/2019/05/Polkadot_symbol_color.png" alt="Polkadot" className="mx-1" style={{ width: '1.5rem' }} />{" Polkadot by Market Cap"}</Link></h2>
                           <Link to="/coins/polkadot" className="ml-auto"><Tooltip title="See more"><MoreHorizontal /></Tooltip></Link>
                         </CardHeader>
                         <CardBody className="pt-0 pb-2 px-0">

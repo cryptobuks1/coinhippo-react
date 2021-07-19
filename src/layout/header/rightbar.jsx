@@ -8,11 +8,12 @@ import ConfigDB from '../../data/customizer/config';
 import { useIsMountedRef } from '../../utils';
 
 const Rightbar = props => {
+  const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
+  const currencySelected = useSelector(content => content.Preferences.vs_currency);
+
   const [currencyDropdown, setCurrencyDropdown] = useState(false);
   const [currencyOptionSelected, setCurrencyOptionSelected] = useState(false);
-  const currencySelected = useSelector(content => content.Preferences.vs_currency);
-  const dispatch = useDispatch();
   const [moonlight, setMoonlight] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const layoutVersion = localStorage.getItem('layout_version') || ConfigDB.data.color.layout_version || 'light';

@@ -16,13 +16,16 @@ import { useIsMountedRef, sleep, getName, getLocationData, numberOptimizeDecimal
 const SubHeader = props => {
   const locationData = getLocationData(window);
   const isMountedRef = useIsMountedRef();
-  const [feedsIndex, setFeedsIndex] = useState(0);
-  const [feedsData, setFeedsData] = useState(null);
-  const [gasData, setGasData] = useState(null);
+
   const currency = useSelector(content => content.Preferences.vs_currency);
   const allCryptoData = useSelector(content => content.Data.all_crypto_data);
   const exchangeRatesData = useSelector(content => content.Data.exchange_rates_data);
+
+  const [feedsIndex, setFeedsIndex] = useState(0);
+  const [feedsData, setFeedsData] = useState(null);
+  const [gasData, setGasData] = useState(null);
   const [redirectPath, setRedirectPath] = useState(null);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -96,6 +99,7 @@ const SubHeader = props => {
     }
     return (<Redirect to={redirectPath} />);
   }
+
   if ((props.breadcrumb && props.breadcrumb.length > 0) || props.static) {
     if (typeof feedsData !== 'boolean') {
       setFeedsData(false);
@@ -106,9 +110,13 @@ const SubHeader = props => {
       setFeedsData([]);
     }
   }
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const gweiRate = exchangeRatesData && exchangeRatesData.eth && typeof exchangeRatesData.eth.value === 'number' && exchangeRatesData[currency] && typeof exchangeRatesData[currency].value === 'number' ? 0.000000001 * exchangeRatesData[currency].value / exchangeRatesData.eth.value : null;
+
   const explorerPaths = locationData && locationData.pathname && locationData.pathname.startsWith('/explorer') && locationData.pathname.split('/').filter(x => x).length > 1 && locationData.pathname.split('/').filter(x => x);
+
   return (
     <Fragment>
       <Container fluid={true} className={`sub-header-wrapper${props.visible ? '' : ' d-none'}`}>

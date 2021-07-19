@@ -14,10 +14,11 @@ const Coin = props => {
   const locationData = getLocationData(window);
   const coinId = props.match ? props.match.params.coin_id : null;
   const isMountedRef = useIsMountedRef();
+  const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
+
   const [data, setData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
   const [fromCurrencyValue, setFromCurrencyValue] = useState('');
   const [toCurrencyValue, setToCurrencyValue] = useState('');
 
@@ -76,13 +77,18 @@ const Coin = props => {
     setData(null);
     setDataLoaded(false);
   }
+
   document.body.className = locationData.params && locationData.params.theme && locationData.params.theme.toLowerCase() === 'dark' ? 'dark-only' : 'light';
+
   const extended = locationData.params && locationData.params.extended && locationData.params.extended.toLowerCase() === 'true' ? true : false;
   const extra = locationData.params && locationData.params.extra && locationData.params.extra.toLowerCase();
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const highPrice = data && data.market_data && _.max([data.market_data.ath[currency], data.market_data.current_price[currency], data.market_data.high_24h[currency]].filter(x => typeof x === 'number'));
   const lowPrice = data && data.market_data && _.min([data.market_data.atl[currency], data.market_data.current_price[currency], data.market_data.low_24h[currency]].filter(x => typeof x === 'number'));
   const hasExtra = (extra === 'ath' && highPrice) || (extra === 'atl' && lowPrice);
+
   return (
     <Fragment>
       <Container fluid={true} style={{ maxWidth: extended ? '40rem' : '25rem' }}>

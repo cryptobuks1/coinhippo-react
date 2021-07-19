@@ -84,7 +84,7 @@ const Root = props => {
                           classNames={anim}
                           unmountOnExit
                         >
-                          <div className={`mt-0 mt-lg-1 pt-${location.pathname.indexOf('/widget/global') > -1 ? 0 : 3}`}><Component match={match} /></div>
+                          <div className={`mt-0 mt-lg-1 pt-${location.pathname.startsWith('/widget/global') ? 0 : 3}`}><Component match={match} /></div>
                         </CSSTransition>
                       );
                     }}

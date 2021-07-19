@@ -13,13 +13,14 @@ import logo_dark_min from '../../../assets/images/logo/logo_square_white.png';
 
 const HippoAlert = props => {
   const locationData = getLocationData(window);
+  const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
+
   const [alertData, setAlertData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
-  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -49,6 +50,7 @@ const HippoAlert = props => {
     setAlertData(null);
     setDataLoaded(false);
   }
+
   if (!alertData && isMountedRef.current) {
     if (locationData.params) {
       const data = locationData.params;
@@ -56,13 +58,18 @@ const HippoAlert = props => {
       setAlertData(data);
     }
   }
+
   document.body.className = locationData.params && locationData.params.theme && locationData.params.theme.toLowerCase() === 'dark' ? 'dark-only' : 'light';
+
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
+
   const data = alertData && alertData.symbol && allCryptoData && allCryptoData.coins && _.head(allCryptoData.coins.filter(c => c.symbol && c.symbol.toLowerCase() === alertData.symbol));
   const fromExchangeData = alertData && alertData.from_address_type === 'exchange' && alertData.from_address_name && allCryptoData && allCryptoData.exchanges && _.head(allCryptoData.exchanges.filter(e => (e.name && e.name.toLowerCase().split(' ').indexOf(alertData.from_address_name.toLowerCase()) > -1) || (e.id && e.id.toLowerCase().split(' ').indexOf(alertData.from_address_name.toLowerCase()) > -1)));
   const toExchangeData = alertData && alertData.to_address_type === 'exchange' && alertData.to_address_name && allCryptoData && allCryptoData.exchanges && _.head(allCryptoData.exchanges.filter(e => (e.name && e.name.toLowerCase().split(' ').indexOf(alertData.to_address_name.toLowerCase()) > -1) || (e.id && e.id.toLowerCase().split(' ').indexOf(alertData.to_address_name.toLowerCase()) > -1)));
+
   const minAmount = 10000000;
   const repeatEmoticon = (e, amount_usd, data) => [...Array(amount_usd < (data.transaction_type !== 'transfer' ? 1.5 : data.is_donation || data.is_hacked ? 1 : 5) * minAmount ? 1 : amount_usd < (data.transaction_type !== 'transfer' ? 3 : data.is_donation || data.is_hacked ? 2 : 10) * minAmount ? 2 : amount_usd < (data.transaction_type !== 'transfer' ? 10 : data.is_donation || data.is_hacked ? 5 : 50) * minAmount ? 3 : 4).keys()].map(i => e).join('');
+
   return (
     <Fragment>
       <Container fluid={true} style={{ maxWidth: '25rem' }}>

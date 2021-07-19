@@ -26,14 +26,6 @@ const Loader = props => {
   return (
     <Fragment>
       <div className={`loader-wrapper ${show ? '' : 'loderhide'}`}>
-        {/*<div className="loader-index"><span></span></div>
-        <svg>
-          <defs></defs>
-          <filter id="goo">
-            <fegaussianblur in="SourceGraphic" stdDeviation="11" result="blur"></fegaussianblur>
-            <fecolormatrix in="blur" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 19 -9" result="goo"></fecolormatrix>
-          </filter>
-        </svg>*/}
         <Tada spy={spy}>
           <img className="img-fluid for-light" src={logo} alt="Loading..." style={{ maxWidth: '5rem' }} />
           <img className="img-fluid for-dark" src={logo_dark} alt="Loading..." style={{ maxWidth: '5rem' }} />

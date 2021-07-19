@@ -13,11 +13,12 @@ import { useIsMountedRef } from '../../utils';
 import { getGlobal, getAllCrypto, getAllCategories, getExchangeRates, getAllPaprikaCoins, getAllPaprikaExchanges } from '../../api';
 
 const Header = props => {
+  const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
   const currency = useSelector(content => content.Preferences.vs_currency);
   const data = useSelector(content => content.Data.global_data);
   const allCryptoData = useSelector(content => content.Data.all_crypto_data);
-  const dispatch = useDispatch();
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -123,7 +124,9 @@ const Header = props => {
   }, [isMountedRef, currency, dispatch]);
 
   const currencyData = _.head(_.uniq(currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === currency), 'id'));
-  const fontMustSmall = width > 1200 && (width <= 1366 || (/*!(currencyData && currencyData.symbol) && */data && data.total_market_cap && data.total_market_cap[currency] && numeral(data.total_market_cap[currency]).format('0,0').length >= (!(currencyData && currencyData.symbol && currencyData.symbol.length < 2) ? 15 : 18)));
+
+  const fontMustSmall = width > 1200 && (width <= 1366 || (data && data.total_market_cap && data.total_market_cap[currency] && numeral(data.total_market_cap[currency]).format('0,0').length >= (!(currencyData && currencyData.symbol && currencyData.symbol.length < 2) ? 15 : 18)));
+
   const globalComponent = data && (
     <div className="d-flex align-items-center" style={{ overflowX: 'auto' }}>
       <p className="mb-0"><span className="f-12 f-w-400 mr-1">{"Coins:"}</span><Link to="/coins">{data.active_cryptocurrencies ? numeral(data.active_cryptocurrencies).format('0,0') : 'N/A'}</Link></p>
@@ -181,6 +184,7 @@ const Header = props => {
       </p>
     </div>
   );
+
   return (
     <Fragment>
       <div className="page-header">

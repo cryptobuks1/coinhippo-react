@@ -18,9 +18,11 @@ import { dynamic_paths, getPathHeaderMeta } from '../utils';
 
 const App = ({ children, location, match }) => {
   const animation = useSelector(content => content.Customizer.animation);
+
   const [locationKey, setLocationKey] = useState(null);
   const [path, setPath] = useState(null);
   const [data, setData] = useState(false);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -32,6 +34,7 @@ const App = ({ children, location, match }) => {
     return size;
   };
   const width = useWindowSize();
+
   const getData = async (dataClass, id, sub_id) => {
     switch (dataClass) {
       case 'coin':
@@ -69,6 +72,7 @@ const App = ({ children, location, match }) => {
         break;
     }
   };
+
   if (animation) {
     const pathSplit = location.pathname.toLowerCase().split('/').filter(x => x && x !== 'widget');
     if (locationKey !== null && !data && typeof data === 'boolean') {
@@ -87,6 +91,7 @@ const App = ({ children, location, match }) => {
       setPath(window.location.pathname);
     }
   }
+
   const headerMeta = getPathHeaderMeta(location.pathname, data);
   if (match) {
     if (!match.isExact && routes.filter(route => route.path).findIndex(route => {
@@ -100,6 +105,10 @@ const App = ({ children, location, match }) => {
       headerMeta.breadcrumb = null;
     }
   }
+
+  const isWidget = location.pathname.startsWith('/widget/');
+  const isBlog = location.pathname.startsWith('/blog/');
+
   return (
     <Fragment>
       {headerMeta && (
@@ -129,12 +138,12 @@ const App = ({ children, location, match }) => {
       <Loader />
       <Taptop />
       <div id="pageWrapper" className="page-wrapper compact-wrapper">
-        {!location.pathname.startsWith('/widget/') && (<Header />)}
-        {!location.pathname.startsWith('/widget/') ?
-          <div className="page-body-wrapper sidebar-icon" style={{ background: location.pathname.startsWith('/blog/') ? 'unset' : '' }}>
+        {!isWidget && (<Header />)}
+        {!isWidget ?
+          <div className="page-body-wrapper sidebar-icon" style={{ background: isBlog ? 'unset' : null }}>
             <Sidebar />
             <div className="page-body mt-0" style={{ minHeight: '100vh', paddingTop: width <= 345 ? '138px' : width <= 575 ? '116px' : width <= 907 ? '121px' : width <= 991 ? '99px' : width <= 1200 ? '119px' : '81px' }}>
-              <SubHeader breadcrumb={headerMeta.breadcrumb} visible={headerMeta.breadcrumb && !location.pathname.startsWith('/blog')} static={routes.findIndex(r => r.path === location.pathname && r.static) > -1 || routes.findIndex(r => r.path === location.pathname || dynamic_paths.findIndex(p => r.path.startsWith(`/${p}/`)) > -1) < 0} />
+              <SubHeader breadcrumb={headerMeta.breadcrumb} visible={headerMeta.breadcrumb && !isBlog} static={routes.findIndex(r => r.path === location.pathname && r.static) > -1 || routes.findIndex(r => r.path === location.pathname || dynamic_paths.findIndex(p => r.path.startsWith(`/${p}/`)) > -1) < 0} />
               {children}
             </div>
             <Footer />
@@ -147,7 +156,7 @@ const App = ({ children, location, match }) => {
             </div>
           </div>
         }
-        {!location.pathname.startsWith('/widget/') && (
+        {!isWidget && (
           <CookieConsent
             background="rgba(0,0,0,.8)"
             color="#fff"

@@ -13,10 +13,12 @@ import { useIsMountedRef, cex, dex, numberOptimizeDecimal, exchangeReferrals } f
 const Ads = props => {
   const pageSize = 20;
   const isMountedRef = useIsMountedRef();
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+
   const [path, setPath] = useState(null);
   const [adsList] = useState(_.slice(Object.keys(exchangeReferrals).filter(e => exchangeReferrals[e].id && exchangeReferrals[e].code).map(e => exchangeReferrals[e]), 0, 7));
   const [exchangesData, setExchangesData] = useState([]);
-  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

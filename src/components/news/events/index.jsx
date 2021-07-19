@@ -15,12 +15,14 @@ import { useIsMountedRef, sleep } from '../../../utils';
 const Events = props => {
   const pageSize = 100;
   const isMountedRef = useIsMountedRef();
+
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('list');
   const [dataPage, setDataPage] = useState(1);
   const [dataPageEnd, setDataPageEnd] = useState(false);
   const [dataShowMore, setDataShowMore] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {
@@ -79,6 +81,7 @@ const Events = props => {
     return d;
   }).filter((d, i) => (i < (dataPage + (dataPage < 0 ? 2 : 1)) * (dataPage < 0 ? 10 : pageSize)));
   const sortedData = _.orderBy(filteredData, ['start_date_time'], ['desc']);
+
   return (
     <Fragment>
       <Container fluid={true}>
