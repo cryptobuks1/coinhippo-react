@@ -1,7 +1,4 @@
-import {
-  VS_CURRENCY,
-  THEME,
-} from '../actionTypes';
+import { VS_CURRENCY, THEME } from '../types';
 import ConfigDB from '../../data/customizer/config';
 
 const initial_state = {

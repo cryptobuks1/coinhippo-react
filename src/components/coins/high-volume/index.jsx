@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Tooltip } from 'antd';
 import { Grid, List, ChevronDown, ChevronUp, Search } from 'react-feather';
@@ -20,7 +21,7 @@ const HighVolume = props => {
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
-  const currency = useSelector(content => content.Preferences.vs_currency);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(2);
   const [marketPageEnd, setMarketPageEnd] = useState(false);

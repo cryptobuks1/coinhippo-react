@@ -11,7 +11,7 @@ import numeral from 'numeral';
 import Ads from '../../components/ads';
 import { menus, currenciesGroups } from '../../layout/header/menus';
 import { getFeeds, getEtherscan } from '../../api';
-import { useIsMountedRef, sleep, getName, getLocationData, numberOptimizeDecimal, ignoreBreadcrumbPaths } from '../../utils';
+import { useIsMountedRef, sleep, getName, getLocationData, numberOptimizeDecimal, ignored_breadcrumb_paths } from '../../utils';
 
 const SubHeader = props => {
   const locationData = getLocationData(window);
@@ -123,7 +123,7 @@ const SubHeader = props => {
                         <BreadcrumbItem><Link to="/" className="font-weight-bold">{width <= 767 ? <Home /> : "Home"}</Link></BreadcrumbItem>
                         {props.breadcrumb.map((breadcrumbItem, key) => (
                           <BreadcrumbItem key={key} active={key === props.breadcrumb.length - 1}>
-                            {key < props.breadcrumb.length - 1 && breadcrumbItem.path && ignoreBreadcrumbPaths.indexOf(breadcrumbItem.path.replace('/', '')) < 0 ?
+                            {key < props.breadcrumb.length - 1 && breadcrumbItem.path && ignored_breadcrumb_paths.indexOf(breadcrumbItem.path.replace('/', '')) < 0 ?
                               <Link to={breadcrumbItem.path} className="font-secondary font-weight-bold">{breadcrumbItem.title}</Link>
                               :
                               breadcrumbItem.title

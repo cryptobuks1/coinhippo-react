@@ -13,9 +13,9 @@ export const useIsMountedRef = () => {
 
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-export const dynamicPaths = ['coin','exchange'];
+export const dynamic_paths = ['coin','exchange'];
 
-export const ignoreBreadcrumbPaths = ['explorer','public-companies'];
+export const ignored_breadcrumb_paths = ['explorer','public-companies'];
 
 export const affiliateData = {
   title: `<span class="f-20 f-w-500 font-dark text-left">Support ${process.env.REACT_APP_APP_NAME} with out extra cost 🙂</span>`,
@@ -35,10 +35,40 @@ export const timeRanges = [
   { day: 365, short: '52w', title: '52 Weeks' },
 ];
 
+// function for remove decimals end with 000...
+export const numberOptimizeDecimal = number => {
+  if (typeof number === 'number') {
+    number = number.toString();
+  }
+  if (number === 'NaN') {
+    return '<0.00000001';
+  }
+  if (typeof number === 'string') {
+    if (number.indexOf('.') > -1) {
+      let decimal = number.substring(number.indexOf('.') + 1);
+      while (decimal.endsWith('0')) {
+        decimal = decimal.substring(0, decimal.length - 1);
+      }
+      if (number.substring(0, number.indexOf('.')).length >= 7 && decimal.length > 2 && !isNaN(`0.${decimal}`)) {
+        decimal = Number(`0.${decimal}`).toFixed(2).toString();
+        if (decimal.indexOf('.') > -1) {
+          decimal = decimal.substring(decimal.indexOf('.') + 1);
+          while (decimal.endsWith('0')) {
+            decimal = decimal.substring(0, decimal.length - 1);
+          }
+        }
+      }
+      return `${number.substring(0, number.indexOf('.'))}${decimal ? '.' : ''}${decimal}`;
+    }
+    return number;
+  }
+  return '';
+};
+
 export const capitalize = s => typeof s !== 'string' ? '' : s.trim().replaceAll(' ', '_').replaceAll('-', '_').split('_').map(x => x.trim()).filter(x => x).map(x => `${x.substr(0, 1).toUpperCase()}${x.substr(1)}`).join(' ');
 
 export const getName = (name, isCapitalize, data) => {
-  if (data && data.name && dynamicPaths.indexOf(name) < 0) {
+  if (data && data.name && dynamic_paths.indexOf(name) < 0) {
     name = data.name;
     isCapitalize = false;
   }
@@ -85,80 +115,80 @@ export const getLocationData = window => {
   return locationData;
 };
 
-export const explorerChains = menus[0].subMenu[2][0].subMenu;
+export const blockchains = menus[0].subMenu[2][0].subMenu;
 
 export const getPathHeaderMeta = (path, data) => {
   path = !path ? '/' : path.toLowerCase();
   path = path.startsWith('/widget/') ? path.substring('/widget'.length) : path;
-  const pathSplitted = path.split('/').filter(x => x);
-  const breadcrumb = pathSplitted.filter((x, i) => !(pathSplitted[0] === 'explorer' && i > 1)).map((x, i) => { return { title: getName(x, true, data), path: i === pathSplitted.length - 1 ? path : `/${pathSplitted.slice(0, i - (pathSplitted[0] === 'explorer' && pathSplitted[2] === 'tx' ? 2 : 1)).map(x => `${x}${dynamicPaths.indexOf(x) > -1 ? 's' : ''}`).join('/')}` } });
-  let title = `${_.cloneDeep(pathSplitted).reverse().map(x => getName(x, true, data)).join(' - ')}${pathSplitted.length > 0 ? ` | ${process.env.REACT_APP_APP_NAME}` : process.env.REACT_APP_DEFAULT_TITLE}`;
+  const pathSplit = path.split('/').filter(x => x);
+  const breadcrumb = pathSplit.filter((x, i) => !(pathSplit[0] === 'explorer' && i > 1)).map((x, i) => { return { title: getName(x, true, data), path: i === pathSplit.length - 1 ? path : `/${pathSplit.slice(0, i - (pathSplit[0] === 'explorer' && pathSplit[2] === 'tx' ? 2 : 1)).map(x => `${x}${dynamic_paths.indexOf(x) > -1 ? 's' : ''}`).join('/')}` } });
+  let title = `${_.cloneDeep(pathSplit).reverse().map(x => getName(x, true, data)).join(' - ')}${pathSplit.length > 0 ? ` | ${process.env.REACT_APP_APP_NAME}` : process.env.REACT_APP_DEFAULT_TITLE}`;
   let description = process.env.REACT_APP_DEFAULT_DESCRIPTION;
   let image = `${process.env.REACT_APP_AWS_S3_URL}/${process.env.REACT_APP_AWS_S3_BUCKET}/metatag_OGimage.png`;
   const url = `${process.env.REACT_APP_SITE_URL}${path}`;
-  if (pathSplitted[0] === 'coins') {
-    if (pathSplitted[1] === 'high-volume') {
+  if (pathSplit[0] === 'coins') {
+    if (pathSplit[1] === 'high-volume') {
       title = `Top Cryptocurrency Prices by High Volume | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get the top latest cryptocurrency prices ranking by their trade volume - including their market cap, percentage changes, chart, liquidity, and more.`;
     }
-    else if (pathSplitted[1] === 'categories') {
+    else if (pathSplit[1] === 'categories') {
       title = `Top Cryptocurrency Categories by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get the top latest cryptocurrency categories ranking by their market cap - including their trade volume, percentage changes, chart, liquidity, and more.`;
     }
-    else if (pathSplitted[1] === 'defi') {
+    else if (pathSplit[1] === 'defi') {
       title = `Top Decentralized Finance (DeFi) Coins by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get the top latest decentralized finance (DeFi) coins prices ranking by their market cap - including their trade volume, percentage changes, chart, liquidity, and more.`;
     }
-    else if (pathSplitted[1] === 'nfts') {
+    else if (pathSplit[1] === 'nfts') {
       title = `Top NFTs & Collectibles Coins by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get the top latest NFT (Non-fungible Token) token prices, market cap, percentage changes, chart, liquidity, and more.`;
     }
-    else if (pathSplitted[1] === 'bsc') {
+    else if (pathSplit[1] === 'bsc') {
       title = `Binance Smart Chain (BSC) Ecosystem by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get top latest coins built on top of or are a part of the Binance Smart Chain (BSC) ecosystem with their prices, market cap, percentage changes, chart, liquidity, and more.`;
     }
-    else if (pathSplitted[1] === 'polkadot') {
+    else if (pathSplit[1] === 'polkadot') {
       title = `Polkadot (DOT) Ecosystem by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get top latest coins built on top of or are a part of the Polkadot (DOT) ecosystem with their prices, market cap, percentage changes, chart, liquidity, and more.`;
     }
-    else if (pathSplitted[1] === 'watchlist') {
+    else if (pathSplit[1] === 'watchlist') {
     }
-    else if (pathSplitted[1]) {
-      title = `${capitalize(pathSplitted[1])} by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
-      description = `Get top latest coins built on top of or are a part of the ${capitalize(pathSplitted[1])} with their prices, market cap, percentage changes, chart, liquidity, and more.`;
+    else if (pathSplit[1]) {
+      title = `${capitalize(pathSplit[1])} by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
+      description = `Get top latest coins built on top of or are a part of the ${capitalize(pathSplit[1])} with their prices, market cap, percentage changes, chart, liquidity, and more.`;
     }
     else {
       title = `Top Cryptocurrency Prices by Market Cap | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get the top latest cryptocurrency prices ranking by their market cap - including their trade volume, percentage changes, chart, liquidity, and more.`;
     }
   }
-  else if (pathSplitted[0] === 'coin') {
+  else if (pathSplit[0] === 'coin') {
     if (data) {
       title = `${data.name} Price to USD | ${data.symbol ? data.symbol.toUpperCase() : data.name} Value, Markets, Chart | ${process.env.REACT_APP_APP_NAME}`;
       description = `Explore what ${data.name} is. Get the ${data.symbol ? data.symbol.toUpperCase() : data.name} price today and convert it to your currencies; USDT, Dollars, CNY, JPY, HKD, AUD, NAIRA, EUR, GBP, THB, INR. See the BUY SELL indicator, chart history analysis, and news for FREE.`;
       image = data.image && data.image.large ? data.image.large : image;
     }
   }
-  else if (pathSplitted[0] === 'explorer') {
-    if (pathSplitted[1]) {
-      const chainIndex = explorerChains.findIndex(c => c.path === _.slice(pathSplitted, 0, 2).map(p => `/${p}`).join(''));
+  else if (pathSplit[0] === 'explorer') {
+    if (pathSplit[1]) {
+      const chainIndex = blockchains.findIndex(c => c.path === _.slice(pathSplit, 0, 2).map(p => `/${p}`).join(''));
       if (chainIndex > -1) {
-        title = `${explorerChains[chainIndex].title} (${getName(explorerChains[chainIndex].network, true)}) Explorer | ${process.env.REACT_APP_APP_NAME}`;
-        description = `Explore and search the ${explorerChains[chainIndex].title} blockchain for addresses and transactions.`;
-        image = explorerChains[chainIndex].logo_url;
+        title = `${blockchains[chainIndex].title} (${getName(blockchains[chainIndex].network, true)}) Explorer | ${process.env.REACT_APP_APP_NAME}`;
+        description = `Explore and search the ${blockchains[chainIndex].title} blockchain for addresses and transactions.`;
+        image = blockchains[chainIndex].logo_url;
       }
-      if (pathSplitted[2] === 'tx') {
-        title = `${explorerChains[chainIndex].title} Transaction Hash: ${pathSplitted[3]} | ${process.env.REACT_APP_APP_NAME}`;
-        description = `${explorerChains[chainIndex].title} detailed transaction info for txhash ${pathSplitted[3]}. The transaction status, block, gas fee, and token transfer are shown.`;
+      if (pathSplit[2] === 'tx') {
+        title = `${blockchains[chainIndex].title} Transaction Hash: ${pathSplit[3]} | ${process.env.REACT_APP_APP_NAME}`;
+        description = `${blockchains[chainIndex].title} detailed transaction info for txhash ${pathSplit[3]}. The transaction status, block, gas fee, and token transfer are shown.`;
       }
-      else if (pathSplitted[2]) {
-        title = `${explorerChains[chainIndex].title} address: ${pathSplitted[2]} | ${process.env.REACT_APP_APP_NAME}`;
-        description = `You can view balances, token holdings and transactions of ${explorerChains[chainIndex].title} address ${pathSplitted[2]}.`;
+      else if (pathSplit[2]) {
+        title = `${blockchains[chainIndex].title} address: ${pathSplit[2]} | ${process.env.REACT_APP_APP_NAME}`;
+        description = `You can view balances, token holdings and transactions of ${blockchains[chainIndex].title} address ${pathSplit[2]}.`;
       }
     }
   }
-  else if (pathSplitted[0] === 'derivatives') {
-    if (pathSplitted[1] === 'futures') {
+  else if (pathSplit[0] === 'derivatives') {
+    if (pathSplit[1] === 'futures') {
       title = `Today's Top Cryptocurrency Futures Contract by Open Interest | ${process.env.REACT_APP_APP_NAME}`;
       description = `Get the top cryptocurrency futures contract by open interest and trading volume. See their volume, changes percentage, prices history, and so on.`;
     }
@@ -167,12 +197,12 @@ export const getPathHeaderMeta = (path, data) => {
       description = `Get the top cryptocurrency derivatives perpetual contract by open interest and trading volume. See their volume, changes percentage, prices history, and so on.`;
     }
   }
-  else if (pathSplitted[0] === 'exchanges') {
-    if (pathSplitted[1] === 'dex') {
+  else if (pathSplit[0] === 'exchanges') {
+    if (pathSplit[1] === 'dex') {
       title = `Today's Top Decentralized Exchanges by Volume | ${process.env.REACT_APP_APP_NAME}`;
       description = `See the top decentralized exchanges (DEX) ranking by volume. See their information including country, volume, market share, and so on.`;
     }
-    else if (pathSplitted[1] === 'derivatives') {
+    else if (pathSplit[1] === 'derivatives') {
       title = `Today's Top Cryptocurrency Derivatives Exchanges by Volume | ${process.env.REACT_APP_APP_NAME}`;
       description = `See the top cryptocurrency derivatives exchanges ranking by open interest. See their information including country, volume, market share, and so on.`;
     }
@@ -181,72 +211,42 @@ export const getPathHeaderMeta = (path, data) => {
       description = `See the top spot cryptocurrency exchanges ranking by confidence. See their information including country, volume, market share, and so on.`;
     }
   }
-  else if (pathSplitted[0] === 'exchange') {
+  else if (pathSplit[0] === 'exchange') {
     if (data) {
       title = `${data.name} Trade Volume, Trade Pairs, Market Listing | ${process.env.REACT_APP_APP_NAME}`;
       description = `Find out ${data.name} trading volume, fees, pair list and other updated information. See the most actively traded coins on ${data.name}.`;
       image = typeof data.image === 'string' ? data.image.replace('small', 'large') : image;
     }
   }
-  else if (pathSplitted[0] === 'news') {
+  else if (pathSplit[0] === 'news') {
     title = `Today's Latest Cryptocurrency News | ${process.env.REACT_APP_APP_NAME}`;
     description = `Keep up with breaking news on cryptocurrencies that influence the market.`;
   }
-  else if (pathSplitted[0] === 'updates') {
+  else if (pathSplit[0] === 'updates') {
     title = `Cryptocurrency Project Update | ${process.env.REACT_APP_APP_NAME}`;
     description = `Keep up with significant cryptocurrency projects' updates, including milestone updates, partnership, fund movement, etc.`;
   }
-  else if (pathSplitted[0] === 'events') {
+  else if (pathSplit[0] === 'events') {
     title = `Cryptocurrency Events | ${process.env.REACT_APP_APP_NAME}`;
     description = `Check updated events, conferences, meetups information of cryptocurrency projects.`;
   }
-  else if (pathSplitted[0] === 'blog') {
-    if (pathSplitted[1] && data && data.meta) {
+  else if (pathSplit[0] === 'blog') {
+    if (pathSplit[1] && data && data.meta) {
       const blogBaseUrl = `${process.env.REACT_APP_AWS_S3_URL}/${process.env.REACT_APP_AWS_S3_BUCKET}/blog`;
       title = data.meta.title ? data.meta.title : title;
       description = data.meta.description ? data.meta.description : description;
-      image = data.meta.image ? `${blogBaseUrl}/${pathSplitted[1]}/${pathSplitted[2] ? `posts/${pathSplitted[2]}/` : ''}assets/${data.meta.image}` : image;
+      image = data.meta.image ? `${blogBaseUrl}/${pathSplit[1]}/${pathSplit[2] ? `posts/${pathSplit[2]}/` : ''}assets/${data.meta.image}` : image;
     }
     else {
       title = `Cryptocurrency, Blockchain Technology, and Trading Blog | ${process.env.REACT_APP_APP_NAME}`;
       description = `Read our high-quality and free blog post covering the cryptocurrency world and blockchain technology.`;
     }
   }
-  else if (pathSplitted[0] === 'widgets') {
+  else if (pathSplit[0] === 'widgets') {
     title = `Free Cryptocurrency Widgets | ${process.env.REACT_APP_APP_NAME}`;
     description = `Embed ${process.env.REACT_APP_APP_NAME}'s cryptocurrency widgets to your website or blog for free.`;
   }
   return { browser_title: title, title, description, url, image, breadcrumb };
-};
-
-// function for remove decimals end with 000...
-export const numberOptimizeDecimal = number => {
-  if (typeof number === 'number') {
-    number = number.toString();
-  }
-  if (number === 'NaN') {
-    return '<0.00000001';
-  }
-  if (typeof number === 'string') {
-    if (number.indexOf('.') > -1) {
-      let decimal = number.substring(number.indexOf('.') + 1);
-      while (decimal.endsWith('0')) {
-        decimal = decimal.substring(0, decimal.length - 1);
-      }
-      if (number.substring(0, number.indexOf('.')).length >= 7 && decimal.length > 2 && !isNaN(`0.${decimal}`)) {
-        decimal = Number(`0.${decimal}`).toFixed(2).toString();
-        if (decimal.indexOf('.') > -1) {
-          decimal = decimal.substring(decimal.indexOf('.') + 1);
-          while (decimal.endsWith('0')) {
-            decimal = decimal.substring(0, decimal.length - 1);
-          }
-        }
-      }
-      return `${number.substring(0, number.indexOf('.'))}${decimal ? '.' : ''}${decimal}`;
-    }
-    return number;
-  }
-  return '';
 };
 
 export const setTradeUrl = t => !t.trade_url && t.market && t.market.identifier === 'bitstamp' ? `https://www.${t.market.identifier}.net/markets/${t.base && t.base.toLowerCase()}/${t.target && t.target.toLowerCase()}` : t.trade_url && t.trade_url.indexOf('www.bitrue.com') > -1 ? `https://www.bitrue.com/trade/${t.base && t.base.toLowerCase()}_${t.target && t.target.toLowerCase()}` : t.trade_url === 'https://pro.changelly.com' ? `${t.trade_url}/?from=${t.base}&to=${t.target}` : !t.trade_url && t.market && t.market.identifier === 'gemini' ? `https://exchange.gemini.com/buy/${t.base && t.base.toUpperCase()}${t.target && t.target.toUpperCase()}` : t.trade_url;

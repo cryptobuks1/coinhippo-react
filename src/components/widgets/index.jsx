@@ -1,13 +1,14 @@
 import React, { Fragment, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, THEME } from '../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Badge } from 'reactstrap';
 import { message } from 'antd';
 import { Copy } from 'react-feather';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const Widgets = props => {
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const theme = useSelector(content => content.Preferences.theme);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const theme = useSelector(content => content.Preferences[THEME]);
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

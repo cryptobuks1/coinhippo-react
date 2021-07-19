@@ -14,7 +14,7 @@ import Footer from '../layout/footer';
 import ThemeCustomize from '../layout/theme-customizer';
 import { getCoin, getExchange, getBlog } from '../api';
 import { routes } from '../route';
-import { /*sleep, */dynamicPaths, getPathHeaderMeta } from '../utils';
+import { dynamic_paths, getPathHeaderMeta } from '../utils';
 
 const App = ({ children, location, match }) => {
   const animation = useSelector(content => content.Customizer.animation);
@@ -68,39 +68,11 @@ const App = ({ children, location, match }) => {
         setData(null);
         break;
     }
-    //manual get cex & dex
-    /*try {
-      const exchanges = await getExchange('list');
-      if (exchanges && exchanges.length > 0) {
-        const cex = [];
-        const dex = [];
-        for (let i = 0; i < exchanges.length; i++) {
-          try {
-            const exchange = await getExchange(exchanges[i].id);
-            await sleep(1000);
-            if (exchange && typeof exchange.centralized === 'boolean') {
-              if (exchange.centralized) {
-                cex.push(exchanges[i].id);
-              }
-              else {
-                dex.push(exchanges[i].id);
-              }
-            }
-          } catch (err) {}
-        }
-        if (cex.length > 0) {
-          console.log(`cex = ['${cex.join(`','`)}']`);
-        }
-        if (dex.length > 0) {
-          console.log(`dex = ['${dex.join(`','`)}']`);
-        }
-      }
-    } catch (err) {}*/
   };
   if (animation) {
-    const pathSplitted = location.pathname.toLowerCase().split('/').filter(x => x && x !== 'widget');
+    const pathSplit = location.pathname.toLowerCase().split('/').filter(x => x && x !== 'widget');
     if (locationKey !== null && !data && typeof data === 'boolean') {
-      getData(pathSplitted[0], pathSplitted[1], pathSplitted[2]);
+      getData(pathSplit[0], pathSplit[1], pathSplit[2]);
     }
     else if (locationKey !== location.key) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -162,7 +134,7 @@ const App = ({ children, location, match }) => {
           <div className="page-body-wrapper sidebar-icon" style={{ background: location.pathname.startsWith('/blog/') ? 'unset' : '' }}>
             <Sidebar />
             <div className="page-body mt-0" style={{ minHeight: '100vh', paddingTop: width <= 345 ? '138px' : width <= 575 ? '116px' : width <= 907 ? '121px' : width <= 991 ? '99px' : width <= 1200 ? '119px' : '81px' }}>
-              <SubHeader breadcrumb={headerMeta.breadcrumb} visible={headerMeta.breadcrumb && !location.pathname.startsWith('/blog')} static={routes.findIndex(r => r.path === location.pathname && r.static) > -1 || routes.findIndex(r => r.path === location.pathname || dynamicPaths.findIndex(p => r.path.startsWith(`/${p}/`)) > -1) < 0} />
+              <SubHeader breadcrumb={headerMeta.breadcrumb} visible={headerMeta.breadcrumb && !location.pathname.startsWith('/blog')} static={routes.findIndex(r => r.path === location.pathname && r.static) > -1 || routes.findIndex(r => r.path === location.pathname || dynamic_paths.findIndex(p => r.path.startsWith(`/${p}/`)) > -1) < 0} />
               {children}
             </div>
             <Footer />

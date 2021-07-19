@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { EXCHANGE_RATES_DATA } from '../../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Table, Progress } from 'reactstrap';
 import { Tooltip } from 'antd';
 import SweetAlert from 'sweetalert2';
@@ -21,7 +22,7 @@ const DexExchanges = props => {
   const [dexData, setDexData] = useState([]);
   const [dexLoading, setDexLoading] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const exchangeRatesData = useSelector(content => content.Data.exchange_rates_data);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
   const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
   const n = locationData.params && !isNaN(locationData.params.n) ? Number(locationData.params.n) > 20 ? 20 : Number(locationData.params.n) < 1 ? 1 : Math.floor(Number(locationData.params.n)) : 10;
 

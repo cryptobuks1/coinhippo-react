@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ALL_CRYPTO_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import { Tooltip } from 'antd';
 import { Grid, List } from 'react-feather';
@@ -20,7 +21,7 @@ const News = props => {
   const [dataPage, setDataPage] = useState(0);
   const [dataPageEnd, setDataPageEnd] = useState(false);
   const [loading, setLoading] = useState(false);
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

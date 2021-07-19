@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, ALL_CRYPTO_DATA, EXCHANGE_RATES_DATA } from '../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Table, Progress, ButtonGroup, Button } from 'reactstrap';
 import { Tooltip } from 'antd';
 import SweetAlert from 'sweetalert2';
@@ -57,9 +58,9 @@ const Landing = props => {
   const [dexLoading, setDexLoading] = useState(null);
   const [derivativesData, setDerivativesData] = useState([]);
   const [derivativesLoading, setDerivativesLoading] = useState(null);
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
-  const exchangeRatesData = useSelector(content => content.Data.exchange_rates_data);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

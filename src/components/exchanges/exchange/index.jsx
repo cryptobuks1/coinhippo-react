@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, ALL_CRYPTO_DATA, EXCHANGE_RATES_DATA, ALL_PAPRIKA_EXCHANGES_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Dropdown, DropdownMenu, DropdownItem, Input, Nav, NavItem, NavLink, Table, Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import SweetAlert from 'sweetalert2';
 import { Home, Power, Globe, ChevronDown, ChevronUp, ExternalLink, Info, CheckCircle, XCircle, Search, Briefcase } from 'react-feather';
@@ -16,7 +17,7 @@ import Error404 from '../../../pages/errors/error404';
 import sad from '../../../assets/images/other-images/sad.png';
 import ConfigDB from '../../../data/customizer/config';
 import { currenciesGroups } from '../../../layout/header/menus';
-import { /*getCoinsMarkets, */getExchange, getExchangeTickers, getExchangeVolumeChart, getDerivativesExchange } from '../../../api';
+import { getExchange, getExchangeTickers, getExchangeVolumeChart, getDerivativesExchange } from '../../../api';
 import { useIsMountedRef, sleep, affiliateData, timeRanges, getName, numberOptimizeDecimal } from '../../../utils';
 
 const Exchange = props => {
@@ -31,10 +32,10 @@ const Exchange = props => {
   const [chartTimeSelected, setChartTimeSelected] = useState(30);
   const [volumeChartDataMap, setVolumeChartDataMap] = useState({});
   const [volumeChartLoading, setVolumeChartLoading] = useState(false);
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
-  const exchangeRatesData = useSelector(content => content.Data.exchange_rates_data);
-  const allPaprikaExchangesData = useSelector(content => content.Data.all_paprika_exchanges_data);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+  const allPaprikaExchangesData = useSelector(content => content.Data[ALL_PAPRIKA_EXCHANGES_DATA]);
   const [communitySelected, setCommunitySelected] = useState(false);
   const [tickers, setTickers] = useState([]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
@@ -145,27 +146,6 @@ const Exchange = props => {
           }
         } catch (err) {}
       }
-      /*const coinIds = _.uniq(tickers.filter(t => !t.coin && t.coin_id).map(t => t.coin_id));
-      if (coinIds.length > 0) {
-        const coinPerPage = 50;
-        for (let coinPage = 0; coinPage < Math.ceil(coinIds.length / coinPerPage); coinPage++) {
-          const ids = coinIds.filter((id, i) => i >= (coinPage * coinPerPage) && i < ((coinPage + 1) * coinPerPage)).join(',');
-          try {
-            await sleep(500);
-            const coinsData = await getCoinsMarkets({ vs_currency: 'usd', ids, per_page: coinPerPage, page: 1 });
-            coinsData.forEach(d => {
-              tickers.forEach((t, i) => {
-                if (t.coin_id === d.id) {
-                  tickers[i].coin = d;
-                }
-              })
-            });
-          } catch (err) {}
-        }
-      }
-      if (isMountedRef.current) {
-        setTickers(tickers);
-      }*/
       if (pageEnd) {
         if (isMountedRef.current) {
           setMarketPageEnd(pageEnd);

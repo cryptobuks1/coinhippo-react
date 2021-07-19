@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge } from 'reactstrap';
 import { Tooltip, message } from 'antd';
 import { Copy, CheckCircle, XCircle } from 'react-feather';
@@ -24,7 +23,7 @@ const Transaction = props => {
   const chainId = chainData && chainData.chain_id;
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
-  const currency = 'usd'; // useSelector(content => content.Preferences.vs_currency);
+  const currency = 'usd';
   const [loading, setLoading] = useState(false);
   const useWindowSize = () => {
     const [size, setSize] = useState(null);

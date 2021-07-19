@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, GLOBAL_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button } from 'reactstrap';
 import { Tooltip } from 'antd';
 import { Grid, List, ChevronDown, ChevronUp, Search } from 'react-feather';
@@ -17,8 +18,8 @@ const MarketCap = props => {
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const globalData = useSelector(content => content.Data.global_data);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const globalData = useSelector(content => content.Data[GLOBAL_DATA]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(0);
   const [marketPageEnd, setMarketPageEnd] = useState(false);

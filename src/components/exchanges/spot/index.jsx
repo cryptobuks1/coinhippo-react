@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, EXCHANGE_RATES_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button, Progress } from 'reactstrap';
 import { Tooltip } from 'antd';
 import SweetAlert from 'sweetalert2';
@@ -18,8 +19,8 @@ const SpotExchanges = props => {
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const exchangeRatesData = useSelector(content => content.Data.exchange_rates_data);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(19);
   const [marketPageEnd, setMarketPageEnd] = useState(false);

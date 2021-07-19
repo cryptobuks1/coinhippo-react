@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, ALL_CRYPTO_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Select, Tooltip } from 'antd';
 import { Grid, List, ChevronDown, ChevronUp, Search } from 'react-feather';
@@ -18,8 +19,8 @@ const Category = props => {
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(19);
   const [marketPageEnd, setMarketPageEnd] = useState(false);

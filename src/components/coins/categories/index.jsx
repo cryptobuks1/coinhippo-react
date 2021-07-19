@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button } from 'reactstrap';
 import { Tooltip } from 'antd';
 import { Grid, List, ChevronDown, ChevronUp, Search } from 'react-feather';
@@ -18,7 +17,7 @@ const Categories = props => {
   const isMountedRef = useIsMountedRef();
   const [data, setData] = useState([]);
   const [displayTypeSelected, setDisplayTypeSelected] = useState('table');
-  const currency = 'usd';// useSelector(content => content.Preferences.vs_currency);
+  const currency = 'usd';
   const [marketSort, setMarketSort] = useState({ field: null, direction: 'asc' });
   const [marketPage, setMarketPage] = useState(0);
   const [marketPageEnd, setMarketPageEnd] = useState(false);

@@ -1,10 +1,4 @@
-import {
-  GLOBAL_DATA,
-  ALL_CRYPTO_DATA,
-  EXCHANGE_RATES_DATA,
-  ALL_PAPRIKA_COINS_DATA,
-  ALL_PAPRIKA_EXCHANGES_DATA,
-} from '../actionTypes';
+import { GLOBAL_DATA, ALL_CRYPTO_DATA, EXCHANGE_RATES_DATA, ALL_PAPRIKA_COINS_DATA, ALL_PAPRIKA_EXCHANGES_DATA } from '../types';
 
 const initial_state = {
   global_data: null,

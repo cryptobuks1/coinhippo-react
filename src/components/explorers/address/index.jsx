@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { THEME, ALL_CRYPTO_DATA} from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Input, Nav, NavItem, NavLink, Table, Button } from 'reactstrap';
 import { Input as AntInput, Tooltip, message } from 'antd';
 import Slider from 'react-slick';
@@ -29,9 +30,9 @@ const Address = props => {
   const [contractData, setContractData] = useState([]);
   const [data, setData] = useState([]);
   const [assetTypeSelected, setAssetTypeSelected] = useState(locationData.params && locationData.params.type && locationData.params.type.toLowerCase() === 'nft' ? 'nft' : 'asset');
-  const currency = 'usd'; // useSelector(content => content.Preferences.vs_currency);
-  const theme = useSelector(content => content.Preferences.theme);
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
+  const currency = 'usd';
+  const theme = useSelector(content => content.Preferences[THEME]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [viewMore, setViewMore] = useState(false);

@@ -1,12 +1,4 @@
-import {
-  ADD_COSTOMIZER,
-  ADD_LAYOUT,
-  ADD_SIDEBAR_TYPES,
-  ADD_SIDEBAR_SETTINGS,
-  ADD_COLOR,
-  ADD_MIX_BACKGROUND_LAYOUT,
-  ROUTER_ANIMATION
-} from '../actionTypes';
+import { ADD_COSTOMIZER, ADD_LAYOUT, ADD_SIDEBAR_TYPES, ADD_SIDEBAR_SETTINGS, ADD_COLOR, ADD_MIX_BACKGROUND_LAYOUT, ROUTER_ANIMATION } from '../types';
 import ConfigDB from '../../data/customizer/config';
 
 const initial_state = {

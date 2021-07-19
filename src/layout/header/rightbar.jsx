@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { VS_CURRENCY, THEME } from '../../redux/types';
 import { Select } from 'antd';
 import { ChevronDown, Sun, Moon, Minimize, Maximize } from 'react-feather';
 import { currenciesGroups } from './menus';
 import ConfigDB from '../../data/customizer/config';
-import { VS_CURRENCY, THEME } from '../../redux/actionTypes';
 import { useIsMountedRef } from '../../utils';
 
 const Rightbar = props => {

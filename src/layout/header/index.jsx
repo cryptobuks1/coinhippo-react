@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { GLOBAL_DATA, ALL_CRYPTO_DATA, EXCHANGE_RATES_DATA, ALL_PAPRIKA_COINS_DATA, ALL_PAPRIKA_EXCHANGES_DATA } from '../../redux/types';
 import { Row } from 'reactstrap';
 import { ArrowUp, ArrowDown } from 'react-feather';
 import _ from 'lodash';
@@ -8,9 +9,8 @@ import numeral from 'numeral';
 import LeftHeader from './leftbar';
 import RightHeader from './rightbar';
 import { currenciesGroups } from './menus';
-import { getGlobal, getAllCrypto, getAllCategories, getExchangeRates, getAllPaprikaCoins, getAllPaprikaExchanges } from '../../api';
-import { GLOBAL_DATA, ALL_CRYPTO_DATA, EXCHANGE_RATES_DATA, ALL_PAPRIKA_COINS_DATA, ALL_PAPRIKA_EXCHANGES_DATA } from '../../redux/actionTypes';
 import { useIsMountedRef } from '../../utils';
+import { getGlobal, getAllCrypto, getAllCategories, getExchangeRates, getAllPaprikaCoins, getAllPaprikaExchanges } from '../../api';
 
 const Header = props => {
   const isMountedRef = useIsMountedRef();

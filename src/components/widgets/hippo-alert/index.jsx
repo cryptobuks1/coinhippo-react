@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ALL_CRYPTO_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, Media, Badge } from 'reactstrap';
 import _ from 'lodash';
 import numeral from 'numeral';
 import Spinner from '../../spinner';
 import { currenciesGroups } from '../../../layout/header/menus';
 import { getAllCrypto } from '../../../api';
-import { ALL_CRYPTO_DATA } from '../../../redux/actionTypes';
 import { useIsMountedRef, getLocationData, numberOptimizeDecimal, capitalize } from '../../../utils';
 import logo_min from '../../../assets/images/logo/logo_square.png';
 import logo_dark_min from '../../../assets/images/logo/logo_square_white.png';
@@ -18,7 +18,7 @@ const HippoAlert = props => {
   const [dataLoading, setDataLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const currency = locationData.params && locationData.params.currency && currenciesGroups.flatMap(currenciesGroup => currenciesGroup.currencies).filter(c => c.id === locationData.params.currency.toLowerCase()).length > 0 ? locationData.params.currency.toLowerCase() : 'usd';
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
   const dispatch = useDispatch();
 
   useEffect(() => {

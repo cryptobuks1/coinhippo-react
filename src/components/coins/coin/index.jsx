@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY, THEME, GLOBAL_DATA, ALL_CRYPTO_DATA, EXCHANGE_RATES_DATA, ALL_PAPRIKA_COINS_DATA } from '../../../redux/types';
 import { Container, Row, Col, Card, CardHeader, CardBody, Media, Badge, Progress, Dropdown, DropdownMenu, DropdownItem, Input, Nav, NavItem, NavLink, Table, Button } from 'reactstrap';
 import { message } from 'antd';
 import { Layout, Search, Globe, MessageCircle, Code, FileText, ChevronDown, ChevronUp, ExternalLink, Copy, Droplet, Facebook, Twitter, GitHub, Eye, Star, Users, GitMerge, GitCommit, AlertCircle, Info, CheckCircle, XCircle, Briefcase, BarChart2 } from 'react-feather';
@@ -37,12 +38,12 @@ const Coin = props => {
   const [marketChartLoading, setMarketChartLoading] = useState(false);
   const [ohlcDataMap, setOhlcDataMap] = useState({});
   const [ohlcChartLoading, setOhlcChartLoading] = useState(false);
-  const currency = useSelector(content => content.Preferences.vs_currency);
-  const theme = useSelector(content => content.Preferences.theme);
-  const globalData = useSelector(content => content.Data.global_data);
-  const allCryptoData = useSelector(content => content.Data.all_crypto_data);
-  const exchangeRatesData = useSelector(content => content.Data.exchange_rates_data);
-  const allPaprikaCoinsData = useSelector(content => content.Data.all_paprika_coins_data);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
+  const theme = useSelector(content => content.Preferences[THEME]);
+  const globalData = useSelector(content => content.Data[GLOBAL_DATA]);
+  const allCryptoData = useSelector(content => content.Data[ALL_CRYPTO_DATA]);
+  const exchangeRatesData = useSelector(content => content.Data[EXCHANGE_RATES_DATA]);
+  const allPaprikaCoinsData = useSelector(content => content.Data[ALL_PAPRIKA_COINS_DATA]);
   const [exchangesSelected, setExchangesSelected] = useState(false);
   const [explorersSelected, setExplorersSelected] = useState(false);
   const [communitySelected, setCommunitySelected] = useState(false);

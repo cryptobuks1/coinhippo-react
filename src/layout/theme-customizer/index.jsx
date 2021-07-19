@@ -1,17 +1,9 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ADD_LAYOUT, ADD_SIDEBAR_TYPES, ADD_SIDEBAR_SETTINGS, ADD_COLOR, ADD_COSTOMIZER, ADD_MIX_BACKGROUND_LAYOUT, ROUTER_ANIMATION } from '../../redux/types';
 import { Container, Row, Nav, NavLink, TabContent, TabPane, Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { Configuration, ModalTitle, CopyText, Cancel, LayoutType, LTR, RTL, Box, SidebarType, SidebarSettings, Default, Border, IconColor, RouterAnimation, ZoomFade, SildeFade, Fade, ZoomOut, None, MixLayout, FadeBottom, UnlimitedColor, QuickOption, Apply } from '../../constant';
-import {
-  ADD_LAYOUT,
-  ADD_SIDEBAR_TYPES,
-  ADD_SIDEBAR_SETTINGS,
-  ADD_COLOR,
-  ADD_COSTOMIZER,
-  ADD_MIX_BACKGROUND_LAYOUT,
-  ROUTER_ANIMATION
-} from '../../redux/actionTypes';
 import ConfigDB from '../../data/customizer/config';
 import { useIsMountedRef } from '../../utils';
 

@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { VS_CURRENCY } from '../../redux/types';
 import { Card, CardBody, Media, Badge, Button } from 'reactstrap';
 import AdSense from 'react-adsense';
 import Slider from 'react-slick';
@@ -13,9 +14,9 @@ const Ads = props => {
   const pageSize = 20;
   const isMountedRef = useIsMountedRef();
   const [path, setPath] = useState(null);
-  const [adsList/*, setAdsList*/] = useState(_.slice(Object.keys(exchangeReferrals).filter(e => exchangeReferrals[e].id && exchangeReferrals[e].code).map(e => exchangeReferrals[e]), 0, 7));
+  const [adsList] = useState(_.slice(Object.keys(exchangeReferrals).filter(e => exchangeReferrals[e].id && exchangeReferrals[e].code).map(e => exchangeReferrals[e]), 0, 7));
   const [exchangesData, setExchangesData] = useState([]);
-  const currency = useSelector(content => content.Preferences.vs_currency);
+  const currency = useSelector(content => content.Preferences[VS_CURRENCY]);
   const useWindowSize = () => {
     const [size, setSize] = useState(null);
     useLayoutEffect(() => {

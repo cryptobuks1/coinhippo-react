@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './components/app';
 import './index.scss';
 import ConfigDB from './data/customizer/config';
-import { dynamicPaths } from './utils';
+import { dynamic_paths } from './utils';
 
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
@@ -53,9 +53,9 @@ const Root = props => {
                         return (<Redirect to={redirectPath} />);
                       }
                       else if (location.pathname.split('/').filter(p => p).length === 1) {
-                        const pathSplitted = location.pathname.split('/').filter(p => p);
-                        if (dynamicPaths.indexOf(pathSplitted[0]) > -1) {
-                          return (<Redirect to={`${pathSplitted[0]}s`} />);
+                        const pathSplit = location.pathname.split('/').filter(p => p);
+                        if (dynamic_paths.indexOf(pathSplit[0]) > -1) {
+                          return (<Redirect to={`${pathSplit[0]}s`} />);
                         }
                       }
                       if (!path && match) {
